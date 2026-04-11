@@ -1,0 +1,77 @@
+# Newsletter Email Builder
+# ========================
+# This runs automatically every time you save (commit) a content.md file.
+# You never need to touch this file.
+#
+# What it does:
+#   1. Reads your newsletter content.md
+#   2. Builds a polished email.html in the same folder
+#   3. Saves the email.html back to GitHub
+#
+# You can also trigger it manually:
+#   GitHub → Actions tab → "Build Newsletter Email" → "Run workflow"
+
+name: Build Newsletter Email
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'newsletters/**/content.md'
+
+  # Lets you trigger a rebuild manually from the GitHub Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get your content
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install the markdown library
+        run: pip install markdown
+
+      - name: Find which newsletter files changed
+        id: find_files
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # Manual trigger: rebuild every newsletter
+            FILES=$(find newsletters -name 'content.md' | tr '\n' ' ')
+          else
+            # Auto trigger: only rebuild what you just saved
+            FILES=$(git diff --name-only HEAD~1 HEAD -- 'newsletters/**/content.md' \
+                    2>/dev/null | tr '\n' ' ')
+          fi
+          echo "files=$FILES" >> $GITHUB_OUTPUT
+          echo "Will build: $FILES"
+
+      - name: Build email HTML
+        if: steps.find_files.outputs.files != ''
+        run: |
+          for file in ${{ steps.find_files.outputs.files }}; do
+            echo "Building $file ..."
+            python scripts/build_email.py "$file"
+          done
+
+      - name: Save the generated email file
+        if: steps.find_files.outputs.files != ''
+        run: |
+          git config user.name  "Newsletter Builder"
+          git config user.email "newsletter@imdinternational.org"
+          git add newsletters/
+          # Only commit if something actually changed
+          git diff --staged --quiet || \
+            git commit -m "Auto-generate email HTML from content [skip ci]"
+          git push
