@@ -1,0 +1,69 @@
+# Daily Brief — {{WEEKDAY}}, {{MONTH_DAY}}
+*{{DATE}}*
+
+---
+
+## Today's Intention
+> [One sentence. Not a task list — what do you want this day to *be*?]
+
+---
+
+## My 3 Things
+The three things that would make today a win. Not everything — just three.
+
+- [ ] 
+- [ ] 
+- [ ] 
+
+---
+
+## Area Check-In
+*Quick scan — only note what's actually live today.*
+
+**IMDI**
+- Newsletter: [status or n/a]
+- Something pressing: [or leave blank]
+
+**Teaching**
+- Prep needed: [yes — what / or no]
+- Travel coming up: [dates or n/a]
+
+**Book**
+- Writing today: [yes / no]
+- Where I left off: [chapter/section or n/a]
+
+**Health**
+- [ ] Movement / exercise
+- [ ] Water
+- Sleep last night: [good / ok / rough]
+
+**Home**
+- One thing to handle: [or leave blank]
+
+**Work (PM)**
+- Main focus today: [or leave blank if not working]
+
+---
+
+## What I'm Grateful For
+[One thing. Small is fine.]
+
+## What I'm Praying About
+[One person, need, or situation on my heart.]
+
+---
+*— Come back to this section at the end of the day —*
+
+## End of Day
+
+**What I actually did:**
+- 
+
+**What I'd do differently:**
+
+**Energy today:** [full / medium / low]
+
+**One thing I want to carry into tomorrow:**
+
+---
+*Generated automatically each morning. Edit freely — this is yours.*

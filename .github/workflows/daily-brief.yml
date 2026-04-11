@@ -1,0 +1,60 @@
+# Daily Brief Generator
+# ====================
+# Runs every morning at 7am Eastern and creates today's brief file.
+# You never need to touch this.
+#
+# The brief appears at: os/briefs/YYYY-MM-DD.md
+# Your Apple Shortcut picks it up from there and puts it in Apple Notes.
+#
+# To trigger manually: GitHub → Actions tab → "Generate Daily Brief" → "Run workflow"
+
+name: Generate Daily Brief
+
+on:
+  schedule:
+    # 7am Eastern = 11am UTC (adjust if you're not in Eastern time)
+    - cron: '0 11 * * *'
+
+  # Lets you trigger manually from the GitHub Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get your files
+        uses: actions/checkout@v4
+
+      - name: Create today's brief
+        run: |
+          # Get today's date components
+          DATE=$(date -u +%Y-%m-%d)
+          WEEKDAY=$(date -u +%A)
+          MONTH_DAY=$(date -u +"%-B %-d")
+
+          mkdir -p os/briefs
+
+          # Only create if today's brief doesn't already exist
+          if [ ! -f "os/briefs/$DATE.md" ]; then
+            sed \
+              -e "s/{{DATE}}/$DATE/g" \
+              -e "s/{{WEEKDAY}}/$WEEKDAY/g" \
+              -e "s/{{MONTH_DAY}}/$MONTH_DAY/g" \
+              os/daily-template.md > "os/briefs/$DATE.md"
+            echo "Created brief for $DATE"
+          else
+            echo "Brief for $DATE already exists — skipping"
+          fi
+
+      - name: Save the brief to the repo
+        run: |
+          git config user.name  "Michelle OS"
+          git config user.email "os@imdinternational.org"
+          git add os/briefs/
+          git diff --staged --quiet || \
+            git commit -m "Daily brief: $(date -u +%Y-%m-%d) [skip ci]"
+          git push
