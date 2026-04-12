@@ -168,7 +168,7 @@ def split_into_sections(body_text):
 
 def build_full_email(meta, sections):
     """Assemble the complete HTML email from all the pieces."""
-    title      = meta.get('title', 'IMDI International Newsletter')
+    title      = meta.get('title', 'IMD International Newsletter')
     quarter    = meta.get('quarter', '')
     hero_image = meta.get('hero_image', '').strip()
     donate_url = meta.get('donate_url', 'https://imdinternational.org/give')
@@ -177,7 +177,7 @@ def build_full_email(meta, sections):
     # Optional logo above the title
     logo_html = ''
     if logo_url:
-        logo_html = (f'<img src="{logo_url}" alt="IMDI International" '
+        logo_html = (f'<img src="{logo_url}" alt="IMD International" '
                      f'style="height:52px;display:block;margin:0 auto 14px;" />')
 
     # Optional full-width hero image below the header
@@ -234,7 +234,7 @@ def build_full_email(meta, sections):
         {logo_html}
         <p style="color:#AECBE6;font-family:Arial,sans-serif;font-size:10px;
                   letter-spacing:3px;text-transform:uppercase;margin:0 0 10px;">
-          IMDI INTERNATIONAL
+          IMD INTERNATIONAL
         </p>
         <h1 style="color:{WHITE};font-family:Georgia,'Times New Roman',serif;
                    font-size:24px;font-weight:normal;margin:0 0 10px;letter-spacing:0.5px;">
@@ -275,7 +275,7 @@ def build_full_email(meta, sections):
       <td style="background:{NAVY};padding:24px 36px;text-align:center;">
         <p style="color:#AECBE6;font-family:Arial,sans-serif;font-size:12px;
                   margin:0 0 8px;">
-          IMDI International &nbsp;·&nbsp; imdinternational.org
+          IMD International &nbsp;·&nbsp; imdinternational.org
         </p>
         <p style="color:#7A9DBF;font-family:Arial,sans-serif;font-size:11px;
                   line-height:1.7;margin:0;">
