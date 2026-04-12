@@ -18,9 +18,9 @@ what she's working on, and how to help her well.*
 
 | Role | Organization | Type |
 |------|-------------|------|
-| Media Director | IMDI International | Volunteer |
-| Board Member | IMDI International | Volunteer |
-| Regional & International Teacher | IMDI International | Volunteer |
+| Media Director | IMD International | Volunteer |
+| Board Member | IMD International | Volunteer |
+| Regional & International Teacher | IMD International | Volunteer |
 | Product Manager | [Day job company] | Full-time |
 | Author | [Book title — working] | Personal project |
 
@@ -28,7 +28,7 @@ what she's working on, and how to help her well.*
 
 ## My Active Areas
 
-### 1. IMDI International
+### 1. IMD International
 *Mission organization — imdinternational.org*
 
 - **Newsletter:** Quarterly. Current quarter: Q2 2026. Status: [drafting / building / sent]
@@ -105,7 +105,7 @@ what she's working on, and how to help her well.*
 
 - **Current focus area:** [sprint goal / project / initiative]
 - **What I'm navigating at work:** [brief context if helpful]
-- **How work and volunteer life interact right now:** [e.g. "heavy quarter at work, lighter on IMDI until July"]
+- **How work and volunteer life interact right now:** [e.g. "heavy quarter at work, lighter on IMD until July"]
 
 ---
 
@@ -131,7 +131,7 @@ what she's working on, and how to help her well.*
 ## How I Make Decisions
 *My filters — what I run things through before committing.*
 
-1. [e.g. "Does this align with IMDI's mission?"]
+1. [e.g. "Does this align with IMD's mission?"]
 2. [e.g. "Do I have the bandwidth, or am I saying yes out of guilt?"]
 3. [e.g. "Would I do this if no one was watching / for free?"]
 4. [e.g. "Is this the best use of MY specific gifts, or can someone else do it?"]
@@ -164,7 +164,7 @@ what she's working on, and how to help her well.*
 **Communication style:**
 - She is a Product Manager — she thinks in systems, outcomes, and user problems
 - She works on iPad at home — no terminal commands, browser-only instructions
-- She is faith-driven — her work at IMDI is ministry, not just "a nonprofit"
+- She is faith-driven — her work at IMD is ministry, not just "a nonprofit"
 - She is a storyteller — help her communicate in specifics, not generalities
 - "Commit" = "save" in her language. Don't use git jargon.
 
@@ -173,7 +173,7 @@ what she's working on, and how to help her well.*
 - Match her voice: warm, direct, mission-focused, personal
 - Ask one clarifying question rather than making a lot of assumptions
 - She's building this system iteratively — suggest what to add, don't build it all at once
-- For IMDI communications: see `context/me.md` and `newsletters/_TEMPLATE.md`
+- For IMD communications: see `context/me.md` and `newsletters/_TEMPLATE.md`
 
 **Her biggest bottlenecks (as of Q2 2026):**
 - Time: she has a full-time job, volunteer leadership, teaching, AND a book in progress

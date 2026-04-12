@@ -91,7 +91,7 @@ Currently you have to import images manually. Here's the fix:
 Create this folder structure so you always know where to look:
 
 ```
-IMDI Newsletter/
+IMD Newsletter/
   Branding/          ← Logo, consistent graphics — reuse every quarter
   2026-Q1/           ← Archived
   2026-Q2/           ← Current — drop photos here throughout the quarter
@@ -150,7 +150,7 @@ scripts/
 This repo is your vault — it grows with you. Some ideas for later:
 
 - **`context/teaching-notes.md`** — keep your teaching outlines and session notes here
-- **`context/org-contacts.md`** — key IMDI contacts, board notes
+- **`context/org-contacts.md`** — key IMD contacts, board notes
 - **`newsletters/archive/`** — keep past newsletters for reference and tone
 - **Mailchimp automation** — we can add a step that creates the Mailchimp draft
   automatically, so you don't even have to paste the HTML manually

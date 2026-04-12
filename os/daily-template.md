@@ -17,20 +17,30 @@ The three things that would make today a win. Not everything — just three.
 
 ---
 
-## Area Check-In
-*Quick scan — only note what's actually live today.*
+## Project Check-In
+*Quick scan — only fill in what's live today. Leave the rest blank.*
 
-**IMDI**
-- Newsletter: [status or n/a]
-- Something pressing: [or leave blank]
+### IMD
+→ [project hub](../projects/imd/project.md)
+- Newsletter status: [drafting / building / sent / n/a]
+- Social post due: [yes — topic / or no]
+- Something pressing: 
 
-**Teaching**
-- Prep needed: [yes — what / or no]
-- Travel coming up: [dates or n/a]
-
-**Book**
+### Writing
+→ [project hub](../projects/writing/project.md)
 - Writing today: [yes / no]
-- Where I left off: [chapter/section or n/a]
+- Working on: [chapter or section]
+- Quick note / fragment to capture: 
+
+### Graduation
+→ [project hub](../projects/graduation/project.md)
+- Event this week: [yes — what / or no]
+- To do: 
+
+---
+
+## Area Check-In
+*Quick scan — health, home, work.*
 
 **Health**
 - [ ] Movement / exercise
@@ -38,10 +48,10 @@ The three things that would make today a win. Not everything — just three.
 - Sleep last night: [good / ok / rough]
 
 **Home**
-- One thing to handle: [or leave blank]
+- One thing to handle: 
 
 **Work (PM)**
-- Main focus today: [or leave blank if not working]
+- Main focus today: 
 
 ---
 

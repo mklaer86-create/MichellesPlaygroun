@@ -11,7 +11,7 @@ Steps:
 3. Read os/michelle-os.md to understand what's currently active across her areas.
 4. Offer to help with any of these:
    a. Fill in the "Today's Intention" — ask what's on her mind for the day
-   b. Suggest "3 Things" based on what's open across her areas (IMDI, teaching, book, home, health)
+   b. Suggest "3 Things" based on what's open across her areas (IMD, teaching, book, home, health)
    c. Write the "Area Check-In" items based on current status in os/michelle-os.md
    d. Fill in end-of-day reflection — ask how it went
 

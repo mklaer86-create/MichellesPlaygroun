@@ -1,5 +1,5 @@
 ---
-title: "IMDI International Newsletter"
+title: "IMD International Newsletter"
 quarter: "Q2 2026"
 issue: "Vol. ?, No. 2"
 hero_image: ""
@@ -18,7 +18,7 @@ logo_url: ""
 # From the Director
 
 [Write your opening letter here — what's on your heart this quarter?
-What is God doing through IMDI right now? What do you want your donors
+What is God doing through IMD right now? What do you want your donors
 and prayer partners to know?]
 
 [Second paragraph — something personal, something that moved you recently.]

@@ -1,5 +1,5 @@
 ---
-title: "IMDI International Newsletter"
+title: "IMD International Newsletter"
 quarter: "Q? 202?"
 issue: "Vol. ?, No. ?"
 hero_image: ""
