@@ -35,6 +35,7 @@ body {
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
+  /* iPhone notch / dynamic island safe area */
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
 }
@@ -131,6 +132,7 @@ body {
   min-height: 0;
   position: relative;
   overflow: hidden;
+  /* touch handled by JS */
   touch-action: none;
 }
 .now-card::before {
@@ -153,13 +155,32 @@ body {
 @media (max-height: 620px) {
   .fig-box { width: 120px; height: 130px; }
 }
-.fig-box svg { width: 100%; height: 100%; display: block; }
-.fig-box img {
+
+/* Your whiteboard photos: drop the white background so only the red drawing shows */
+.pose-photo {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  border-radius: 6px;
+  filter: contrast(6) invert(1) hue-rotate(180deg) brightness(2.5);
+  mix-blend-mode: screen;
 }
+
+/* Placeholder when no photo uploaded yet */
+.no-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--dim);
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+  pointer-events: none;
+}
+.no-photo-icon { font-size: 36px; }
+.no-photo-txt  { font-size: 11px; line-height: 1.5; }
 
 .now-name {
   font-size: clamp(17px, 5vw, 24px);
@@ -239,7 +260,6 @@ body {
 
 .nfig { width: 38px; height: 38px; flex-shrink: 0; }
 .nfig svg { width: 100%; height: 100%; display: block; }
-.nfig img { width: 100%; height: 100%; object-fit: contain; border-radius: 4px; }
 
 .ninfo { flex: 1; min-width: 0; }
 .nlbl  { font-size: 9px; color: var(--dim); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 2px; }
@@ -288,23 +308,26 @@ body {
 /* ── CAMERA BUTTON ────────────────────── */
 .cam-btn {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.11);
-  border-radius: 18px;
-  color: var(--dim);
-  font-size: 11px;
-  padding: 5px 10px;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 20px;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 14px;
   cursor: pointer;
   z-index: 10;
   -webkit-tap-highlight-color: transparent;
+  letter-spacing: .03em;
 }
-.cam-btn:active { background: rgba(255,255,255,0.15); color: var(--text); }
+.cam-btn:active { background: rgba(201,168,76,0.3); }
 </style>
 </head>
 <body>
 
+<!-- Shown only when JavaScript is blocked (e.g. Files app Quick Look preview) -->
 <noscript>
   <div style="position:fixed;inset:0;background:#0f0f1a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;z-index:999;font-family:-apple-system,sans-serif;color:#e8e8f0;text-align:center;">
     <div style="font-size:48px">🧘</div>
@@ -334,7 +357,7 @@ body {
 
 <!-- CURRENT POSE CARD  (tap or swipe to navigate) -->
 <div class="now-card" id="nowCard">
-  <button class="cam-btn" onclick="event.stopPropagation();pickImage()" ontouchend="event.stopPropagation()">📷 Replace</button>
+  <button class="cam-btn" onclick="event.stopPropagation();pickImage()" ontouchend="event.stopPropagation()">📷 Add Photo</button>
   <div class="fig-box" id="figBox"></div>
   <div class="now-name"   id="poseName"></div>
   <div class="now-sub"    id="poseSub"></div>
@@ -379,7 +402,7 @@ body {
 
 <script>
 // ─── SEQUENCE ────────────────────────────────────────────────────────────────
-var SEQ = [
+const SEQ = [
   // Pranayama
   {n:"Nadi Shodhana",         s:"Alternate Nostril Breathing",    b:"5–10 breaths",  c:"med"},
   {n:"Kapalabhati",           s:"Skull Shining",                  b:"rounds",        c:"med"},
@@ -400,7 +423,7 @@ var SEQ = [
   {n:"Upward Dog",            s:"Sun Sal A",                      b:"4+ breaths",    c:"bck"},
   {n:"Down Dog",              s:"Sun Sal A",                      b:"5+ breaths",    c:"ddg"},
   // Sun Sal A — Round 2
-  {n:"Mountain Hands Up",     s:"Round 2 · Inhale",               b:"1 breath",      c:"w1" },
+  {n:"Mountain Hands Up",     s:"Round 2 · Inhale",               b:"1 breath",     c:"w1" },
   {n:"Forward Fold",          s:"Round 2",                        b:"1 breath",      c:"fld"},
   {n:"Half Lift",             s:"Round 2",                        b:"1 breath",      c:"hlf"},
   {n:"Chaturanga",            s:"Round 2",                        b:"1 breath",      c:"plk"},
@@ -480,219 +503,246 @@ var SEQ = [
 ];
 
 // ─── SVG FIGURES ──────────────────────────────────────────────────────────────
-var G="#c9a84c", P="#7b68ee", T="#4ecdc4", R="#ff6b6b";
+// Each is a complete <svg> string. viewBox coordinates are normalized ~0-100.
+// stroke colors: G=gold, P=purple, T=teal, R=red
+
+const G="#c9a84c", P="#7b68ee", T="#4ecdc4", R="#ff6b6b";
 
 function S(col, vb, inner) {
-  return '<svg viewBox="' + vb + '" fill="none" stroke="' + col + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">' + inner + '</svg>';
+  return `<svg viewBox="${vb}" fill="none" stroke="${col}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
 }
 
-var FIG = {
+// Figure for each category code
+const FIG = {
+  // Seated meditation (pranayama / bandha / intention)
   med: S(G, "0 0 100 95",
-    '<circle cx="50" cy="13" r="10"/>'+
-    '<line x1="50" y1="23" x2="50" y2="55"/>'+
-    '<path d="M16 65 Q33 50 50 55 Q67 50 84 65"/>'+
-    '<line x1="16" y1="65" x2="6"  y2="82"/>'+
-    '<line x1="84" y1="65" x2="94" y2="82"/>'+
-    '<line x1="28" y1="36" x2="11" y2="50"/>'+
-    '<circle cx="11" cy="54" r="4" fill="'+G+'" stroke="none"/>'+
-    '<line x1="72" y1="36" x2="89" y2="50"/>'+
-    '<circle cx="89" cy="54" r="4" fill="'+G+'" stroke="none"/>'),
+    `<circle cx="50" cy="13" r="10"/>
+     <line x1="50" y1="23" x2="50" y2="55"/>
+     <path d="M16 65 Q33 50 50 55 Q67 50 84 65"/>
+     <line x1="16" y1="65" x2="6"  y2="82"/>
+     <line x1="84" y1="65" x2="94" y2="82"/>
+     <line x1="28" y1="36" x2="11" y2="50"/>
+     <circle cx="11" cy="54" r="4" fill="${G}" stroke="none"/>
+     <line x1="72" y1="36" x2="89" y2="50"/>
+     <circle cx="89" cy="54" r="4" fill="${G}" stroke="none"/>`),
 
+  // Bandha — like med but with dashed ellipse
   bnd: S(P, "0 0 100 95",
-    '<circle cx="50" cy="13" r="10"/>'+
-    '<line x1="50" y1="23" x2="50" y2="55"/>'+
-    '<path d="M16 65 Q33 50 50 55 Q67 50 84 65"/>'+
-    '<line x1="16" y1="65" x2="6"  y2="82"/>'+
-    '<line x1="84" y1="65" x2="94" y2="82"/>'+
-    '<line x1="28" y1="36" x2="11" y2="50"/>'+
-    '<line x1="72" y1="36" x2="89" y2="50"/>'+
-    '<ellipse cx="50" cy="40" rx="15" ry="10" stroke-dasharray="5 3" opacity="0.7"/>'),
+    `<circle cx="50" cy="13" r="10"/>
+     <line x1="50" y1="23" x2="50" y2="55"/>
+     <path d="M16 65 Q33 50 50 55 Q67 50 84 65"/>
+     <line x1="16" y1="65" x2="6"  y2="82"/>
+     <line x1="84" y1="65" x2="94" y2="82"/>
+     <line x1="28" y1="36" x2="11" y2="50"/>
+     <line x1="72" y1="36" x2="89" y2="50"/>
+     <ellipse cx="50" cy="40" rx="15" ry="10" stroke-dasharray="5 3" opacity="0.7"/>`),
 
+  // Standing upright (std, float)
   std: S(G, "0 0 100 110",
-    '<circle cx="50" cy="11" r="10"/>'+
-    '<line x1="50" y1="21" x2="50" y2="68"/>'+
-    '<line x1="50" y1="38" x2="18" y2="28"/>'+
-    '<line x1="50" y1="38" x2="82" y2="28"/>'+
-    '<line x1="50" y1="68" x2="36" y2="96"/>'+
-    '<line x1="50" y1="68" x2="64" y2="96"/>'),
+    `<circle cx="50" cy="11" r="10"/>
+     <line x1="50" y1="21" x2="50" y2="68"/>
+     <line x1="50" y1="38" x2="18" y2="28"/>
+     <line x1="50" y1="38" x2="82" y2="28"/>
+     <line x1="50" y1="68" x2="36" y2="96"/>
+     <line x1="50" y1="68" x2="64" y2="96"/>`),
 
+  // Warrior 1 — lunge with arms up
   w1: S(G, "0 0 100 108",
-    '<circle cx="50" cy="10" r="10"/>'+
-    '<line x1="50" y1="20" x2="50" y2="58"/>'+
-    '<line x1="50" y1="30" x2="34" y2="16"/>'+
-    '<line x1="50" y1="30" x2="66" y2="16"/>'+
-    '<line x1="50" y1="58" x2="28" y2="94"/>'+
-    '<line x1="50" y1="58" x2="74" y2="76"/>'+
-    '<line x1="74" y1="76" x2="84" y2="94"/>'),
+    `<circle cx="50" cy="10" r="10"/>
+     <line x1="50" y1="20" x2="50" y2="58"/>
+     <line x1="50" y1="30" x2="34" y2="16"/>
+     <line x1="50" y1="30" x2="66" y2="16"/>
+     <line x1="50" y1="58" x2="28" y2="94"/>
+     <line x1="50" y1="58" x2="74" y2="76"/>
+     <line x1="74" y1="76" x2="84" y2="94"/>`),
 
+  // Warrior 2 — wide stance, arms out
   w2: S(G, "0 0 108 106",
-    '<circle cx="54" cy="10" r="10"/>'+
-    '<line x1="54" y1="20" x2="54" y2="62"/>'+
-    '<line x1="54" y1="34" x2="12" y2="34"/>'+
-    '<line x1="54" y1="34" x2="96" y2="34"/>'+
-    '<line x1="54" y1="62" x2="30" y2="94"/>'+
-    '<line x1="54" y1="62" x2="76" y2="76"/>'+
-    '<line x1="76" y1="76" x2="92" y2="94"/>'),
+    `<circle cx="54" cy="10" r="10"/>
+     <line x1="54" y1="20" x2="54" y2="62"/>
+     <line x1="54" y1="34" x2="12" y2="34"/>
+     <line x1="54" y1="34" x2="96" y2="34"/>
+     <line x1="54" y1="62" x2="30" y2="94"/>
+     <line x1="54" y1="62" x2="76" y2="76"/>
+     <line x1="76" y1="76" x2="92" y2="94"/>`),
 
+  // Down dog — inverted V
   ddg: S(G, "0 0 112 95",
-    '<circle cx="18" cy="24" r="10"/>'+
-    '<line x1="18" y1="34" x2="56" y2="16"/>'+
-    '<line x1="56" y1="16" x2="94" y2="52"/>'+
-    '<line x1="18" y1="34" x2="10" y2="64"/>'+
-    '<line x1="10" y1="64" x2="14" y2="84"/>'+
-    '<line x1="94" y1="52" x2="84" y2="82"/>'+
-    '<line x1="94" y1="52" x2="104" y2="76"/>'),
+    `<circle cx="18" cy="24" r="10"/>
+     <line x1="18" y1="34" x2="56" y2="16"/>
+     <line x1="56" y1="16" x2="94" y2="52"/>
+     <line x1="18" y1="34" x2="10" y2="64"/>
+     <line x1="10" y1="64" x2="14" y2="84"/>
+     <line x1="94" y1="52" x2="84" y2="82"/>
+     <line x1="94" y1="52" x2="104" y2="76"/>`),
 
+  // Forward fold — standing bent at hips
   fld: S(G, "0 0 100 105",
-    '<circle cx="50" cy="16" r="10"/>'+
-    '<line x1="50" y1="26" x2="50" y2="52"/>'+
-    '<path d="M28 52 Q50 46 72 52"/>'+
-    '<line x1="36" y1="90" x2="64" y2="90"/>'+
-    '<line x1="36" y1="52" x2="36" y2="90"/>'+
-    '<line x1="64" y1="52" x2="64" y2="90"/>'+
-    '<line x1="28" y1="52" x2="12" y2="66"/>'+
-    '<line x1="72" y1="52" x2="88" y2="66"/>'),
+    `<circle cx="50" cy="16" r="10"/>
+     <line x1="50" y1="26" x2="50" y2="52"/>
+     <path d="M28 52 Q50 46 72 52"/>
+     <line x1="36" y1="90" x2="64" y2="90"/>
+     <line x1="36" y1="52" x2="36" y2="90"/>
+     <line x1="64" y1="52" x2="64" y2="90"/>
+     <line x1="28" y1="52" x2="12" y2="66"/>
+     <line x1="72" y1="52" x2="88" y2="66"/>`),
 
+  // Backbend — bridge on hands/wheel prep
   bck: S(G, "0 0 100 95",
-    '<line x1="20" y1="84" x2="20" y2="62"/>'+
-    '<line x1="80" y1="84" x2="80" y2="62"/>'+
-    '<path d="M20 62 Q50 18 80 62"/>'+
-    '<line x1="34" y1="36" x2="16" y2="24"/>'+
-    '<line x1="66" y1="36" x2="84" y2="24"/>'+
-    '<circle cx="50" cy="32" r="10"/>'),
+    `<line x1="20" y1="84" x2="20" y2="62"/>
+     <line x1="80" y1="84" x2="80" y2="62"/>
+     <path d="M20 62 Q50 18 80 62"/>
+     <line x1="34" y1="36" x2="16" y2="24"/>
+     <line x1="66" y1="36" x2="84" y2="24"/>
+     <circle cx="50" cy="32" r="10"/>`),
 
+  // Wheel — full backbend
   whl: S(G, "0 0 100 86",
-    '<line x1="16" y1="78" x2="14" y2="52"/>'+
-    '<line x1="84" y1="78" x2="86" y2="52"/>'+
-    '<line x1="22" y1="62" x2="6"  y2="52"/>'+
-    '<line x1="78" y1="62" x2="94" y2="52"/>'+
-    '<path d="M14 52 Q50 8 86 52"/>'+
-    '<circle cx="50" cy="20" r="10"/>'),
+    `<line x1="16" y1="78" x2="14" y2="52"/>
+     <line x1="84" y1="78" x2="86" y2="52"/>
+     <line x1="22" y1="62" x2="6"  y2="52"/>
+     <line x1="78" y1="62" x2="94" y2="52"/>
+     <path d="M14 52 Q50 8 86 52"/>
+     <circle cx="50" cy="20" r="10"/>`),
 
+  // Inversion — headstand / shoulder stand
   inv: S(P, "0 0 100 114",
-    '<line x1="36" y1="108" x2="36" y2="78"/>'+
-    '<line x1="64" y1="108" x2="64" y2="78"/>'+
-    '<line x1="36" y1="78"  x2="64" y2="78"/>'+
-    '<line x1="50" y1="78"  x2="50" y2="34"/>'+
-    '<line x1="50" y1="54"  x2="26" y2="40"/>'+
-    '<line x1="50" y1="54"  x2="74" y2="40"/>'+
-    '<circle cx="50" cy="26" r="10"/>'),
+    `<line x1="36" y1="108" x2="36" y2="78"/>
+     <line x1="64" y1="108" x2="64" y2="78"/>
+     <line x1="36" y1="78"  x2="64" y2="78"/>
+     <line x1="50" y1="78"  x2="50" y2="34"/>
+     <line x1="50" y1="54"  x2="26" y2="40"/>
+     <line x1="50" y1="54"  x2="74" y2="40"/>
+     <circle cx="50" cy="26" r="10"/>`),
 
+  // Plank / chaturanga / side plank
   plk: S(G, "0 0 120 70",
-    '<circle cx="14" cy="26" r="10"/>'+
-    '<line x1="23" y1="33" x2="98" y2="44"/>'+
-    '<line x1="23" y1="33" x2="12" y2="58"/>'+
-    '<line x1="98" y1="44" x2="88" y2="62"/>'+
-    '<line x1="98" y1="44" x2="112" y2="40"/>'),
+    `<circle cx="14" cy="26" r="10"/>
+     <line x1="23" y1="33" x2="98" y2="44"/>
+     <line x1="23" y1="33" x2="12" y2="58"/>
+     <line x1="98" y1="44" x2="88" y2="62"/>
+     <line x1="98" y1="44" x2="112" y2="40"/>`),
 
+  // Triangle
   tri: S(G, "0 0 110 106",
-    '<circle cx="62" cy="11" r="10"/>'+
-    '<line x1="62" y1="21" x2="56" y2="60"/>'+
-    '<line x1="56" y1="40" x2="92" y2="26"/>'+
-    '<line x1="56" y1="40" x2="18" y2="62"/>'+
-    '<line x1="56" y1="60" x2="16" y2="94"/>'+
-    '<line x1="56" y1="60" x2="94" y2="94"/>'+
-    '<line x1="16" y1="94" x2="94" y2="94"/>'),
+    `<circle cx="62" cy="11" r="10"/>
+     <line x1="62" y1="21" x2="56" y2="60"/>
+     <line x1="56" y1="40" x2="92" y2="26"/>
+     <line x1="56" y1="40" x2="18" y2="62"/>
+     <line x1="56" y1="60" x2="16" y2="94"/>
+     <line x1="56" y1="60" x2="94" y2="94"/>
+     <line x1="16" y1="94" x2="94" y2="94"/>`),
 
+  // Balance — tree / half moon
   bal: S(G, "0 0 100 114",
-    '<circle cx="50" cy="10" r="10"/>'+
-    '<line x1="50" y1="20" x2="50" y2="66"/>'+
-    '<line x1="50" y1="34" x2="15" y2="52"/>'+
-    '<line x1="50" y1="34" x2="85" y2="14"/>'+
-    '<line x1="50" y1="66" x2="50" y2="100"/>'+
-    '<line x1="50" y1="82" x2="68" y2="66"/>'),
+    `<circle cx="50" cy="10" r="10"/>
+     <line x1="50" y1="20" x2="50" y2="66"/>
+     <line x1="50" y1="34" x2="15" y2="52"/>
+     <line x1="50" y1="34" x2="85" y2="14"/>
+     <line x1="50" y1="66" x2="50" y2="100"/>
+     <line x1="50" y1="82" x2="68" y2="66"/>`),
 
+  // Low lunge / lizard
   lng: S(G, "0 0 114 106",
-    '<circle cx="57" cy="12" r="10"/>'+
-    '<line x1="57" y1="22" x2="57" y2="58"/>'+
-    '<line x1="57" y1="34" x2="40" y2="20"/>'+
-    '<line x1="57" y1="34" x2="76" y2="20"/>'+
-    '<line x1="57" y1="58" x2="30" y2="86"/>'+
-    '<line x1="30" y1="86" x2="14" y2="86"/>'+
-    '<line x1="57" y1="58" x2="84" y2="56"/>'+
-    '<line x1="84" y1="56" x2="100" y2="86"/>'+
-    '<line x1="100" y1="86" x2="100" y2="98"/>'),
+    `<circle cx="57" cy="12" r="10"/>
+     <line x1="57" y1="22" x2="57" y2="58"/>
+     <line x1="57" y1="34" x2="40" y2="20"/>
+     <line x1="57" y1="34" x2="76" y2="20"/>
+     <line x1="57" y1="58" x2="30" y2="86"/>
+     <line x1="30" y1="86" x2="14" y2="86"/>
+     <line x1="57" y1="58" x2="84" y2="56"/>
+     <line x1="84" y1="56" x2="100" y2="86"/>
+     <line x1="100" y1="86" x2="100" y2="98"/>`),
 
+  // Arm balance — crow / firefly / astavakrasana
   arm: S(R, "0 0 100 96",
-    '<circle cx="50" cy="27" r="10"/>'+
-    '<line x1="50" y1="37" x2="50" y2="60"/>'+
-    '<line x1="50" y1="48" x2="24" y2="68"/>'+
-    '<line x1="50" y1="48" x2="76" y2="68"/>'+
-    '<line x1="24" y1="68" x2="16" y2="86"/>'+
-    '<line x1="76" y1="68" x2="84" y2="86"/>'+
-    '<line x1="50" y1="60" x2="34" y2="74"/>'+
-    '<line x1="50" y1="60" x2="66" y2="74"/>'+
-    '<line x1="34" y1="74" x2="66" y2="74"/>'),
+    `<circle cx="50" cy="27" r="10"/>
+     <line x1="50" y1="37" x2="50" y2="60"/>
+     <line x1="50" y1="48" x2="24" y2="68"/>
+     <line x1="50" y1="48" x2="76" y2="68"/>
+     <line x1="24" y1="68" x2="16" y2="86"/>
+     <line x1="76" y1="68" x2="84" y2="86"/>
+     <line x1="50" y1="60" x2="34" y2="74"/>
+     <line x1="50" y1="60" x2="66" y2="74"/>
+     <line x1="34" y1="74" x2="66" y2="74"/>`),
 
+  // Split — front or side
   spl: S(G, "0 0 120 72",
-    '<circle cx="60" cy="16" r="10"/>'+
-    '<line x1="60" y1="26" x2="60" y2="48"/>'+
-    '<line x1="60" y1="36" x2="42" y2="24"/>'+
-    '<line x1="60" y1="36" x2="78" y2="24"/>'+
-    '<line x1="60" y1="48" x2="6"  y2="64"/>'+
-    '<line x1="60" y1="48" x2="114" y2="64"/>'+
-    '<line x1="6"  y1="64" x2="114" y2="64"/>'),
+    `<circle cx="60" cy="16" r="10"/>
+     <line x1="60" y1="26" x2="60" y2="48"/>
+     <line x1="60" y1="36" x2="42" y2="24"/>
+     <line x1="60" y1="36" x2="78" y2="24"/>
+     <line x1="60" y1="48" x2="6"  y2="64"/>
+     <line x1="60" y1="48" x2="114" y2="64"/>
+     <line x1="6"  y1="64" x2="114" y2="64"/>`),
 
+  // Pigeon / dog leg
   pgn: S(G, "0 0 114 92",
-    '<circle cx="44" cy="17" r="10"/>'+
-    '<line x1="44" y1="27" x2="44" y2="56"/>'+
-    '<line x1="44" y1="40" x2="22" y2="30"/>'+
-    '<line x1="44" y1="40" x2="64" y2="30"/>'+
-    '<path d="M44 56 Q30 66 12 70"/>'+
-    '<line x1="12" y1="70" x2="6"  y2="84"/>'+
-    '<line x1="44" y1="56" x2="80" y2="66"/>'+
-    '<line x1="80" y1="66" x2="108" y2="50"/>'),
+    `<circle cx="44" cy="17" r="10"/>
+     <line x1="44" y1="27" x2="44" y2="56"/>
+     <line x1="44" y1="40" x2="22" y2="30"/>
+     <line x1="44" y1="40" x2="64" y2="30"/>
+     <path d="M44 56 Q30 66 12 70"/>
+     <line x1="12" y1="70" x2="6"  y2="84"/>
+     <line x1="44" y1="56" x2="80" y2="66"/>
+     <line x1="80" y1="66" x2="108" y2="50"/>`),
 
+  // Twist — seated or revolved
   twi: S(T, "0 0 100 104",
-    '<circle cx="50" cy="11" r="10"/>'+
-    '<path d="M50 21 Q60 34 50 54"/>'+
-    '<line x1="52" y1="30" x2="80" y2="20"/>'+
-    '<line x1="48" y1="40" x2="18" y2="44"/>'+
-    '<path d="M32 54 Q50 60 68 54"/>'+
-    '<line x1="32" y1="54" x2="20" y2="78"/>'+
-    '<line x1="68" y1="54" x2="84" y2="72"/>'+
-    '<line x1="20" y1="78" x2="84" y2="72"/>'),
+    `<circle cx="50" cy="11" r="10"/>
+     <path d="M50 21 Q60 34 50 54"/>
+     <line x1="52" y1="30" x2="80" y2="20"/>
+     <line x1="48" y1="40" x2="18" y2="44"/>
+     <path d="M32 54 Q50 60 68 54"/>
+     <line x1="32" y1="54" x2="20" y2="78"/>
+     <line x1="68" y1="54" x2="84" y2="72"/>
+     <line x1="20" y1="78" x2="84" y2="72"/>`),
 
+  // Seated (compass, hug knees, yoga nidrasana)
   sit: S(G, "0 0 100 92",
-    '<circle cx="50" cy="12" r="10"/>'+
-    '<line x1="50" y1="22" x2="50" y2="60"/>'+
-    '<line x1="50" y1="36" x2="26" y2="26"/>'+
-    '<line x1="50" y1="36" x2="74" y2="26"/>'+
-    '<path d="M50 60 Q34 68 16 72"/>'+
-    '<path d="M50 60 Q66 68 84 72"/>'+
-    '<line x1="16" y1="72" x2="14" y2="84"/>'+
-    '<line x1="84" y1="72" x2="86" y2="84"/>'),
+    `<circle cx="50" cy="12" r="10"/>
+     <line x1="50" y1="22" x2="50" y2="60"/>
+     <line x1="50" y1="36" x2="26" y2="26"/>
+     <line x1="50" y1="36" x2="74" y2="26"/>
+     <path d="M50 60 Q34 68 16 72"/>
+     <path d="M50 60 Q66 68 84 72"/>
+     <line x1="16" y1="72" x2="14" y2="84"/>
+     <line x1="84" y1="72" x2="86" y2="84"/>`),
 
+  // Yogi play time — fun free pose
   ply: S(R, "0 0 100 104",
-    '<circle cx="50" cy="11" r="10"/>'+
-    '<line x1="50" y1="21" x2="50" y2="60"/>'+
-    '<line x1="50" y1="36" x2="22" y2="22"/>'+
-    '<line x1="50" y1="36" x2="78" y2="22"/>'+
-    '<line x1="50" y1="60" x2="36" y2="86"/>'+
-    '<line x1="50" y1="60" x2="64" y2="86"/>'+
-    '<path d="M26 50 Q50 34 74 50" stroke-dasharray="4 3"/>'+
-    '<circle cx="50" cy="50" r="6" fill="'+R+'" stroke="none" opacity="0.7"/>'),
+    `<circle cx="50" cy="11" r="10"/>
+     <line x1="50" y1="21" x2="50" y2="60"/>
+     <line x1="50" y1="36" x2="22" y2="22"/>
+     <line x1="50" y1="36" x2="78" y2="22"/>
+     <line x1="50" y1="60" x2="36" y2="86"/>
+     <line x1="50" y1="60" x2="64" y2="86"/>
+     <path d="M26 50 Q50 34 74 50" stroke-dasharray="4 3"/>
+     <circle cx="50" cy="50" r="6" fill="${R}" stroke="none" opacity="0.7"/>`),
 
+  // Savasana — lying flat
   rst: S(G, "0 0 120 54",
-    '<line x1="4"   y1="46" x2="116" y2="46"/>'+
-    '<line x1="4"   y1="40" x2="4"   y2="46"/>'+
-    '<line x1="68"  y1="34" x2="4"   y2="40"/>'+
-    '<circle cx="74" cy="26" r="10"/>'+
-    '<line x1="68"  y1="34" x2="116" y2="40"/>'+
-    '<line x1="116" y1="40" x2="116" y2="46"/>'+
-    '<line x1="74"  y1="36" x2="70"  y2="46"/>'+
-    '<line x1="68"  y1="34" x2="54"  y2="44"/>'),
+    `<line x1="4"   y1="46" x2="116" y2="46"/>
+     <line x1="4"   y1="40" x2="4"   y2="46"/>
+     <line x1="68"  y1="34" x2="4"   y2="40"/>
+     <circle cx="74" cy="26" r="10"/>
+     <line x1="68"  y1="34" x2="116" y2="40"/>
+     <line x1="116" y1="40" x2="116" y2="46"/>
+     <line x1="74"  y1="36" x2="70"  y2="46"/>
+     <line x1="68"  y1="34" x2="54"  y2="44"/>`),
 
+  // Half lift — flat back at 90°
   hlf: S(G, "0 0 100 100",
-    '<circle cx="82" cy="18" r="10"/>'+
-    '<line x1="74" y1="26" x2="18" y2="26"/>'+
-    '<line x1="18" y1="26" x2="10" y2="88"/>'+
-    '<line x1="18" y1="26" x2="30" y2="88"/>'+
-    '<line x1="50" y1="26" x2="48" y2="54"/>'+
-    '<line x1="65" y1="26" x2="63" y2="54"/>'),
+    `<circle cx="82" cy="18" r="10"/>
+     <line x1="74" y1="26" x2="18" y2="26"/>
+     <line x1="18" y1="26" x2="10" y2="88"/>
+     <line x1="18" y1="26" x2="30" y2="88"/>
+     <line x1="50" y1="26" x2="48" y2="54"/>
+     <line x1="65" y1="26" x2="63" y2="54"/>`),
 };
 
-var CAT_FIG = {
+// Which figure key to use for each category code
+const CAT_FIG = {
   med:"med", bnd:"bnd", std:"std", w1:"w1", w2:"w2",
   ddg:"ddg", fld:"fld", bck:"bck", whl:"whl", inv:"inv",
   plk:"plk", tri:"tri", bal:"bal", lng:"lng", arm:"arm",
@@ -701,11 +751,11 @@ var CAT_FIG = {
 };
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
-var idx     = 0;
-var timerS  = 30;
-var elapsed = 0;
-var paused  = false;
-var ticker  = null;
+let idx     = 0;
+let timerS  = 30;
+let elapsed = 0;
+let paused  = false;
+let ticker  = null;
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
 function init() {
@@ -717,19 +767,18 @@ function init() {
 
 // ─── DOTS ────────────────────────────────────────────────────────────────────
 function buildDots() {
-  var html = '';
-  for (var i = 0; i < SEQ.length; i++) html += '<div class="dot" id="dot' + i + '"></div>';
-  document.getElementById("dotsWrap").innerHTML = html;
+  document.getElementById("dotsWrap").innerHTML =
+    SEQ.map((_, i) => `<div class="dot" id="dot${i}"></div>`).join("");
 }
 
 function syncDots() {
-  for (var i = 0; i < SEQ.length; i++) {
-    var d = document.getElementById('dot' + i);
-    if (!d) continue;
-    d.className = 'dot' + (i < idx ? ' done' : i === idx ? ' cur' : '');
-  }
-  var cur = document.getElementById('dot' + idx);
-  if (cur) cur.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+  SEQ.forEach((_, i) => {
+    const d = document.getElementById(`dot${i}`);
+    if (!d) return;
+    d.className = "dot" + (i < idx ? " done" : i === idx ? " cur" : "");
+  });
+  const cur = document.getElementById(`dot${idx}`);
+  if (cur) cur.scrollIntoView({behavior:"smooth", block:"nearest", inline:"center"});
 }
 
 // ─── RENDER ──────────────────────────────────────────────────────────────────
@@ -737,21 +786,28 @@ function figHTML(p, size, i) {
   if (i !== undefined) {
     var stored;
     try { stored = localStorage.getItem('pose_img_' + i); } catch(e) {}
-    if (stored) return '<img src="' + stored + '" alt="' + p.n + '" style="max-width:' + size + 'px;max-height:' + size + 'px;object-fit:contain;border-radius:6px;">';
+    if (stored) return '<img class="pose-photo" src="' + stored + '" alt="' + p.n + '" style="max-width:' + size + 'px;max-height:' + size + 'px;">';
   }
-  if (p.img) return '<img src="images/' + p.img + '" alt="' + p.n + '" style="max-width:' + size + 'px;max-height:' + size + 'px;object-fit:contain;border-radius:6px;">';
-  return FIG[CAT_FIG[p.c]] || FIG.std;
+  // No photo yet — show placeholder (large for main card, small icon for previews)
+  if (size > 60) {
+    return '<div class="no-photo"><div class="no-photo-icon">📷</div><div class="no-photo-txt">Tap <strong style="color:var(--gold)">Add Photo</strong><br>to use your drawing</div></div>';
+  }
+  return '<div style="width:' + size + 'px;height:' + size + 'px;display:flex;align-items:center;justify-content:center;font-size:18px;opacity:0.25">📷</div>';
 }
 
 function render() {
-  var p = SEQ[idx];
-  document.getElementById("poseNum").textContent    = (idx + 1) + ' / ' + SEQ.length;
-  document.getElementById("figBox").innerHTML        = figHTML(p, 160, idx);
-  document.getElementById("poseName").textContent   = p.n;
-  document.getElementById("poseSub").textContent    = p.s;
+  const p = SEQ[idx];
+
+  document.getElementById("poseNum").textContent   = `${idx + 1} / ${SEQ.length}`;
+  document.getElementById("figBox").innerHTML       = figHTML(p, 160, idx);
+  document.getElementById("poseName").textContent  = p.n;
+  document.getElementById("poseSub").textContent   = p.s;
   document.getElementById("poseBreath").textContent = p.b;
+
+  // Prev/Next button state
   document.getElementById("prevBtn").classList.toggle("off", idx === 0);
   document.getElementById("nextBtn").classList.toggle("off", idx === SEQ.length - 1);
+
   renderNext(1, idx + 1);
   renderNext(2, idx + 2);
   syncDots();
@@ -759,98 +815,101 @@ function render() {
 }
 
 function renderNext(slot, i) {
-  var card = document.getElementById('nc' + slot);
+  const card = document.getElementById(`nc${slot}`);
   if (i >= SEQ.length) {
-    card.style.opacity = '0.15';
-    document.getElementById('nn' + slot).textContent = slot === 1 ? 'End of sequence' : '—';
-    document.getElementById('nb' + slot).textContent = '';
-    document.getElementById('nf' + slot).innerHTML   = '';
+    card.style.opacity = "0.15";
+    document.getElementById(`nn${slot}`).textContent = slot === 1 ? "End of sequence" : "—";
+    document.getElementById(`nb${slot}`).textContent = "";
+    document.getElementById(`nf${slot}`).innerHTML   = "";
     return;
   }
-  card.style.opacity = slot === 1 ? '0.72' : '0.40';
-  var p = SEQ[i];
-  document.getElementById('nf' + slot).innerHTML   = figHTML(p, 38, i);
-  document.getElementById('nn' + slot).textContent = p.s ? p.n + ' · ' + p.s : p.n;
-  document.getElementById('nb' + slot).textContent = p.b;
+  card.style.opacity = slot === 1 ? "0.72" : "0.40";
+  const p = SEQ[i];
+  document.getElementById(`nf${slot}`).innerHTML   = figHTML(p, 38, i);
+  document.getElementById(`nn${slot}`).textContent = p.s ? `${p.n} · ${p.s}` : p.n;
+  document.getElementById(`nb${slot}`).textContent = p.b;
 }
 
 // ─── NAVIGATION ──────────────────────────────────────────────────────────────
 function advance() {
   if (idx >= SEQ.length - 1) { showDone(); return; }
-  animCard('out-l', 'in-r', function() { idx++; render(); });
+  animCard("out-l", "in-r", () => { idx++; render(); });
 }
 
 function goBack() {
   if (idx <= 0) return;
-  animCard('out-r', 'in-l', function() { idx--; render(); });
+  animCard("out-r", "in-l", () => { idx--; render(); });
 }
 
 function animCard(outCls, inCls, cb) {
-  var el = document.getElementById('nowCard');
+  const el = document.getElementById("nowCard");
   el.classList.add(outCls);
-  setTimeout(function() {
+  setTimeout(() => {
     el.classList.remove(outCls);
     cb();
     el.classList.add(inCls);
-    setTimeout(function() { el.classList.remove(inCls); }, 250);
+    setTimeout(() => el.classList.remove(inCls), 250);
   }, 170);
 }
 
 // ─── TIMER ───────────────────────────────────────────────────────────────────
 function startTicker() {
   clearInterval(ticker);
-  ticker = setInterval(function() {
+  ticker = setInterval(() => {
     if (paused) return;
     elapsed++;
-    document.getElementById('barFill').style.width = (elapsed / timerS * 100) + '%';
+    document.getElementById("barFill").style.width = `${(elapsed / timerS) * 100}%`;
     if (elapsed >= timerS) { elapsed = 0; advance(); }
   }, 1000);
 }
 
 function resetBar() {
   elapsed = 0;
-  document.getElementById('barFill').style.width = '0%';
+  document.getElementById("barFill").style.width = "0%";
 }
 
 function setTimer(s) {
-  timerS = s; elapsed = 0;
-  var pills = document.querySelectorAll('.pill');
-  for (var i = 0; i < pills.length; i++)
-    pills[i].classList.toggle('on', parseInt(pills[i].dataset.s) === s);
-  document.getElementById('barFill').style.width = '0%';
+  timerS = s;
+  elapsed = 0;
+  document.querySelectorAll(".pill").forEach(b =>
+    b.classList.toggle("on", parseInt(b.dataset.s) === s));
+  document.getElementById("barFill").style.width = "0%";
 }
 
 function togglePause() {
   paused = !paused;
-  document.getElementById('pauseBtn').textContent = paused ? '▶' : '⏸';
+  document.getElementById("pauseBtn").textContent = paused ? "▶" : "⏸";
 }
 
-// ─── GESTURES ────────────────────────────────────────────────────────────────
+// ─── GESTURES (swipe on main card) ───────────────────────────────────────────
 function setupGestures() {
-  var card = document.getElementById('nowCard');
-  var startX = 0, startY = 0, wasTouched = false, swipeHandled = false;
+  const card = document.getElementById("nowCard");
+  let startX = 0, startY = 0, wasTouched = false, swipeHandled = false;
 
-  card.addEventListener('touchstart', function(e) {
+  card.addEventListener("touchstart", e => {
     startX       = e.touches[0].clientX;
     startY       = e.touches[0].clientY;
     wasTouched   = true;
     swipeHandled = false;
   }, {passive: true});
 
-  card.addEventListener('touchend', function(e) {
-    var dx = e.changedTouches[0].clientX - startX;
-    var dy = e.changedTouches[0].clientY - startY;
+  card.addEventListener("touchend", e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    // Swipe left → next, swipe right → back
     if (dx < -50 && Math.abs(dy) < 80) { swipeHandled = true; advance(); return; }
     if (dx >  50 && Math.abs(dy) < 80) { swipeHandled = true; goBack();  return; }
+    // Tap: let the subsequent click event handle it (avoids double-fire)
   }, {passive: true});
 
-  card.addEventListener('click', function() {
+  // Handles both mobile tap (click fires ~300ms after touchend) and desktop click
+  card.addEventListener("click", () => {
     if (wasTouched) {
       wasTouched = false;
-      if (!swipeHandled) advance();
+      if (!swipeHandled) advance(); // tap — advance; skip if swipe already did it
       return;
     }
-    advance();
+    advance(); // desktop mouse click
   });
 }
 
@@ -862,7 +921,7 @@ function pickImage() {
     var reader = new FileReader();
     reader.onload = function(e) {
       resizeImage(e.target.result, 400, 400, function(dataUrl) {
-        try { localStorage.setItem('pose_img_' + idx, dataUrl); } catch(ex) {}
+        try { localStorage.setItem('pose_img_' + idx, dataUrl); } catch(e) {}
         render();
       });
     };
@@ -889,19 +948,19 @@ function resizeImage(dataUrl, maxW, maxH, cb) {
 // ─── DONE ────────────────────────────────────────────────────────────────────
 function showDone() {
   clearInterval(ticker);
-  document.getElementById('doneScreen').classList.add('show');
+  document.getElementById("doneScreen").classList.add("show");
 }
 
 function restart() {
   idx = 0; elapsed = 0; paused = false;
-  document.getElementById('pauseBtn').textContent = '⏸';
-  document.getElementById('doneScreen').classList.remove('show');
+  document.getElementById("pauseBtn").textContent = "⏸";
+  document.getElementById("doneScreen").classList.remove("show");
   render();
   startTicker();
 }
 
 // ─── START ───────────────────────────────────────────────────────────────────
-window.addEventListener('load', init);
+init();
 </script>
 </body>
 </html>
