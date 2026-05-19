@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0f1a">
+<title>Raja · Yoga Sequence</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --bg:       #0f0f1a;
+  --card:     #1a1a2e;
+  --border:   rgba(255,255,255,0.07);
+  --gold:     #c9a84c;
+  --gold-dim: rgba(201,168,76,0.12);
+  --purple:   #7b68ee;
+  --teal:     #4ecdc4;
+  --coral:    #ff6b6b;
+  --text:     #e8e8f0;
+  --muted:    #606880;
+}
+
+html { height: 100%; overflow: hidden; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ── HEADER ─────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 6px;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.counter {
+  font-size: 12px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  min-width: 54px;
+}
+
+.timer-pills {
+  display: flex;
+  gap: 4px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 3px;
+}
+
+.pill {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 4px 11px;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+
+.pill.on {
+  background: var(--gold);
+  color: #1a1400;
+}
+
+.ctrl-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.ctrl-btn:active { transform: scale(0.88); }
+
+/* ── PROGRESS BAR ───────────────────────────────────────── */
+.bar-wrap {
+  padding: 2px 16px 0;
+  flex-shrink: 0;
+}
+
+.bar-track {
+  height: 2px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 1px;
+  width: 0%;
+  transition: width 1s linear;
+}
+
+/* ── DOTS ───────────────────────────────────────────────── */
+.dots-row {
+  display: flex;
+  gap: 3px;
+  padding: 8px 16px 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  flex-shrink: 0;
+}
+.dots-row::-webkit-scrollbar { display: none; }
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  flex-shrink: 0;
+  transition: all 0.25s;
+}
+.dot.done    { background: rgba(201,168,76,0.3); }
+.dot.current { background: var(--gold); width: 14px; border-radius: 3px; }
+
+/* ── MAIN ───────────────────────────────────────────────── */
+.main {
+  flex: 1;
+  padding: 6px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+}
+
+/* ── CURRENT CARD ───────────────────────────────────────── */
+.now-card {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 20px 14px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+  touch-action: none;
+}
+
+.now-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.fig-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  width: 100%;
+  padding: 4px 0;
+}
+
+.fig-area svg {
+  max-height: min(44vw, 220px);
+  max-width: min(44vw, 220px);
+  width: 100%;
+  height: 100%;
+}
+
+.now-name {
+  font-size: clamp(19px, 5.5vw, 26px);
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.2;
+  margin-top: 10px;
+}
+
+.now-sub {
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 4px;
+  line-height: 1.4;
+  min-height: 18px;
+}
+
+.now-breaths {
+  margin-top: 9px;
+  background: var(--gold-dim);
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 20px;
+}
+
+.swipe-hint {
+  position: absolute;
+  bottom: 11px;
+  right: 15px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.12);
+  letter-spacing: 0.02em;
+}
+
+/* ── NEXT CARDS ─────────────────────────────────────────── */
+.next-row {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.next-card {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: opacity 0.3s;
+}
+
+.next-card:nth-child(1) { opacity: 0.65; }
+.next-card:nth-child(2) { opacity: 0.38; }
+
+.nf {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nf svg { width: 100%; height: 100%; }
+
+.ni { flex: 1; min-width: 0; }
+
+.ni-label {
+  font-size: 9px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 2px;
+}
+
+.ni-name {
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.ni-b {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── ANIMATIONS ─────────────────────────────────────────── */
+.out-left  { animation: outL 0.22s ease forwards; }
+.in-right  { animation: inR 0.22s ease forwards; }
+.out-right { animation: outR 0.22s ease forwards; }
+.in-left   { animation: inL 0.22s ease forwards; }
+
+@keyframes outL { to   { transform: translateX(-45px); opacity: 0; } }
+@keyframes inR  { from { transform: translateX(45px);  opacity: 0; } }
+@keyframes outR { to   { transform: translateX(45px);  opacity: 0; } }
+@keyframes inL  { from { transform: translateX(-45px); opacity: 0; } }
+
+/* ── DONE SCREEN ────────────────────────────────────────── */
+.done-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 40px 32px;
+  z-index: 99;
+}
+.done-screen.show { display: flex; }
+
+.done-glyph { font-size: 64px; line-height: 1; margin-bottom: 4px; }
+.done-title { font-size: 30px; font-weight: 700; }
+.done-sub   { font-size: 15px; color: var(--muted); text-align: center; line-height: 1.5; }
+
+.restart-btn {
+  margin-top: 20px;
+  background: var(--gold);
+  color: #1a1400;
+  border: none;
+  border-radius: 28px;
+  padding: 15px 36px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="counter" id="counter">1 / 1</div>
+  <div class="timer-pills">
+    <button class="pill" data-s="15" onclick="setTimer(15)">15s</button>
+    <button class="pill on" data-s="30" onclick="setTimer(30)">30s</button>
+    <button class="pill" data-s="45" onclick="setTimer(45)">45s</button>
+  </div>
+  <button class="ctrl-btn" id="pauseBtn" onclick="togglePause()">⏸</button>
+</div>
+
+<!-- TIMER BAR -->
+<div class="bar-wrap">
+  <div class="bar-track">
+    <div class="bar-fill" id="barFill"></div>
+  </div>
+</div>
+
+<!-- PROGRESS DOTS -->
+<div class="dots-row" id="dotsRow"></div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="now-card" id="nowCard">
+    <div class="fig-area" id="figArea"></div>
+    <div class="now-name" id="nowName"></div>
+    <div class="now-sub" id="nowSub"></div>
+    <div class="now-breaths" id="nowBreaths"></div>
+    <div class="swipe-hint">tap · swipe ←</div>
+  </div>
+
+  <div class="next-row">
+    <div class="next-card" id="nc1">
+      <div class="nf" id="nf1"></div>
+      <div class="ni">
+        <div class="ni-label">Up Next</div>
+        <div class="ni-name" id="nn1"></div>
+        <div class="ni-b" id="nb1"></div>
+      </div>
+    </div>
+    <div class="next-card" id="nc2">
+      <div class="nf" id="nf2"></div>
+      <div class="ni">
+        <div class="ni-label">After That</div>
+        <div class="ni-name" id="nn2"></div>
+        <div class="ni-b" id="nb2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DONE SCREEN -->
+<div class="done-screen" id="doneScreen">
+  <div class="done-glyph">🧘</div>
+  <div class="done-title">Namaste</div>
+  <div class="done-sub">Practice complete.<br>Well done, Michelle.</div>
+  <button class="restart-btn" onclick="restart()">Practice Again</button>
+</div>
+
+<script>
+// ─── SEQUENCE DATA ────────────────────────────────────────────────────────
+
+const SEQ = [
+  // Opening breath work
+  { n:"Nadi Shodhana",         s:"Alternate Nostril Breathing",       b:"5–10 breaths", c:"pranayama" },
+  { n:"Kapalabhati",           s:"Skull Shining",                     b:"rounds",       c:"pranayama" },
+  { n:"Agnisar",               s:"Firewash · Pump abs on vacuum",     b:"rounds",       c:"pranayama" },
+
+  // Bandhas
+  { n:"Moola Bhanda",          s:"Perineum / Cervix",                 b:"hold",         c:"bandha"    },
+  { n:"Uddiyana Bhanda",       s:"Abdominal",                         b:"hold",         c:"bandha"    },
+  { n:"Jalandhara Bandha",     s:"Throat",                            b:"hold",         c:"bandha"    },
+
+  // Establish breath
+  { n:"Ujjayi Breath",         s:"Sun Breaths",                       b:"5–10 breaths", c:"breath"    },
+
+  // Sun Sal A
+  { n:"Sun Salutation A",      s:"×2 · One breath, one movement",     b:"×2",           c:"flow"      },
+  { n:"Upward Dog",            s:"Sun Sal A",                         b:"4+ breaths",   c:"backbend"  },
+  { n:"Down Dog",              s:"Sun Sal A",                         b:"5+ breaths",   c:"downdog"   },
+  { n:"Forward Fold",          s:"Sun Sal A",                         b:"1+ breaths",   c:"fold"      },
+
+  // Sun Sal B
+  { n:"Sun Salutation B",      s:"×2 · One breath, one movement",     b:"×2",           c:"flow"      },
+  { n:"Chaturanga",            s:"Sun Sal B",                         b:"1 breath",     c:"plank"     },
+  { n:"Warrior 1",             s:"Sun Sal B",                         b:"1 breath",     c:"warrior1"  },
+  { n:"Warrior 1",             s:"Other Side",                        b:"1 breath",     c:"warrior1"  },
+
+  // Set intention
+  { n:"Dedicate Your Practice",s:"",                                  b:"set intention",c:"intention" },
+
+  // Standing flow
+  { n:"Crow",                  s:"Bakasana",                          b:"5+ breaths",   c:"arm"       },
+  { n:"Low Lunge",             s:"",                                  b:"hold",         c:"lunge"     },
+  { n:"Lizard",                s:"",                                  b:"hold",         c:"lunge"     },
+  { n:"Inversion",             s:"",                                  b:"5+ breaths",   c:"invert"    },
+  { n:"Low Lunge",             s:"Other Side",                        b:"hold",         c:"lunge"     },
+  { n:"Lizard",                s:"Other Side",                        b:"hold",         c:"lunge"     },
+  { n:"Warrior 2",             s:"",                                  b:"hold",         c:"warrior2"  },
+  { n:"Side Angle",            s:"+ Variations",                      b:"hold",         c:"warrior2"  },
+  { n:"Half Moon",             s:"",                                  b:"hold",         c:"balance"   },
+  { n:"Triangle",              s:"",                                  b:"hold",         c:"triangle"  },
+  { n:"Back Bend",             s:"Yogi Play Time",                    b:"hold",         c:"backbend"  },
+  { n:"Forward Fold",          s:"",                                  b:"hold",         c:"fold"      },
+  { n:"Warrior 2",             s:"Other Side",                        b:"hold",         c:"warrior2"  },
+  { n:"Side Angle",            s:"+ Variations · Other Side",         b:"hold",         c:"warrior2"  },
+  { n:"Half Moon",             s:"Other Side + Variations",           b:"hold",         c:"balance"   },
+  { n:"Warrior 2",             s:"",                                  b:"hold",         c:"warrior2"  },
+  { n:"Triangle 2",            s:"",                                  b:"hold",         c:"triangle"  },
+  { n:"Warrior 1",             s:"",                                  b:"hold",         c:"warrior1"  },
+  { n:"Down Dog",              s:"Back of Mat",                       b:"hold",         c:"downdog"   },
+  { n:"Yogi Play Time",        s:"",                                  b:"explore freely",c:"play"     },
+  { n:"Triangle",              s:"",                                  b:"hold",         c:"triangle"  },
+  { n:"Back Bend",             s:"+ Variations",                      b:"hold",         c:"backbend"  },
+  { n:"Triangle",              s:"Other Side",                        b:"hold",         c:"triangle"  },
+  { n:"Lizard",                s:"",                                  b:"hold",         c:"lunge"     },
+  { n:"Inversion",             s:"",                                  b:"5+ breaths",   c:"invert"    },
+  { n:"Knee Plank",            s:"",                                  b:"hold",         c:"plank"     },
+  { n:"Side Plank",            s:"+ Variations",                      b:"hold",         c:"plank"     },
+  { n:"Front Split",           s:"+ Variations",                      b:"hold",         c:"split"     },
+  { n:"Pigeon",                s:"+ Variations",                      b:"hold",         c:"pigeon"    },
+  { n:"Side Plank",            s:"",                                  b:"hold",         c:"plank"     },
+  { n:"High Plank",            s:"",                                  b:"hold",         c:"plank"     },
+  { n:"Side Plank",            s:"Other Side",                        b:"hold",         c:"plank"     },
+  { n:"Split",                 s:"+ Variation",                       b:"hold",         c:"split"     },
+  { n:"Pigeon",                s:"Other Side",                        b:"hold",         c:"pigeon"    },
+  { n:"Side Plank",            s:"",                                  b:"hold",         c:"plank"     },
+  { n:"Chaturanga",            s:"",                                  b:"hold",         c:"plank"     },
+  { n:"Yogi Play Time",        s:"",                                  b:"explore freely",c:"play"     },
+  { n:"Warrior 1",             s:"",                                  b:"hold",         c:"warrior1"  },
+  { n:"Revolved Side Angle",   s:"+ Variations",                      b:"hold",         c:"twist"     },
+  { n:"Side Crow",             s:"",                                  b:"hold",         c:"arm"       },
+  { n:"Warrior 1",             s:"",                                  b:"hold",         c:"warrior1"  },
+  { n:"Side Split",            s:"+ Variations",                      b:"hold",         c:"split"     },
+  { n:"Warrior 1",             s:"Other Side",                        b:"hold",         c:"warrior1"  },
+  { n:"Revolved Side Angle",   s:"+ Variations · Other Side",         b:"hold",         c:"twist"     },
+  { n:"Side Crow",             s:"Other Side",                        b:"hold",         c:"arm"       },
+  { n:"Warrior 1",             s:"",                                  b:"hold",         c:"warrior1"  },
+  { n:"Inversion",             s:"",                                  b:"hold",         c:"invert"    },
+  { n:"Float Forward",         s:"",                                  b:"flow",         c:"flow"      },
+
+  // Advanced seated / arm balances
+  { n:"Compass",               s:"Parivrtta Surya Yantrasana",        b:"hold",         c:"seated"    },
+  { n:"Firefly",               s:"Tittibhasana",                      b:"hold",         c:"arm"       },
+  { n:"Astavakrasana",         s:"+ Other Side",                      b:"hold",         c:"arm"       },
+  { n:"Dog Leg",               s:"+ Variations",                      b:"hold",         c:"pigeon"    },
+
+  // Floor closing
+  { n:"Bridge",                s:"",                                  b:"hold",         c:"backbend"  },
+  { n:"Wheel",                 s:"×3",                                b:"4+ breaths ea",c:"wheel"     },
+  { n:"Plow",                  s:"",                                  b:"hold",         c:"invert"    },
+  { n:"Shoulder Stand",        s:"",                                  b:"hold",         c:"invert"    },
+  { n:"Fish",                  s:"",                                  b:"hold",         c:"backbend"  },
+  { n:"Spine Twist",           s:"Both Sides",                        b:"hold each side",c:"twist"    },
+  { n:"Hug Knees",             s:"",                                  b:"hold",         c:"seated"    },
+  { n:"Yoga Nidrasana",        s:"",                                  b:"hold",         c:"seated"    },
+  { n:"Savasana",              s:"Final Relaxation",                  b:"5+ minutes",   c:"rest"      },
+];
+
+// ─── SVG FIGURES ──────────────────────────────────────────────────────────
+// stroke colors by figure type
+const COL = {
+  pranayama:"#c9a84c", bandha:"#7b68ee", breath:"#4ecdc4", flow:"#c9a84c",
+  warrior1:"#c9a84c",  warrior2:"#c9a84c", downdog:"#c9a84c", fold:"#c9a84c",
+  backbend:"#c9a84c",  wheel:"#c9a84c",  invert:"#7b68ee", plank:"#c9a84c",
+  triangle:"#c9a84c",  balance:"#c9a84c", lunge:"#c9a84c",  arm:"#ff6b6b",
+  split:"#c9a84c",     pigeon:"#c9a84c",  twist:"#4ecdc4",  seated:"#c9a84c",
+  intention:"#c9a84c", play:"#ff6b6b",    rest:"#c9a84c",
+};
+
+function svg(cat, vb, paths) {
+  const c = COL[cat] || "#c9a84c";
+  return `<svg viewBox="${vb}" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+}
+
+const FIGS = {
+  pranayama: svg("pranayama","0 0 100 105",
+    `<circle cx="50" cy="12" r="8"/>
+     <line x1="50" y1="20" x2="50" y2="54"/>
+     <path d="M18 64 Q34 50 50 54 Q66 50 82 64"/>
+     <line x1="18" y1="64" x2="8"  y2="80"/>
+     <line x1="82" y1="64" x2="92" y2="80"/>
+     <line x1="29" y1="34" x2="14" y2="48"/>
+     <circle cx="14" cy="51" r="3" fill="#c9a84c" stroke="none"/>
+     <line x1="71" y1="34" x2="86" y2="48"/>
+     <circle cx="86" cy="51" r="3" fill="#c9a84c" stroke="none"/>`),
+
+  bandha: svg("bandha","0 0 100 105",
+    `<circle cx="50" cy="12" r="8"/>
+     <line x1="50" y1="20" x2="50" y2="54"/>
+     <path d="M18 64 Q34 50 50 54 Q66 50 82 64"/>
+     <line x1="18" y1="64" x2="8"  y2="80"/>
+     <line x1="82" y1="64" x2="92" y2="80"/>
+     <line x1="29" y1="34" x2="14" y2="48"/>
+     <line x1="71" y1="34" x2="86" y2="48"/>
+     <ellipse cx="50" cy="37" rx="13" ry="9" stroke-dasharray="3 3" opacity="0.55"/>`),
+
+  breath: svg("breath","0 0 100 115",
+    `<circle cx="50" cy="11" r="8"/>
+     <line x1="50" y1="19" x2="50" y2="68"/>
+     <line x1="50" y1="38" x2="18" y2="28"/>
+     <line x1="50" y1="38" x2="82" y2="28"/>
+     <line x1="50" y1="68" x2="35" y2="95"/>
+     <line x1="50" y1="68" x2="65" y2="95"/>`),
+
+  flow: svg("flow","0 0 100 115",
+    `<circle cx="50" cy="11" r="8"/>
+     <line x1="50" y1="19" x2="50" y2="68"/>
+     <line x1="50" y1="38" x2="18" y2="28"/>
+     <line x1="50" y1="38" x2="82" y2="28"/>
+     <line x1="50" y1="68" x2="35" y2="95"/>
+     <line x1="50" y1="68" x2="65" y2="95"/>
+     <path d="M30 55 Q50 42 70 55" stroke-dasharray="4 3"/>`),
+
+  warrior1: svg("warrior1","0 0 100 115",
+    `<circle cx="50" cy="9" r="8"/>
+     <line x1="50" y1="17" x2="50" y2="60"/>
+     <line x1="50" y1="26" x2="36" y2="15"/>
+     <line x1="50" y1="26" x2="64" y2="15"/>
+     <line x1="50" y1="60" x2="28" y2="96"/>
+     <line x1="50" y1="60" x2="72" y2="78"/>
+     <line x1="72" y1="78" x2="82" y2="96"/>`),
+
+  warrior2: svg("warrior2","0 0 106 108",
+    `<circle cx="53" cy="9" r="8"/>
+     <line x1="53" y1="17" x2="53" y2="60"/>
+     <line x1="53" y1="32" x2="15" y2="32"/>
+     <line x1="53" y1="32" x2="91" y2="32"/>
+     <line x1="53" y1="60" x2="30" y2="96"/>
+     <line x1="53" y1="60" x2="75" y2="78"/>
+     <line x1="75" y1="78" x2="90" y2="96"/>`),
+
+  downdog: svg("downdog","0 0 112 98",
+    `<circle cx="20" cy="26" r="8"/>
+     <line x1="20" y1="34" x2="57" y2="18"/>
+     <line x1="57" y1="18" x2="92" y2="54"/>
+     <line x1="20" y1="34" x2="12" y2="66"/>
+     <line x1="12" y1="66" x2="16" y2="88"/>
+     <line x1="92" y1="54" x2="82" y2="86"/>
+     <line x1="92" y1="54" x2="102" y2="80"/>`),
+
+  fold: svg("fold","0 0 100 108",
+    `<line x1="36" y1="94" x2="64" y2="94"/>
+     <line x1="36" y1="52" x2="36" y2="94"/>
+     <line x1="64" y1="52" x2="64" y2="94"/>
+     <path d="M36 52 Q50 48 64 52"/>
+     <path d="M30 52 Q50 26 70 52"/>
+     <circle cx="50" cy="18" r="8"/>
+     <line x1="50" y1="26" x2="50" y2="52"/>`),
+
+  backbend: svg("backbend","0 0 100 98",
+    `<line x1="22" y1="88" x2="22" y2="66"/>
+     <line x1="78" y1="88" x2="78" y2="66"/>
+     <path d="M22 66 Q50 22 78 66"/>
+     <line x1="36" y1="39" x2="18" y2="28"/>
+     <line x1="64" y1="39" x2="82" y2="28"/>
+     <circle cx="50" cy="35" r="8"/>`),
+
+  wheel: svg("wheel","0 0 100 88",
+    `<line x1="18" y1="80" x2="16" y2="54"/>
+     <line x1="82" y1="80" x2="84" y2="54"/>
+     <line x1="24" y1="64" x2="8"  y2="54"/>
+     <line x1="76" y1="64" x2="92" y2="54"/>
+     <path d="M16 54 Q50 8 84 54"/>
+     <circle cx="50" cy="20" r="8"/>`),
+
+  invert: svg("invert","0 0 100 118",
+    `<line x1="38" y1="112" x2="38" y2="82"/>
+     <line x1="62" y1="112" x2="62" y2="82"/>
+     <line x1="38" y1="82"  x2="62" y2="82"/>
+     <line x1="50" y1="82"  x2="50" y2="36"/>
+     <line x1="50" y1="58"  x2="28" y2="42"/>
+     <line x1="50" y1="58"  x2="72" y2="42"/>
+     <circle cx="50" cy="28" r="8"/>`),
+
+  plank: svg("plank","0 0 118 75",
+    `<circle cx="16" cy="28" r="8"/>
+     <line x1="23" y1="34" x2="96" y2="46"/>
+     <line x1="23" y1="34" x2="14" y2="62"/>
+     <line x1="96" y1="46" x2="90" y2="65"/>
+     <line x1="96" y1="46" x2="110" y2="42"/>`),
+
+  triangle: svg("triangle","0 0 112 108",
+    `<circle cx="62" cy="11" r="8"/>
+     <line x1="62" y1="19" x2="56" y2="60"/>
+     <line x1="56" y1="40" x2="90" y2="26"/>
+     <line x1="56" y1="40" x2="20" y2="62"/>
+     <line x1="56" y1="60" x2="18" y2="95"/>
+     <line x1="56" y1="60" x2="92" y2="95"/>
+     <line x1="18" y1="95" x2="92" y2="95"/>`),
+
+  balance: svg("balance","0 0 100 118",
+    `<circle cx="50" cy="9" r="8"/>
+     <line x1="50" y1="17" x2="50" y2="64"/>
+     <line x1="50" y1="30" x2="18" y2="50"/>
+     <line x1="50" y1="30" x2="82" y2="14"/>
+     <line x1="50" y1="64" x2="50" y2="102"/>
+     <line x1="50" y1="80" x2="68" y2="64"/>`),
+
+  lunge: svg("lunge","0 0 112 108",
+    `<circle cx="56" cy="11" r="8"/>
+     <line x1="56" y1="19" x2="56" y2="58"/>
+     <line x1="56" y1="30" x2="40" y2="18"/>
+     <line x1="56" y1="30" x2="76" y2="18"/>
+     <line x1="56" y1="58" x2="30" y2="86"/>
+     <line x1="30" y1="86" x2="14" y2="86"/>
+     <line x1="56" y1="58" x2="82" y2="56"/>
+     <line x1="82" y1="56" x2="98" y2="86"/>
+     <line x1="98" y1="86" x2="98" y2="98"/>`),
+
+  arm: svg("arm","0 0 100 100",
+    `<circle cx="50" cy="28" r="8"/>
+     <line x1="50" y1="36" x2="50" y2="62"/>
+     <line x1="50" y1="50" x2="26" y2="70"/>
+     <line x1="50" y1="50" x2="74" y2="70"/>
+     <line x1="26" y1="70" x2="18" y2="88"/>
+     <line x1="74" y1="70" x2="82" y2="88"/>
+     <line x1="50" y1="62" x2="36" y2="78"/>
+     <line x1="50" y1="62" x2="64" y2="78"/>
+     <line x1="36" y1="78" x2="64" y2="78"/>`),
+
+  split: svg("split","0 0 120 76",
+    `<circle cx="60" cy="18" r="8"/>
+     <line x1="60" y1="26" x2="60" y2="50"/>
+     <line x1="60" y1="38" x2="42" y2="26"/>
+     <line x1="60" y1="38" x2="78" y2="26"/>
+     <line x1="60" y1="50" x2="8"  y2="68"/>
+     <line x1="60" y1="50" x2="112" y2="68"/>
+     <line x1="8"  y1="68" x2="112" y2="68"/>`),
+
+  pigeon: svg("pigeon","0 0 112 96",
+    `<circle cx="42" cy="18" r="8"/>
+     <line x1="42" y1="26" x2="42" y2="58"/>
+     <line x1="42" y1="40" x2="22" y2="30"/>
+     <line x1="42" y1="40" x2="62" y2="30"/>
+     <path d="M42 58 Q30 68 14 72"/>
+     <line x1="14" y1="72" x2="8"  y2="88"/>
+     <line x1="42" y1="58" x2="78" y2="68"/>
+     <line x1="78" y1="68" x2="106" y2="52"/>`),
+
+  twist: svg("twist","0 0 100 108",
+    `<circle cx="50" cy="11" r="8"/>
+     <path d="M50 19 Q60 34 50 54"/>
+     <line x1="52" y1="30" x2="78" y2="20"/>
+     <line x1="48" y1="40" x2="20" y2="44"/>
+     <path d="M34 54 Q50 60 66 54"/>
+     <line x1="34" y1="54" x2="22" y2="80"/>
+     <line x1="66" y1="54" x2="82" y2="74"/>
+     <line x1="22" y1="80" x2="82" y2="74"/>`),
+
+  seated: svg("seated","0 0 100 96",
+    `<circle cx="50" cy="11" r="8"/>
+     <line x1="50" y1="19" x2="50" y2="60"/>
+     <line x1="50" y1="36" x2="28" y2="26"/>
+     <line x1="50" y1="36" x2="72" y2="26"/>
+     <path d="M50 60 Q35 68 18 72"/>
+     <path d="M50 60 Q65 68 82 72"/>
+     <line x1="18" y1="72" x2="16" y2="86"/>
+     <line x1="82" y1="72" x2="84" y2="86"/>`),
+
+  intention: svg("intention","0 0 100 108",
+    `<circle cx="50" cy="11" r="8"/>
+     <line x1="50" y1="19" x2="50" y2="60"/>
+     <line x1="50" y1="36" x2="24" y2="50"/>
+     <line x1="50" y1="36" x2="76" y2="50"/>
+     <line x1="50" y1="60" x2="36" y2="88"/>
+     <line x1="50" y1="60" x2="64" y2="88"/>
+     <circle cx="50" cy="50" r="20" stroke-dasharray="5 4" opacity="0.28"/>`),
+
+  play: svg("play","0 0 100 108",
+    `<circle cx="50" cy="11" r="8"/>
+     <line x1="50" y1="19" x2="50" y2="60"/>
+     <line x1="50" y1="36" x2="26" y2="24"/>
+     <line x1="50" y1="36" x2="74" y2="24"/>
+     <line x1="50" y1="60" x2="36" y2="88"/>
+     <line x1="50" y1="60" x2="64" y2="88"/>
+     <path d="M28 50 Q50 36 72 50" stroke-dasharray="3 3"/>
+     <circle cx="50" cy="50" r="5" fill="#ff6b6b" stroke="none" opacity="0.6"/>`),
+
+  rest: svg("rest","0 0 120 58",
+    `<line x1="4"  y1="50" x2="116" y2="50"/>
+     <line x1="4"  y1="44" x2="4"   y2="50"/>
+     <line x1="66" y1="38" x2="4"   y2="44"/>
+     <circle cx="73" cy="30" r="8"/>
+     <line x1="66" y1="36" x2="116" y2="44"/>
+     <line x1="116" y1="44" x2="116" y2="50"/>
+     <line x1="73"  y1="38" x2="68"  y2="50"/>
+     <line x1="66"  y1="38" x2="54"  y2="48"/>`),
+};
+
+// Map pose category → figure key
+const CAT_FIG = {
+  pranayama:"pranayama", bandha:"bandha", breath:"breath",
+  flow:"flow", warrior1:"warrior1", warrior2:"warrior2",
+  downdog:"downdog", fold:"fold", backbend:"backbend",
+  wheel:"wheel", invert:"invert", plank:"plank",
+  triangle:"triangle", balance:"balance", lunge:"lunge",
+  arm:"arm", split:"split", pigeon:"pigeon",
+  twist:"twist", seated:"seated", intention:"intention",
+  play:"play", rest:"rest",
+};
+
+// ─── STATE ────────────────────────────────────────────────────────────────
+let idx     = 0;
+let secs    = 30;
+let elapsed = 0;
+let paused  = false;
+let ticker  = null;
+
+// ─── INIT ─────────────────────────────────────────────────────────────────
+function init() {
+  buildDots();
+  render();
+  startTicker();
+  setupGestures();
+}
+
+// ─── DOTS ─────────────────────────────────────────────────────────────────
+function buildDots() {
+  const row = document.getElementById("dotsRow");
+  row.innerHTML = SEQ.map((_, i) => `<div class="dot" id="d${i}"></div>`).join("");
+}
+
+function syncDots() {
+  SEQ.forEach((_, i) => {
+    const d = document.getElementById(`d${i}`);
+    if (!d) return;
+    d.className = "dot" + (i < idx ? " done" : i === idx ? " current" : "");
+  });
+  const cur = document.getElementById(`d${idx}`);
+  if (cur) cur.scrollIntoView({ behavior:"smooth", block:"nearest", inline:"center" });
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────
+function render() {
+  const p = SEQ[idx];
+  document.getElementById("counter").textContent = `${idx + 1} / ${SEQ.length}`;
+  const fig = FIGS[CAT_FIG[p.c]] || FIGS.breath;
+  document.getElementById("figArea").innerHTML = fig;
+  document.getElementById("nowName").textContent = p.n;
+  document.getElementById("nowSub").textContent  = p.s;
+  const bEl = document.getElementById("nowBreaths");
+  bEl.textContent = p.b;
+  bEl.style.display = p.b ? "" : "none";
+  renderNext(1, idx + 1);
+  renderNext(2, idx + 2);
+  syncDots();
+  resetBar();
+}
+
+function renderNext(slot, i) {
+  const nameEl   = document.getElementById(`nn${slot}`);
+  const breathEl = document.getElementById(`nb${slot}`);
+  const figEl    = document.getElementById(`nf${slot}`);
+  const card     = document.getElementById(`nc${slot}`);
+  if (i >= SEQ.length) {
+    card.style.opacity = "0.18";
+    nameEl.textContent   = slot === 1 ? "End of sequence" : "—";
+    breathEl.textContent = "";
+    figEl.innerHTML      = "";
+    return;
+  }
+  card.style.opacity = slot === 1 ? "0.65" : "0.38";
+  const p = SEQ[i];
+  figEl.innerHTML      = FIGS[CAT_FIG[p.c]] || FIGS.breath;
+  nameEl.textContent   = p.s ? `${p.n} · ${p.s}` : p.n;
+  breathEl.textContent = p.b;
+}
+
+// ─── ADVANCE / BACK ───────────────────────────────────────────────────────
+function advance() {
+  if (idx >= SEQ.length - 1) { showDone(); return; }
+  animCard("out-left","in-right", () => { idx++; render(); });
+}
+
+function goBack() {
+  if (idx <= 0) return;
+  animCard("out-right","in-left", () => { idx--; render(); });
+}
+
+function animCard(outCls, inCls, cb) {
+  const card = document.getElementById("nowCard");
+  card.classList.add(outCls);
+  setTimeout(() => {
+    card.classList.remove(outCls);
+    cb();
+    card.classList.add(inCls);
+    setTimeout(() => card.classList.remove(inCls), 280);
+  }, 200);
+}
+
+// ─── TIMER ────────────────────────────────────────────────────────────────
+function startTicker() {
+  clearInterval(ticker);
+  ticker = setInterval(() => {
+    if (paused) return;
+    elapsed++;
+    updateBar();
+    if (elapsed >= secs) { elapsed = 0; advance(); }
+  }, 1000);
+}
+
+function resetBar() { elapsed = 0; updateBar(); }
+
+function updateBar() {
+  document.getElementById("barFill").style.width = `${(elapsed / secs) * 100}%`;
+}
+
+function setTimer(s) {
+  secs = s;
+  elapsed = 0;
+  document.querySelectorAll(".pill").forEach(b =>
+    b.classList.toggle("on", parseInt(b.dataset.s) === s));
+  updateBar();
+}
+
+function togglePause() {
+  paused = !paused;
+  document.getElementById("pauseBtn").textContent = paused ? "▶" : "⏸";
+}
+
+// ─── GESTURES ─────────────────────────────────────────────────────────────
+function setupGestures() {
+  const card = document.getElementById("nowCard");
+  let sx = 0, sy = 0, st = 0, touched = false;
+
+  card.addEventListener("touchstart", e => {
+    sx = e.touches[0].clientX;
+    sy = e.touches[0].clientY;
+    st = Date.now();
+    touched = true;
+  }, { passive: true });
+
+  card.addEventListener("touchend", e => {
+    const dx = e.changedTouches[0].clientX - sx;
+    const dy = e.changedTouches[0].clientY - sy;
+    const dt = Date.now() - st;
+    if (Math.abs(dx) < 18 && Math.abs(dy) < 18 && dt < 450) {
+      advance();
+    } else if (dx < -50 && Math.abs(dy) < 70) {
+      advance();
+    } else if (dx > 50 && Math.abs(dy) < 70) {
+      goBack();
+    }
+  }, { passive: true });
+
+  // Desktop fallback
+  card.addEventListener("click", () => {
+    if (touched) { touched = false; return; }
+    advance();
+  });
+}
+
+// ─── DONE ─────────────────────────────────────────────────────────────────
+function showDone() {
+  clearInterval(ticker);
+  document.getElementById("doneScreen").classList.add("show");
+}
+
+function restart() {
+  idx = 0; elapsed = 0; paused = false;
+  document.getElementById("pauseBtn").textContent = "⏸";
+  document.getElementById("doneScreen").classList.remove("show");
+  render();
+  startTicker();
+}
+
+// ─── GO ───────────────────────────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>
