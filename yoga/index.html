@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0f1a">
+<title>Raja · Yoga</title>
+<style>
+*  { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+:root {
+  --bg:   #0f0f1a;
+  --card: #1a1a2e;
+  --bdr:  rgba(255,255,255,0.09);
+  --gold: #c9a84c;
+  --gdim: rgba(201,168,76,0.15);
+  --purp: #7b68ee;
+  --teal: #4ecdc4;
+  --red:  #ff6b6b;
+  --text: #e8e8f0;
+  --dim:  #55607a;
+}
+
+html { height:100%; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  /* iPhone notch / dynamic island safe area */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ── HEADER ─────────────────────── */
+.hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px 6px;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.pose-num {
+  font-size: 11px;
+  color: var(--dim);
+  min-width: 48px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .04em;
+}
+
+.pills {
+  display: flex;
+  gap: 3px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--bdr);
+  border-radius: 22px;
+  padding: 3px;
+}
+
+.pill {
+  background: none;
+  border: none;
+  color: var(--dim);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.pill.on { background: var(--gold); color: #1a1200; }
+
+.pause-btn {
+  background: none;
+  border: none;
+  color: var(--dim);
+  font-size: 18px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.pause-btn:active { opacity: .6; }
+
+/* ── TIMER BAR ────────────────── */
+.bar-wrap {
+  padding: 0 16px 6px;
+  flex-shrink: 0;
+}
+.bar-track { height: 3px; background: rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden; }
+.bar-fill  { height: 100%; background: var(--gold); width: 0%; transition: width 1s linear; }
+
+/* ── DOTS ─────────────────────── */
+.dots-wrap {
+  display: flex;
+  gap: 3px;
+  padding: 2px 16px 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+.dots-wrap::-webkit-scrollbar { display: none; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.1); flex-shrink: 0; transition: all .2s; }
+.dot.done { background: rgba(201,168,76,.3); }
+.dot.cur  { background: var(--gold); width: 14px; border-radius: 3px; }
+
+/* ── CURRENT CARD ───────────────── */
+.now-card {
+  flex: 1;
+  margin: 0 12px;
+  background: var(--card);
+  border: 1px solid var(--bdr);
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 20px 12px;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+  /* touch handled by JS */
+  touch-action: none;
+}
+.now-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,168,76,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Figure box — fixed pixel size so it always renders */
+.fig-box {
+  width: 150px;
+  height: 150px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* On short screens (older iPhones) shrink the figure */
+@media (max-height: 620px) {
+  .fig-box { width: 110px; height: 110px; }
+}
+.fig-box svg { width: 100%; height: 100%; display: block; }
+
+.now-name {
+  font-size: clamp(17px, 5vw, 24px);
+  font-weight: 700;
+  text-align: center;
+  margin-top: 12px;
+  line-height: 1.2;
+}
+.now-sub {
+  font-size: 13px;
+  color: var(--dim);
+  text-align: center;
+  margin-top: 4px;
+  min-height: 18px;
+  line-height: 1.4;
+}
+.now-breath {
+  margin-top: 10px;
+  background: var(--gdim);
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 5px 16px;
+  border-radius: 20px;
+}
+
+/* ── NAV BUTTONS ────────────────── */
+.nav-row {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  flex-shrink: 0;
+}
+.nav-btn {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--bdr);
+  border-radius: 14px;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 13px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background .12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-btn:active { background: rgba(255,255,255,.07); }
+.nav-btn.off    { opacity: .25; pointer-events: none; }
+
+/* ── NEXT CARDS ────────────────── */
+.next-row {
+  display: flex;
+  gap: 8px;
+  padding: 0 12px 12px;
+  flex-shrink: 0;
+}
+.next-card {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--bdr);
+  border-radius: 14px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  transition: opacity .3s;
+}
+.next-card:nth-child(1) { opacity: .7;  }
+.next-card:nth-child(2) { opacity: .38; }
+
+.nfig { width: 38px; height: 38px; flex-shrink: 0; }
+.nfig svg { width: 100%; height: 100%; display: block; }
+
+.ninfo { flex: 1; min-width: 0; }
+.nlbl  { font-size: 9px; color: var(--dim); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 2px; }
+.nname { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nbr   { font-size: 10px; color: var(--dim); margin-top: 1px; }
+
+/* ── CARD ANIMATIONS ───────────────── */
+.out-l { animation: outL .18s ease forwards; }
+.in-r  { animation: inR  .18s ease forwards; }
+.out-r { animation: outR .18s ease forwards; }
+.in-l  { animation: inL  .18s ease forwards; }
+@keyframes outL { to   { transform: translateX(-50px); opacity: 0; } }
+@keyframes inR  { from { transform: translateX(50px);  opacity: 0; } }
+@keyframes outR { to   { transform: translateX(50px);  opacity: 0; } }
+@keyframes inL  { from { transform: translateX(-50px); opacity: 0; } }
+
+/* ── DONE SCREEN ─────────────────── */
+.done-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 40px 32px;
+  z-index: 100;
+}
+.done-screen.show { display: flex; }
+.done-icon  { font-size: 64px; margin-bottom: 4px; }
+.done-title { font-size: 28px; font-weight: 700; }
+.done-sub   { font-size: 15px; color: var(--dim); text-align: center; line-height: 1.55; }
+.restart-btn {
+  margin-top: 20px;
+  background: var(--gold);
+  color: #1a1200;
+  border: none;
+  border-radius: 28px;
+  padding: 15px 36px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<!-- Shown only when JavaScript is blocked (e.g. Files app Quick Look preview) -->
+<noscript>
+  <div style="position:fixed;inset:0;background:#0f0f1a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;z-index:999;font-family:-apple-system,sans-serif;color:#e8e8f0;text-align:center;">
+    <div style="font-size:48px">🧘</div>
+    <div style="font-size:22px;font-weight:700">Open in Safari</div>
+    <div style="font-size:15px;color:#55607a;line-height:1.6">This app needs JavaScript to run.<br>Tap the <strong style="color:#c9a84c">share button ↗</strong> below<br>and choose <strong style="color:#c9a84c">Open in Safari</strong>.</div>
+  </div>
+</noscript>
+
+<!-- HEADER -->
+<div class="hdr">
+  <span class="pose-num" id="poseNum">1 / 1</span>
+  <div class="pills">
+    <button class="pill"    data-s="15" onclick="setTimer(15)">15s</button>
+    <button class="pill on" data-s="30" onclick="setTimer(30)">30s</button>
+    <button class="pill"    data-s="45" onclick="setTimer(45)">45s</button>
+  </div>
+  <button class="pause-btn" id="pauseBtn" onclick="togglePause()">&#9208;</button>
+</div>
+
+<!-- TIMER PROGRESS BAR -->
+<div class="bar-wrap">
+  <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+</div>
+
+<!-- SEQUENCE DOTS -->
+<div class="dots-wrap" id="dotsWrap"></div>
+
+<!-- CURRENT POSE CARD  (tap or swipe to navigate) -->
+<div class="now-card" id="nowCard">
+  <div class="fig-box" id="figBox"></div>
+  <div class="now-name"   id="poseName"></div>
+  <div class="now-sub"    id="poseSub"></div>
+  <div class="now-breath" id="poseBreath"></div>
+</div>
+
+<!-- PREV / NEXT BUTTONS -->
+<div class="nav-row">
+  <button class="nav-btn off" id="prevBtn" onclick="goBack()">&#8592; Prev</button>
+  <button class="nav-btn"     id="nextBtn" onclick="advance()">Next &#8594;</button>
+</div>
+
+<!-- NEXT-TWO PREVIEW CARDS -->
+<div class="next-row">
+  <div class="next-card" id="nc1">
+    <div class="nfig"  id="nf1"></div>
+    <div class="ninfo">
+      <div class="nlbl">Up Next</div>
+      <div class="nname" id="nn1"></div>
+      <div class="nbr"   id="nb1"></div>
+    </div>
+  </div>
+  <div class="next-card" id="nc2">
+    <div class="nfig"  id="nf2"></div>
+    <div class="ninfo">
+      <div class="nlbl">After That</div>
+      <div class="nname" id="nn2"></div>
+      <div class="nbr"   id="nb2"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRACTICE COMPLETE SCREEN -->
+<div class="done-screen" id="doneScreen">
+  <div class="done-icon">🧘</div>
+  <div class="done-title">Namaste</div>
+  <div class="done-sub">Practice complete.<br>Well done, Michelle.</div>
+  <button class="restart-btn" onclick="restart()">Practice Again</button>
+</div>
+
+<script>
+// ─── SEQUENCE ────────────────────────────────────────────────────────────────────
+var SEQ = [
+  // Pranayama
+  {n:"Nadi Shodhana",         s:"Alternate Nostril Breathing",    b:"5-10 breaths",  c:"med"},
+  {n:"Kapalabhati",           s:"Skull Shining",                  b:"rounds",        c:"med"},
+  {n:"Agnisar",               s:"Firewash - Pump abs on vacuum",  b:"rounds",        c:"med"},
+  // Bandhas
+  {n:"Moola Bhanda",          s:"Perineum / Cervix",              b:"hold",          c:"bnd"},
+  {n:"Uddiyana Bhanda",       s:"Abdominal",                      b:"hold",          c:"bnd"},
+  {n:"Jalandhara Bandha",     s:"Throat",                         b:"hold",          c:"bnd"},
+  // Breath
+  {n:"Ujjayi Breath",         s:"Establish Sun Breaths",          b:"5-10 breaths",  c:"std"},
+  // Sun Sal A
+  {n:"Sun Salutation A",      s:"x2 - One breath, one movement",  b:"x2",            c:"std"},
+  {n:"Upward Dog",            s:"Sun Sal A",                       b:"4+ breaths",    c:"bck"},
+  {n:"Down Dog",              s:"Sun Sal A",                       b:"5+ breaths",    c:"ddg"},
+  {n:"Forward Fold",          s:"Sun Sal A",                       b:"1+ breaths",    c:"fld"},
+  // Sun Sal B
+  {n:"Sun Salutation B",      s:"x2 - One breath, one movement",  b:"x2",            c:"std"},
+  {n:"Chaturanga",            s:"Sun Sal B",                       b:"1 breath",      c:"plk"},
+  {n:"Warrior 1",             s:"Sun Sal B",                       b:"1 breath",      c:"w1" },
+  {n:"Warrior 1",             s:"Other Side",                      b:"1 breath",      c:"w1" },
+  // Intention
+  {n:"Dedicate Your Practice",s:"",                                b:"set intention", c:"med"},
+  // Standing sequence
+  {n:"Crow",                  s:"Bakasana",                        b:"5+ breaths",    c:"arm"},
+  {n:"Low Lunge",             s:"",                                b:"hold",          c:"lng"},
+  {n:"Lizard",                s:"",                                b:"hold",          c:"lng"},
+  {n:"Inversion",             s:"",                                b:"5+ breaths",    c:"inv"},
+  {n:"Low Lunge",             s:"Other Side",                      b:"hold",          c:"lng"},
+  {n:"Lizard",                s:"Other Side",                      b:"hold",          c:"lng"},
+  {n:"Warrior 2",             s:"",                                b:"hold",          c:"w2" },
+  {n:"Side Angle",            s:"+ Variations",                    b:"hold",          c:"w2" },
+  {n:"Half Moon",             s:"",                                b:"hold",          c:"bal"},
+  {n:"Triangle",              s:"",                                b:"hold",          c:"tri"},
+  {n:"Back Bend",             s:"Yogi Play Time",                  b:"hold",          c:"bck"},
+  {n:"Forward Fold",          s:"",                                b:"hold",          c:"fld"},
+  {n:"Warrior 2",             s:"Other Side",                      b:"hold",          c:"w2" },
+  {n:"Side Angle",            s:"+ Variations - Other Side",       b:"hold",          c:"w2" },
+  {n:"Half Moon",             s:"Other Side + Variations",         b:"hold",          c:"bal"},
+  {n:"Warrior 2",             s:"",                                b:"hold",          c:"w2" },
+  {n:"Triangle 2",            s:"",                                b:"hold",          c:"tri"},
+  {n:"Warrior 1",             s:"",                                b:"hold",          c:"w1" },
+  {n:"Down Dog",              s:"Back of Mat",                     b:"hold",          c:"ddg"},
+  {n:"Yogi Play Time",        s:"",                                b:"explore freely",c:"ply"},
+  {n:"Triangle",              s:"",                                b:"hold",          c:"tri"},
+  {n:"Back Bend",             s:"+ Variations",                    b:"hold",          c:"bck"},
+  {n:"Triangle",              s:"Other Side",                      b:"hold",          c:"tri"},
+  {n:"Lizard",                s:"",                                b:"hold",          c:"lng"},
+  {n:"Inversion",             s:"",                                b:"5+ breaths",    c:"inv"},
+  {n:"Knee Plank",            s:"",                                b:"hold",          c:"plk"},
+  {n:"Side Plank",            s:"+ Variations",                    b:"hold",          c:"plk"},
+  {n:"Front Split",           s:"+ Variations",                    b:"hold",          c:"spl"},
+  {n:"Pigeon",                s:"+ Variations",                    b:"hold",          c:"pgn"},
+  {n:"Side Plank",            s:"",                                b:"hold",          c:"plk"},
+  {n:"High Plank",            s:"",                                b:"hold",          c:"plk"},
+  {n:"Side Plank",            s:"Other Side",                      b:"hold",          c:"plk"},
+  {n:"Split",                 s:"+ Variation",                     b:"hold",          c:"spl"},
+  {n:"Pigeon",                s:"Other Side",                      b:"hold",          c:"pgn"},
+  {n:"Side Plank",            s:"",                                b:"hold",          c:"plk"},
+  {n:"Chaturanga",            s:"",                                b:"hold",          c:"plk"},
+  {n:"Yogi Play Time",        s:"",                                b:"explore freely",c:"ply"},
+  {n:"Warrior 1",             s:"",                                b:"hold",          c:"w1" },
+  {n:"Revolved Side Angle",   s:"+ Variations",                    b:"hold",          c:"twi"},
+  {n:"Side Crow",             s:"",                                b:"hold",          c:"arm"},
+  {n:"Warrior 1",             s:"",                                b:"hold",          c:"w1" },
+  {n:"Side Split",            s:"+ Variations",                    b:"hold",          c:"spl"},
+  {n:"Warrior 1",             s:"Other Side",                      b:"hold",          c:"w1" },
+  {n:"Revolved Side Angle",   s:"+ Variations - Other Side",       b:"hold",          c:"twi"},
+  {n:"Side Crow",             s:"Other Side",                      b:"hold",          c:"arm"},
+  {n:"Warrior 1",             s:"",                                b:"hold",          c:"w1" },
+  {n:"Inversion",             s:"",                                b:"hold",          c:"inv"},
+  {n:"Float Forward",         s:"",                                b:"flow",          c:"std"},
+  // Advanced
+  {n:"Compass",               s:"Parivrtta Surya Yantrasana",      b:"hold",          c:"sit"},
+  {n:"Firefly",               s:"Tittibhasana",                    b:"hold",          c:"arm"},
+  {n:"Astavakrasana",         s:"+ Other Side",                    b:"hold",          c:"arm"},
+  {n:"Dog Leg",               s:"+ Variations",                    b:"hold",          c:"pgn"},
+  // Floor
+  {n:"Bridge",                s:"",                                b:"hold",          c:"bck"},
+  {n:"Wheel",                 s:"x3",                              b:"4+ breaths ea", c:"whl"},
+  {n:"Plow",                  s:"",                                b:"hold",          c:"inv"},
+  {n:"Shoulder Stand",        s:"",                                b:"hold",          c:"inv"},
+  {n:"Fish",                  s:"",                                b:"hold",          c:"bck"},
+  {n:"Spine Twist",           s:"Both Sides",                      b:"hold each side",c:"twi"},
+  {n:"Hug Knees",             s:"",                                b:"hold",          c:"sit"},
+  {n:"Yoga Nidrasana",        s:"",                                b:"hold",          c:"sit"},
+  {n:"Savasana",              s:"Final Relaxation",                b:"5+ minutes",    c:"rst"}
+];
+
+// ─── SVG FIGURES ────────────────────────────────────────────────────────────────────
+var G="#c9a84c",P="#7b68ee",T="#4ecdc4",R="#ff6b6b";
+
+function S(col,vb,d){
+  return '<svg viewBox="'+vb+'" fill="none" stroke="'+col+'" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">'+d+'</svg>';
+}
+
+var FIG={
+  med:S(G,"0 0 100 95",'<circle cx="50" cy="13" r="10"/><line x1="50" y1="23" x2="50" y2="55"/><path d="M16 65 Q33 50 50 55 Q67 50 84 65"/><line x1="16" y1="65" x2="6" y2="82"/><line x1="84" y1="65" x2="94" y2="82"/><line x1="28" y1="36" x2="11" y2="50"/><circle cx="11" cy="54" r="4" fill="'+G+'" stroke="none"/><line x1="72" y1="36" x2="89" y2="50"/><circle cx="89" cy="54" r="4" fill="'+G+'" stroke="none"/>'),
+  bnd:S(P,"0 0 100 95",'<circle cx="50" cy="13" r="10"/><line x1="50" y1="23" x2="50" y2="55"/><path d="M16 65 Q33 50 50 55 Q67 50 84 65"/><line x1="16" y1="65" x2="6" y2="82"/><line x1="84" y1="65" x2="94" y2="82"/><line x1="28" y1="36" x2="11" y2="50"/><line x1="72" y1="36" x2="89" y2="50"/><ellipse cx="50" cy="40" rx="15" ry="10" stroke-dasharray="5 3" opacity="0.6"/>'),
+  std:S(G,"0 0 100 110",'<circle cx="50" cy="11" r="10"/><line x1="50" y1="21" x2="50" y2="68"/><line x1="50" y1="38" x2="16" y2="28"/><line x1="50" y1="38" x2="84" y2="28"/><line x1="50" y1="68" x2="36" y2="96"/><line x1="50" y1="68" x2="64" y2="96"/>'),
+  w1: S(G,"0 0 100 108",'<circle cx="50" cy="10" r="10"/><line x1="50" y1="20" x2="50" y2="58"/><line x1="50" y1="30" x2="34" y2="16"/><line x1="50" y1="30" x2="66" y2="16"/><line x1="50" y1="58" x2="28" y2="94"/><line x1="50" y1="58" x2="74" y2="76"/><line x1="74" y1="76" x2="84" y2="94"/>'),
+  w2: S(G,"0 0 108 106",'<circle cx="54" cy="10" r="10"/><line x1="54" y1="20" x2="54" y2="62"/><line x1="54" y1="34" x2="12" y2="34"/><line x1="54" y1="34" x2="96" y2="34"/><line x1="54" y1="62" x2="30" y2="94"/><line x1="54" y1="62" x2="76" y2="78"/><line x1="76" y1="78" x2="92" y2="94"/>'),
+  ddg:S(G,"0 0 112 95", '<circle cx="18" cy="24" r="10"/><line x1="18" y1="34" x2="56" y2="16"/><line x1="56" y1="16" x2="94" y2="52"/><line x1="18" y1="34" x2="10" y2="64"/><line x1="10" y1="64" x2="14" y2="84"/><line x1="94" y1="52" x2="84" y2="82"/><line x1="94" y1="52" x2="104" y2="76"/>'),
+  fld:S(G,"0 0 100 105",'<circle cx="50" cy="16" r="10"/><line x1="50" y1="26" x2="50" y2="52"/><path d="M28 52 Q50 46 72 52"/><line x1="36" y1="90" x2="64" y2="90"/><line x1="36" y1="52" x2="36" y2="90"/><line x1="64" y1="52" x2="64" y2="90"/><line x1="28" y1="52" x2="12" y2="66"/><line x1="72" y1="52" x2="88" y2="66"/>'),
+  bck:S(G,"0 0 100 95", '<line x1="20" y1="84" x2="20" y2="62"/><line x1="80" y1="84" x2="80" y2="62"/><path d="M20 62 Q50 18 80 62"/><line x1="34" y1="36" x2="16" y2="24"/><line x1="66" y1="36" x2="84" y2="24"/><circle cx="50" cy="32" r="10"/>'),
+  whl:S(G,"0 0 100 86", '<line x1="16" y1="78" x2="14" y2="52"/><line x1="84" y1="78" x2="86" y2="52"/><line x1="22" y1="62" x2="6" y2="52"/><line x1="78" y1="62" x2="94" y2="52"/><path d="M14 52 Q50 8 86 52"/><circle cx="50" cy="20" r="10"/>'),
+  inv:S(P,"0 0 100 114",'<line x1="36" y1="108" x2="36" y2="78"/><line x1="64" y1="108" x2="64" y2="78"/><line x1="36" y1="78" x2="64" y2="78"/><line x1="50" y1="78" x2="50" y2="34"/><line x1="50" y1="54" x2="26" y2="40"/><line x1="50" y1="54" x2="74" y2="40"/><circle cx="50" cy="26" r="10"/>'),
+  plk:S(G,"0 0 120 70", '<circle cx="14" cy="26" r="10"/><line x1="23" y1="33" x2="98" y2="44"/><line x1="23" y1="33" x2="12" y2="58"/><line x1="98" y1="44" x2="88" y2="62"/><line x1="98" y1="44" x2="112" y2="40"/>'),
+  tri:S(G,"0 0 110 106",'<circle cx="62" cy="11" r="10"/><line x1="62" y1="21" x2="56" y2="60"/><line x1="56" y1="40" x2="92" y2="26"/><line x1="56" y1="40" x2="18" y2="62"/><line x1="56" y1="60" x2="16" y2="94"/><line x1="56" y1="60" x2="94" y2="94"/><line x1="16" y1="94" x2="94" y2="94"/>'),
+  bal:S(G,"0 0 100 114",'<circle cx="50" cy="10" r="10"/><line x1="50" y1="20" x2="50" y2="66"/><line x1="50" y1="34" x2="15" y2="52"/><line x1="50" y1="34" x2="85" y2="14"/><line x1="50" y1="66" x2="50" y2="100"/><line x1="50" y1="82" x2="68" y2="66"/>'),
+  lng:S(G,"0 0 114 106",'<circle cx="57" cy="12" r="10"/><line x1="57" y1="22" x2="57" y2="58"/><line x1="57" y1="34" x2="40" y2="20"/><line x1="57" y1="34" x2="76" y2="20"/><line x1="57" y1="58" x2="30" y2="86"/><line x1="30" y1="86" x2="14" y2="86"/><line x1="57" y1="58" x2="84" y2="56"/><line x1="84" y1="56" x2="100" y2="86"/><line x1="100" y1="86" x2="100" y2="98"/>'),
+  arm:S(R,"0 0 100 96", '<circle cx="50" cy="27" r="10"/><line x1="50" y1="37" x2="50" y2="60"/><line x1="50" y1="48" x2="24" y2="68"/><line x1="50" y1="48" x2="76" y2="68"/><line x1="24" y1="68" x2="16" y2="86"/><line x1="76" y1="68" x2="84" y2="86"/><line x1="50" y1="60" x2="34" y2="74"/><line x1="50" y1="60" x2="66" y2="74"/><line x1="34" y1="74" x2="66" y2="74"/>'),
+  spl:S(G,"0 0 120 72", '<circle cx="60" cy="16" r="10"/><line x1="60" y1="26" x2="60" y2="48"/><line x1="60" y1="36" x2="42" y2="24"/><line x1="60" y1="36" x2="78" y2="24"/><line x1="60" y1="48" x2="6" y2="64"/><line x1="60" y1="48" x2="114" y2="64"/><line x1="6" y1="64" x2="114" y2="64"/>'),
+  pgn:S(G,"0 0 114 92", '<circle cx="44" cy="17" r="10"/><line x1="44" y1="27" x2="44" y2="56"/><line x1="44" y1="40" x2="22" y2="30"/><line x1="44" y1="40" x2="64" y2="30"/><path d="M44 56 Q30 66 12 70"/><line x1="12" y1="70" x2="6" y2="84"/><line x1="44" y1="56" x2="80" y2="66"/><line x1="80" y1="66" x2="108" y2="50"/>'),
+  twi:S(T,"0 0 100 104",'<circle cx="50" cy="11" r="10"/><path d="M50 21 Q60 34 50 54"/><line x1="52" y1="30" x2="80" y2="20"/><line x1="48" y1="40" x2="18" y2="44"/><path d="M32 54 Q50 60 68 54"/><line x1="32" y1="54" x2="20" y2="78"/><line x1="68" y1="54" x2="84" y2="72"/><line x1="20" y1="78" x2="84" y2="72"/>'),
+  sit:S(G,"0 0 100 92", '<circle cx="50" cy="12" r="10"/><line x1="50" y1="22" x2="50" y2="60"/><line x1="50" y1="36" x2="26" y2="26"/><line x1="50" y1="36" x2="74" y2="26"/><path d="M50 60 Q34 68 16 72"/><path d="M50 60 Q66 68 84 72"/><line x1="16" y1="72" x2="14" y2="84"/><line x1="84" y1="72" x2="86" y2="84"/>'),
+  ply:S(R,"0 0 100 104",'<circle cx="50" cy="11" r="10"/><line x1="50" y1="21" x2="50" y2="60"/><line x1="50" y1="36" x2="24" y2="24"/><line x1="50" y1="36" x2="76" y2="24"/><line x1="50" y1="60" x2="36" y2="86"/><line x1="50" y1="60" x2="64" y2="86"/><path d="M26 50 Q50 34 74 50" stroke-dasharray="4 3"/><circle cx="50" cy="50" r="5" fill="'+R+'" stroke="none" opacity="0.6"/>'),
+  rst:S(G,"0 0 120 54", '<line x1="4" y1="46" x2="116" y2="46"/><line x1="4" y1="40" x2="4" y2="46"/><line x1="68" y1="34" x2="4" y2="40"/><circle cx="74" cy="26" r="10"/><line x1="68" y1="34" x2="116" y2="40"/><line x1="116" y1="40" x2="116" y2="46"/><line x1="74" y1="36" x2="70" y2="46"/><line x1="68" y1="34" x2="54" y2="44"/>')
+};
+
+var CAT={
+  med:"med",bnd:"bnd",std:"std",w1:"w1",w2:"w2",
+  ddg:"ddg",fld:"fld",bck:"bck",whl:"whl",inv:"inv",
+  plk:"plk",tri:"tri",bal:"bal",lng:"lng",arm:"arm",
+  spl:"spl",pgn:"pgn",twi:"twi",sit:"sit",ply:"ply",rst:"rst"
+};
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+var idx=0, timerS=30, elapsed=0, paused=false, ticker=null;
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+window.addEventListener('load', function() {
+  buildDots();
+  render();
+  startTicker();
+  setupGestures();
+});
+
+// ─── DOTS ────────────────────────────────────────────────────────────────────
+function buildDots() {
+  var html = '';
+  for (var i=0; i<SEQ.length; i++) html += '<div class="dot" id="dot'+i+'"></div>';
+  document.getElementById('dotsWrap').innerHTML = html;
+}
+
+function syncDots() {
+  for (var i=0; i<SEQ.length; i++) {
+    var d = document.getElementById('dot'+i);
+    if (!d) continue;
+    d.className = 'dot' + (i<idx?' done':i===idx?' cur':'');
+  }
+  var cur = document.getElementById('dot'+idx);
+  if (cur) cur.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+}
+
+// ─── RENDER ────────────────────────────────────────────────────────────────────
+function render() {
+  var p = SEQ[idx];
+  document.getElementById('poseNum').textContent    = (idx+1)+' / '+SEQ.length;
+  document.getElementById('figBox').innerHTML        = FIG[CAT[p.c]] || FIG.std;
+  document.getElementById('poseName').textContent   = p.n;
+  document.getElementById('poseSub').textContent    = p.s;
+  document.getElementById('poseBreath').textContent = p.b;
+  document.getElementById('prevBtn').className = 'nav-btn' + (idx===0?' off':'');
+  document.getElementById('nextBtn').className = 'nav-btn' + (idx===SEQ.length-1?' off':'');
+  renderNext(1, idx+1);
+  renderNext(2, idx+2);
+  syncDots();
+  resetBar();
+}
+
+function renderNext(slot, i) {
+  var nc = document.getElementById('nc'+slot);
+  if (i >= SEQ.length) {
+    nc.style.opacity = '0.15';
+    document.getElementById('nn'+slot).textContent = slot===1?'End of sequence':'--';
+    document.getElementById('nb'+slot).textContent = '';
+    document.getElementById('nf'+slot).innerHTML   = '';
+    return;
+  }
+  nc.style.opacity = slot===1?'0.72':'0.40';
+  var p = SEQ[i];
+  document.getElementById('nf'+slot).innerHTML   = FIG[CAT[p.c]] || FIG.std;
+  document.getElementById('nn'+slot).textContent = p.s ? p.n+' - '+p.s : p.n;
+  document.getElementById('nb'+slot).textContent = p.b;
+}
+
+// ─── NAVIGATION ────────────────────────────────────────────────────────────────────
+function advance() {
+  if (idx >= SEQ.length-1) { showDone(); return; }
+  animCard('out-l','in-r', function(){ idx++; render(); });
+}
+
+function goBack() {
+  if (idx <= 0) return;
+  animCard('out-r','in-l', function(){ idx--; render(); });
+}
+
+function animCard(out, inCls, cb) {
+  var el = document.getElementById('nowCard');
+  el.classList.add(out);
+  setTimeout(function(){
+    el.classList.remove(out);
+    cb();
+    el.classList.add(inCls);
+    setTimeout(function(){ el.classList.remove(inCls); }, 250);
+  }, 170);
+}
+
+// ─── TIMER ────────────────────────────────────────────────────────────────────
+function startTicker() {
+  clearInterval(ticker);
+  ticker = setInterval(function(){
+    if (paused) return;
+    elapsed++;
+    document.getElementById('barFill').style.width = ((elapsed/timerS)*100)+'%';
+    if (elapsed >= timerS) { elapsed=0; advance(); }
+  }, 1000);
+}
+
+function resetBar() {
+  elapsed = 0;
+  document.getElementById('barFill').style.width = '0%';
+}
+
+function setTimer(s) {
+  timerS = s; elapsed = 0;
+  var btns = document.querySelectorAll('.pill');
+  for (var i=0; i<btns.length; i++)
+    btns[i].classList.toggle('on', parseInt(btns[i].dataset.s)===s);
+  document.getElementById('barFill').style.width = '0%';
+}
+
+function togglePause() {
+  paused = !paused;
+  document.getElementById('pauseBtn').textContent = paused ? '▶' : '⏸';
+}
+
+// ─── GESTURES ────────────────────────────────────────────────────────────────────
+function setupGestures() {
+  var card = document.getElementById('nowCard');
+  var startX=0, startY=0, wasTouched=false, swipeHandled=false;
+
+  card.addEventListener('touchstart', function(e){
+    startX=e.touches[0].clientX;
+    startY=e.touches[0].clientY;
+    wasTouched=true; swipeHandled=false;
+  },{passive:true});
+
+  card.addEventListener('touchend', function(e){
+    var dx=e.changedTouches[0].clientX-startX;
+    var dy=e.changedTouches[0].clientY-startY;
+    if (dx < -50 && Math.abs(dy) < 80) { swipeHandled=true; advance(); return; }
+    if (dx >  50 && Math.abs(dy) < 80) { swipeHandled=true; goBack();  return; }
+  },{passive:true});
+
+  card.addEventListener('click', function(){
+    if (wasTouched) {
+      wasTouched=false;
+      if (!swipeHandled) advance();
+      return;
+    }
+    advance();
+  });
+}
+
+// ─── DONE ────────────────────────────────────────────────────────────────────
+function showDone() {
+  clearInterval(ticker);
+  document.getElementById('doneScreen').classList.add('show');
+}
+
+function restart() {
+  idx=0; elapsed=0; paused=false;
+  document.getElementById('pauseBtn').textContent='⏸';
+  document.getElementById('doneScreen').classList.remove('show');
+  render();
+  startTicker();
+}
+</script>
+</body>
+</html>
