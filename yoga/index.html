@@ -286,6 +286,23 @@ body {
   font-weight: 700;
   cursor: pointer;
 }
+
+/* ── CAMERA BUTTON ────────────────────── */
+.cam-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 18px;
+  color: var(--dim);
+  font-size: 11px;
+  padding: 5px 10px;
+  cursor: pointer;
+  z-index: 10;
+  -webkit-tap-highlight-color: transparent;
+}
+.cam-btn:active { background: rgba(255,255,255,0.15); color: var(--text); }
 </style>
 </head>
 <body>
@@ -320,6 +337,7 @@ body {
 
 <!-- CURRENT POSE CARD  (tap or swipe to navigate) -->
 <div class="now-card" id="nowCard">
+  <button class="cam-btn" onclick="event.stopPropagation();pickImage()" ontouchend="event.stopPropagation()">📷 Replace</button>
   <div class="fig-box" id="figBox"></div>
   <div class="now-name"   id="poseName"></div>
   <div class="now-sub"    id="poseSub"></div>
@@ -360,6 +378,8 @@ body {
   <button class="restart-btn" onclick="restart()">Practice Again</button>
 </div>
 
+<input type="file" id="imgPicker" accept="image/*" style="display:none">
+
 <script>
 // ─── SEQUENCE ────────────────────────────────────────────────────────────────
 const SEQ = [
@@ -373,11 +393,22 @@ const SEQ = [
   {n:"Jalandhara Bandha",     s:"Throat",                         b:"hold",          c:"bnd"},
   // Breath
   {n:"Ujjayi Breath",         s:"Establish Sun Breaths",          b:"5–10 breaths",  c:"std"},
-  // Sun Sal A
-  {n:"Sun Salutation A",      s:"×2 · One breath, one movement",  b:"×2",            c:"std"},
+  // Mountain — starting position
+  {n:"Mountain",              s:"Tadasana",                       b:"5 breaths",     c:"std"},
+  {n:"Mountain Hands Up",     s:"Urdhva Hastasana",               b:"5 breaths",     c:"w1" },
+  // Sun Sal A — Round 1
+  {n:"Forward Fold",          s:"Sun Sal A",                      b:"1 breath",      c:"fld"},
+  {n:"Half Lift",             s:"Ardha Uttanasana",               b:"1 breath",      c:"hlf"},
+  {n:"Chaturanga",            s:"Sun Sal A",                      b:"1 breath",      c:"plk"},
   {n:"Upward Dog",            s:"Sun Sal A",                      b:"4+ breaths",    c:"bck"},
   {n:"Down Dog",              s:"Sun Sal A",                      b:"5+ breaths",    c:"ddg"},
-  {n:"Forward Fold",          s:"Sun Sal A",                      b:"1+ breaths",    c:"fld"},
+  // Sun Sal A — Round 2
+  {n:"Mountain Hands Up",     s:"Round 2 · Inhale",               b:"1 breath",     c:"w1" },
+  {n:"Forward Fold",          s:"Round 2",                        b:"1 breath",      c:"fld"},
+  {n:"Half Lift",             s:"Round 2",                        b:"1 breath",      c:"hlf"},
+  {n:"Chaturanga",            s:"Round 2",                        b:"1 breath",      c:"plk"},
+  {n:"Upward Dog",            s:"Round 2",                        b:"4+ breaths",    c:"bck"},
+  {n:"Down Dog",              s:"Round 2",                        b:"5+ breaths",    c:"ddg"},
   // Sun Sal B
   {n:"Sun Salutation B",      s:"×2 · One breath, one movement",  b:"×2",            c:"std"},
   {n:"Chaturanga",            s:"Sun Sal B",                      b:"1 breath",      c:"plk"},
@@ -679,6 +710,15 @@ const FIG = {
      <line x1="116" y1="40" x2="116" y2="46"/>
      <line x1="74"  y1="36" x2="70"  y2="46"/>
      <line x1="68"  y1="34" x2="54"  y2="44"/>`),
+
+  // Half lift — flat back at 90°
+  hlf: S(G, "0 0 100 100",
+    `<circle cx="82" cy="18" r="10"/>
+     <line x1="74" y1="26" x2="18" y2="26"/>
+     <line x1="18" y1="26" x2="10" y2="88"/>
+     <line x1="18" y1="26" x2="30" y2="88"/>
+     <line x1="50" y1="26" x2="48" y2="54"/>
+     <line x1="65" y1="26" x2="63" y2="54"/>`),
 };
 
 // Which figure key to use for each category code
@@ -687,6 +727,7 @@ const CAT_FIG = {
   ddg:"ddg", fld:"fld", bck:"bck", whl:"whl", inv:"inv",
   plk:"plk", tri:"tri", bal:"bal", lng:"lng", arm:"arm",
   spl:"spl", pgn:"pgn", twi:"twi", sit:"sit", ply:"ply", rst:"rst",
+  hlf:"hlf",
 };
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
@@ -721,8 +762,13 @@ function syncDots() {
 }
 
 // ─── RENDER ──────────────────────────────────────────────────────────────────
-function figHTML(p, size) {
-  if (p.img) return `<img src="images/${p.img}" alt="${p.n}" style="max-width:${size}px;max-height:${size}px;object-fit:contain;border-radius:6px;">`;
+function figHTML(p, size, i) {
+  if (i !== undefined) {
+    var stored;
+    try { stored = localStorage.getItem('pose_img_' + i); } catch(e) {}
+    if (stored) return '<img src="' + stored + '" alt="' + p.n + '" style="max-width:' + size + 'px;max-height:' + size + 'px;object-fit:contain;border-radius:6px;">';
+  }
+  if (p.img) return '<img src="images/' + p.img + '" alt="' + p.n + '" style="max-width:' + size + 'px;max-height:' + size + 'px;object-fit:contain;border-radius:6px;">';
   return FIG[CAT_FIG[p.c]] || FIG.std;
 }
 
@@ -730,7 +776,7 @@ function render() {
   const p = SEQ[idx];
 
   document.getElementById("poseNum").textContent   = `${idx + 1} / ${SEQ.length}`;
-  document.getElementById("figBox").innerHTML       = figHTML(p, 160);
+  document.getElementById("figBox").innerHTML       = figHTML(p, 160, idx);
   document.getElementById("poseName").textContent  = p.n;
   document.getElementById("poseSub").textContent   = p.s;
   document.getElementById("poseBreath").textContent = p.b;
@@ -756,7 +802,7 @@ function renderNext(slot, i) {
   }
   card.style.opacity = slot === 1 ? "0.72" : "0.40";
   const p = SEQ[i];
-  document.getElementById(`nf${slot}`).innerHTML   = figHTML(p, 38);
+  document.getElementById(`nf${slot}`).innerHTML   = figHTML(p, 38, i);
   document.getElementById(`nn${slot}`).textContent = p.s ? `${p.n} · ${p.s}` : p.n;
   document.getElementById(`nb${slot}`).textContent = p.b;
 }
@@ -842,6 +888,38 @@ function setupGestures() {
     }
     advance(); // desktop mouse click
   });
+}
+
+// ─── PHOTO PICKER ────────────────────────────────────────────────────────────
+function pickImage() {
+  var inp = document.getElementById('imgPicker');
+  inp.onchange = function() {
+    if (!inp.files || !inp.files[0]) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      resizeImage(e.target.result, 400, 400, function(dataUrl) {
+        try { localStorage.setItem('pose_img_' + idx, dataUrl); } catch(e) {}
+        render();
+      });
+    };
+    reader.readAsDataURL(inp.files[0]);
+    inp.value = '';
+  };
+  inp.click();
+}
+
+function resizeImage(dataUrl, maxW, maxH, cb) {
+  var img = new Image();
+  img.onload = function() {
+    var w = img.width, h = img.height;
+    var scale = Math.min(maxW / w, maxH / h, 1);
+    var canvas = document.createElement('canvas');
+    canvas.width  = Math.round(w * scale);
+    canvas.height = Math.round(h * scale);
+    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+    cb(canvas.toDataURL('image/jpeg', 0.78));
+  };
+  img.src = dataUrl;
 }
 
 // ─── DONE ────────────────────────────────────────────────────────────────────
