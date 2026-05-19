@@ -145,8 +145,8 @@ body {
 
 /* Figure box — fixed pixel size so it always renders */
 .fig-box {
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 180px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -154,9 +154,15 @@ body {
 }
 /* On short screens (older iPhones) shrink the figure */
 @media (max-height: 620px) {
-  .fig-box { width: 110px; height: 110px; }
+  .fig-box { width: 120px; height: 130px; }
 }
 .fig-box svg { width: 100%; height: 100%; display: block; }
+.fig-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+}
 
 .now-name {
   font-size: clamp(17px, 5vw, 24px);
@@ -715,11 +721,16 @@ function syncDots() {
 }
 
 // ─── RENDER ──────────────────────────────────────────────────────────────────
+function figHTML(p, size) {
+  if (p.img) return `<img src="images/${p.img}" alt="${p.n}" style="max-width:${size}px;max-height:${size}px;object-fit:contain;border-radius:6px;">`;
+  return FIG[CAT_FIG[p.c]] || FIG.std;
+}
+
 function render() {
   const p = SEQ[idx];
 
   document.getElementById("poseNum").textContent   = `${idx + 1} / ${SEQ.length}`;
-  document.getElementById("figBox").innerHTML       = FIG[CAT_FIG[p.c]] || FIG.std;
+  document.getElementById("figBox").innerHTML       = figHTML(p, 160);
   document.getElementById("poseName").textContent  = p.n;
   document.getElementById("poseSub").textContent   = p.s;
   document.getElementById("poseBreath").textContent = p.b;
@@ -745,7 +756,7 @@ function renderNext(slot, i) {
   }
   card.style.opacity = slot === 1 ? "0.72" : "0.40";
   const p = SEQ[i];
-  document.getElementById(`nf${slot}`).innerHTML   = FIG[CAT_FIG[p.c]] || FIG.std;
+  document.getElementById(`nf${slot}`).innerHTML   = figHTML(p, 38);
   document.getElementById(`nn${slot}`).textContent = p.s ? `${p.n} · ${p.s}` : p.n;
   document.getElementById(`nb${slot}`).textContent = p.b;
 }
