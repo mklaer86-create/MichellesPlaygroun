@@ -35,12 +35,11 @@ body {
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
-  /* iPhone notch / dynamic island safe area */
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* ── HEADER ─────────────────────── */
+/* ── HEADER ─────────────────────────── */
 .hdr {
   display: flex;
   align-items: center;
@@ -95,7 +94,7 @@ body {
 }
 .pause-btn:active { opacity: .6; }
 
-/* ── TIMER BAR ────────────────── */
+/* ── TIMER BAR ──────────────────────── */
 .bar-wrap {
   padding: 0 16px 6px;
   flex-shrink: 0;
@@ -103,7 +102,7 @@ body {
 .bar-track { height: 3px; background: rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden; }
 .bar-fill  { height: 100%; background: var(--gold); width: 0%; transition: width 1s linear; }
 
-/* ── DOTS ─────────────────────── */
+/* ── DOTS ───────────────────────────── */
 .dots-wrap {
   display: flex;
   gap: 3px;
@@ -117,7 +116,7 @@ body {
 .dot.done { background: rgba(201,168,76,.3); }
 .dot.cur  { background: var(--gold); width: 14px; border-radius: 3px; }
 
-/* ── CURRENT CARD ───────────────── */
+/* ── CURRENT CARD ───────────────────── */
 .now-card {
   flex: 1;
   margin: 0 12px;
@@ -132,7 +131,6 @@ body {
   min-height: 0;
   position: relative;
   overflow: hidden;
-  /* touch handled by JS */
   touch-action: none;
 }
 .now-card::before {
@@ -145,18 +143,23 @@ body {
 
 /* Figure box — fixed pixel size so it always renders */
 .fig-box {
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 180px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-/* On short screens (older iPhones) shrink the figure */
 @media (max-height: 620px) {
-  .fig-box { width: 110px; height: 110px; }
+  .fig-box { width: 120px; height: 130px; }
 }
 .fig-box svg { width: 100%; height: 100%; display: block; }
+.fig-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+}
 
 .now-name {
   font-size: clamp(17px, 5vw, 24px);
@@ -185,7 +188,7 @@ body {
   border-radius: 20px;
 }
 
-/* ── NAV BUTTONS ────────────────── */
+/* ── NAV BUTTONS ─────────────────────── */
 .nav-row {
   display: flex;
   gap: 8px;
@@ -212,7 +215,7 @@ body {
 .nav-btn:active { background: rgba(255,255,255,.07); }
 .nav-btn.off    { opacity: .25; pointer-events: none; }
 
-/* ── NEXT CARDS ────────────────── */
+/* ── NEXT CARDS ─────────────────────── */
 .next-row {
   display: flex;
   gap: 8px;
@@ -236,13 +239,14 @@ body {
 
 .nfig { width: 38px; height: 38px; flex-shrink: 0; }
 .nfig svg { width: 100%; height: 100%; display: block; }
+.nfig img { width: 100%; height: 100%; object-fit: contain; border-radius: 4px; }
 
 .ninfo { flex: 1; min-width: 0; }
 .nlbl  { font-size: 9px; color: var(--dim); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 2px; }
 .nname { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nbr   { font-size: 10px; color: var(--dim); margin-top: 1px; }
 
-/* ── CARD ANIMATIONS ───────────────── */
+/* ── CARD ANIMATIONS ─────────────────── */
 .out-l { animation: outL .18s ease forwards; }
 .in-r  { animation: inR  .18s ease forwards; }
 .out-r { animation: outR .18s ease forwards; }
@@ -252,7 +256,7 @@ body {
 @keyframes outR { to   { transform: translateX(50px);  opacity: 0; } }
 @keyframes inL  { from { transform: translateX(-50px); opacity: 0; } }
 
-/* ── DONE SCREEN ─────────────────── */
+/* ── DONE SCREEN ──────────────────────── */
 .done-screen {
   position: fixed;
   inset: 0;
@@ -280,11 +284,27 @@ body {
   font-weight: 700;
   cursor: pointer;
 }
+
+/* ── CAMERA BUTTON ────────────────────── */
+.cam-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 18px;
+  color: var(--dim);
+  font-size: 11px;
+  padding: 5px 10px;
+  cursor: pointer;
+  z-index: 10;
+  -webkit-tap-highlight-color: transparent;
+}
+.cam-btn:active { background: rgba(255,255,255,0.15); color: var(--text); }
 </style>
 </head>
 <body>
 
-<!-- Shown only when JavaScript is blocked (e.g. Files app Quick Look preview) -->
 <noscript>
   <div style="position:fixed;inset:0;background:#0f0f1a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;z-index:999;font-family:-apple-system,sans-serif;color:#e8e8f0;text-align:center;">
     <div style="font-size:48px">🧘</div>
@@ -301,7 +321,7 @@ body {
     <button class="pill on" data-s="30" onclick="setTimer(30)">30s</button>
     <button class="pill"    data-s="45" onclick="setTimer(45)">45s</button>
   </div>
-  <button class="pause-btn" id="pauseBtn" onclick="togglePause()">&#9208;</button>
+  <button class="pause-btn" id="pauseBtn" onclick="togglePause()">⏸</button>
 </div>
 
 <!-- TIMER PROGRESS BAR -->
@@ -314,6 +334,7 @@ body {
 
 <!-- CURRENT POSE CARD  (tap or swipe to navigate) -->
 <div class="now-card" id="nowCard">
+  <button class="cam-btn" onclick="event.stopPropagation();pickImage()" ontouchend="event.stopPropagation()">📷 Replace</button>
   <div class="fig-box" id="figBox"></div>
   <div class="now-name"   id="poseName"></div>
   <div class="now-sub"    id="poseSub"></div>
@@ -322,8 +343,8 @@ body {
 
 <!-- PREV / NEXT BUTTONS -->
 <div class="nav-row">
-  <button class="nav-btn off" id="prevBtn" onclick="goBack()">&#8592; Prev</button>
-  <button class="nav-btn"     id="nextBtn" onclick="advance()">Next &#8594;</button>
+  <button class="nav-btn off" id="prevBtn" onclick="goBack()">← Prev</button>
+  <button class="nav-btn"     id="nextBtn" onclick="advance()">Next →</button>
 </div>
 
 <!-- NEXT-TWO PREVIEW CARDS -->
@@ -354,225 +375,435 @@ body {
   <button class="restart-btn" onclick="restart()">Practice Again</button>
 </div>
 
+<input type="file" id="imgPicker" accept="image/*" style="display:none">
+
 <script>
-// ─── SEQUENCE ────────────────────────────────────────────────────────────────────
+// ─── SEQUENCE ────────────────────────────────────────────────────────────────
 var SEQ = [
   // Pranayama
-  {n:"Nadi Shodhana",         s:"Alternate Nostril Breathing",    b:"5-10 breaths",  c:"med"},
+  {n:"Nadi Shodhana",         s:"Alternate Nostril Breathing",    b:"5–10 breaths",  c:"med"},
   {n:"Kapalabhati",           s:"Skull Shining",                  b:"rounds",        c:"med"},
-  {n:"Agnisar",               s:"Firewash - Pump abs on vacuum",  b:"rounds",        c:"med"},
+  {n:"Agnisar",               s:"Firewash · Pump abs on vacuum",  b:"rounds",        c:"med"},
   // Bandhas
   {n:"Moola Bhanda",          s:"Perineum / Cervix",              b:"hold",          c:"bnd"},
   {n:"Uddiyana Bhanda",       s:"Abdominal",                      b:"hold",          c:"bnd"},
   {n:"Jalandhara Bandha",     s:"Throat",                         b:"hold",          c:"bnd"},
   // Breath
-  {n:"Ujjayi Breath",         s:"Establish Sun Breaths",          b:"5-10 breaths",  c:"std"},
-  // Sun Sal A
-  {n:"Sun Salutation A",      s:"x2 - One breath, one movement",  b:"x2",            c:"std"},
-  {n:"Upward Dog",            s:"Sun Sal A",                       b:"4+ breaths",    c:"bck"},
-  {n:"Down Dog",              s:"Sun Sal A",                       b:"5+ breaths",    c:"ddg"},
-  {n:"Forward Fold",          s:"Sun Sal A",                       b:"1+ breaths",    c:"fld"},
+  {n:"Ujjayi Breath",         s:"Establish Sun Breaths",          b:"5–10 breaths",  c:"std"},
+  // Mountain — starting position
+  {n:"Mountain",              s:"Tadasana",                       b:"5 breaths",     c:"std"},
+  {n:"Mountain Hands Up",     s:"Urdhva Hastasana",               b:"5 breaths",     c:"w1" },
+  // Sun Sal A — Round 1
+  {n:"Forward Fold",          s:"Sun Sal A",                      b:"1 breath",      c:"fld"},
+  {n:"Half Lift",             s:"Ardha Uttanasana",               b:"1 breath",      c:"hlf"},
+  {n:"Chaturanga",            s:"Sun Sal A",                      b:"1 breath",      c:"plk"},
+  {n:"Upward Dog",            s:"Sun Sal A",                      b:"4+ breaths",    c:"bck"},
+  {n:"Down Dog",              s:"Sun Sal A",                      b:"5+ breaths",    c:"ddg"},
+  // Sun Sal A — Round 2
+  {n:"Mountain Hands Up",     s:"Round 2 · Inhale",               b:"1 breath",      c:"w1" },
+  {n:"Forward Fold",          s:"Round 2",                        b:"1 breath",      c:"fld"},
+  {n:"Half Lift",             s:"Round 2",                        b:"1 breath",      c:"hlf"},
+  {n:"Chaturanga",            s:"Round 2",                        b:"1 breath",      c:"plk"},
+  {n:"Upward Dog",            s:"Round 2",                        b:"4+ breaths",    c:"bck"},
+  {n:"Down Dog",              s:"Round 2",                        b:"5+ breaths",    c:"ddg"},
   // Sun Sal B
-  {n:"Sun Salutation B",      s:"x2 - One breath, one movement",  b:"x2",            c:"std"},
-  {n:"Chaturanga",            s:"Sun Sal B",                       b:"1 breath",      c:"plk"},
-  {n:"Warrior 1",             s:"Sun Sal B",                       b:"1 breath",      c:"w1" },
-  {n:"Warrior 1",             s:"Other Side",                      b:"1 breath",      c:"w1" },
+  {n:"Sun Salutation B",      s:"×2 · One breath, one movement",  b:"×2",            c:"std"},
+  {n:"Chaturanga",            s:"Sun Sal B",                      b:"1 breath",      c:"plk"},
+  {n:"Warrior 1",             s:"Sun Sal B",                      b:"1 breath",      c:"w1" },
+  {n:"Warrior 1",             s:"Other Side",                     b:"1 breath",      c:"w1" },
   // Intention
-  {n:"Dedicate Your Practice",s:"",                                b:"set intention", c:"med"},
+  {n:"Dedicate Your Practice",s:"",                               b:"set intention", c:"med"},
   // Standing sequence
-  {n:"Crow",                  s:"Bakasana",                        b:"5+ breaths",    c:"arm"},
-  {n:"Low Lunge",             s:"",                                b:"hold",          c:"lng"},
-  {n:"Lizard",                s:"",                                b:"hold",          c:"lng"},
-  {n:"Inversion",             s:"",                                b:"5+ breaths",    c:"inv"},
-  {n:"Low Lunge",             s:"Other Side",                      b:"hold",          c:"lng"},
-  {n:"Lizard",                s:"Other Side",                      b:"hold",          c:"lng"},
-  {n:"Warrior 2",             s:"",                                b:"hold",          c:"w2" },
-  {n:"Side Angle",            s:"+ Variations",                    b:"hold",          c:"w2" },
-  {n:"Half Moon",             s:"",                                b:"hold",          c:"bal"},
-  {n:"Triangle",              s:"",                                b:"hold",          c:"tri"},
-  {n:"Back Bend",             s:"Yogi Play Time",                  b:"hold",          c:"bck"},
-  {n:"Forward Fold",          s:"",                                b:"hold",          c:"fld"},
-  {n:"Warrior 2",             s:"Other Side",                      b:"hold",          c:"w2" },
-  {n:"Side Angle",            s:"+ Variations - Other Side",       b:"hold",          c:"w2" },
-  {n:"Half Moon",             s:"Other Side + Variations",         b:"hold",          c:"bal"},
-  {n:"Warrior 2",             s:"",                                b:"hold",          c:"w2" },
-  {n:"Triangle 2",            s:"",                                b:"hold",          c:"tri"},
-  {n:"Warrior 1",             s:"",                                b:"hold",          c:"w1" },
-  {n:"Down Dog",              s:"Back of Mat",                     b:"hold",          c:"ddg"},
-  {n:"Yogi Play Time",        s:"",                                b:"explore freely",c:"ply"},
-  {n:"Triangle",              s:"",                                b:"hold",          c:"tri"},
-  {n:"Back Bend",             s:"+ Variations",                    b:"hold",          c:"bck"},
-  {n:"Triangle",              s:"Other Side",                      b:"hold",          c:"tri"},
-  {n:"Lizard",                s:"",                                b:"hold",          c:"lng"},
-  {n:"Inversion",             s:"",                                b:"5+ breaths",    c:"inv"},
-  {n:"Knee Plank",            s:"",                                b:"hold",          c:"plk"},
-  {n:"Side Plank",            s:"+ Variations",                    b:"hold",          c:"plk"},
-  {n:"Front Split",           s:"+ Variations",                    b:"hold",          c:"spl"},
-  {n:"Pigeon",                s:"+ Variations",                    b:"hold",          c:"pgn"},
-  {n:"Side Plank",            s:"",                                b:"hold",          c:"plk"},
-  {n:"High Plank",            s:"",                                b:"hold",          c:"plk"},
-  {n:"Side Plank",            s:"Other Side",                      b:"hold",          c:"plk"},
-  {n:"Split",                 s:"+ Variation",                     b:"hold",          c:"spl"},
-  {n:"Pigeon",                s:"Other Side",                      b:"hold",          c:"pgn"},
-  {n:"Side Plank",            s:"",                                b:"hold",          c:"plk"},
-  {n:"Chaturanga",            s:"",                                b:"hold",          c:"plk"},
-  {n:"Yogi Play Time",        s:"",                                b:"explore freely",c:"ply"},
-  {n:"Warrior 1",             s:"",                                b:"hold",          c:"w1" },
-  {n:"Revolved Side Angle",   s:"+ Variations",                    b:"hold",          c:"twi"},
-  {n:"Side Crow",             s:"",                                b:"hold",          c:"arm"},
-  {n:"Warrior 1",             s:"",                                b:"hold",          c:"w1" },
-  {n:"Side Split",            s:"+ Variations",                    b:"hold",          c:"spl"},
-  {n:"Warrior 1",             s:"Other Side",                      b:"hold",          c:"w1" },
-  {n:"Revolved Side Angle",   s:"+ Variations - Other Side",       b:"hold",          c:"twi"},
-  {n:"Side Crow",             s:"Other Side",                      b:"hold",          c:"arm"},
-  {n:"Warrior 1",             s:"",                                b:"hold",          c:"w1" },
-  {n:"Inversion",             s:"",                                b:"hold",          c:"inv"},
-  {n:"Float Forward",         s:"",                                b:"flow",          c:"std"},
+  {n:"Crow",                  s:"Bakasana",                       b:"5+ breaths",    c:"arm"},
+  {n:"Low Lunge",             s:"",                               b:"hold",          c:"lng"},
+  {n:"Lizard",                s:"",                               b:"hold",          c:"lng"},
+  {n:"Inversion",             s:"",                               b:"5+ breaths",    c:"inv"},
+  {n:"Low Lunge",             s:"Other Side",                     b:"hold",          c:"lng"},
+  {n:"Lizard",                s:"Other Side",                     b:"hold",          c:"lng"},
+  {n:"Warrior 2",             s:"",                               b:"hold",          c:"w2" },
+  {n:"Side Angle",            s:"+ Variations",                   b:"hold",          c:"w2" },
+  {n:"Half Moon",             s:"",                               b:"hold",          c:"bal"},
+  {n:"Triangle",              s:"",                               b:"hold",          c:"tri"},
+  {n:"Back Bend",             s:"Yogi Play Time",                 b:"hold",          c:"bck"},
+  {n:"Forward Fold",          s:"",                               b:"hold",          c:"fld"},
+  {n:"Warrior 2",             s:"Other Side",                     b:"hold",          c:"w2" },
+  {n:"Side Angle",            s:"+ Variations · Other Side",      b:"hold",          c:"w2" },
+  {n:"Half Moon",             s:"Other Side + Variations",        b:"hold",          c:"bal"},
+  {n:"Warrior 2",             s:"",                               b:"hold",          c:"w2" },
+  {n:"Triangle 2",            s:"",                               b:"hold",          c:"tri"},
+  {n:"Warrior 1",             s:"",                               b:"hold",          c:"w1" },
+  {n:"Down Dog",              s:"Back of Mat",                    b:"hold",          c:"ddg"},
+  {n:"Yogi Play Time",        s:"",                               b:"explore freely",c:"ply"},
+  {n:"Triangle",              s:"",                               b:"hold",          c:"tri"},
+  {n:"Back Bend",             s:"+ Variations",                   b:"hold",          c:"bck"},
+  {n:"Triangle",              s:"Other Side",                     b:"hold",          c:"tri"},
+  {n:"Lizard",                s:"",                               b:"hold",          c:"lng"},
+  {n:"Inversion",             s:"",                               b:"5+ breaths",    c:"inv"},
+  {n:"Knee Plank",            s:"",                               b:"hold",          c:"plk"},
+  {n:"Side Plank",            s:"+ Variations",                   b:"hold",          c:"plk"},
+  {n:"Front Split",           s:"+ Variations",                   b:"hold",          c:"spl"},
+  {n:"Pigeon",                s:"+ Variations",                   b:"hold",          c:"pgn"},
+  {n:"Side Plank",            s:"",                               b:"hold",          c:"plk"},
+  {n:"High Plank",            s:"",                               b:"hold",          c:"plk"},
+  {n:"Side Plank",            s:"Other Side",                     b:"hold",          c:"plk"},
+  {n:"Split",                 s:"+ Variation",                    b:"hold",          c:"spl"},
+  {n:"Pigeon",                s:"Other Side",                     b:"hold",          c:"pgn"},
+  {n:"Side Plank",            s:"",                               b:"hold",          c:"plk"},
+  {n:"Chaturanga",            s:"",                               b:"hold",          c:"plk"},
+  {n:"Yogi Play Time",        s:"",                               b:"explore freely",c:"ply"},
+  {n:"Warrior 1",             s:"",                               b:"hold",          c:"w1" },
+  {n:"Revolved Side Angle",   s:"+ Variations",                   b:"hold",          c:"twi"},
+  {n:"Side Crow",             s:"",                               b:"hold",          c:"arm"},
+  {n:"Warrior 1",             s:"",                               b:"hold",          c:"w1" },
+  {n:"Side Split",            s:"+ Variations",                   b:"hold",          c:"spl"},
+  {n:"Warrior 1",             s:"Other Side",                     b:"hold",          c:"w1" },
+  {n:"Revolved Side Angle",   s:"+ Variations · Other Side",      b:"hold",          c:"twi"},
+  {n:"Side Crow",             s:"Other Side",                     b:"hold",          c:"arm"},
+  {n:"Warrior 1",             s:"",                               b:"hold",          c:"w1" },
+  {n:"Inversion",             s:"",                               b:"hold",          c:"inv"},
+  {n:"Float Forward",         s:"",                               b:"flow",          c:"std"},
   // Advanced
-  {n:"Compass",               s:"Parivrtta Surya Yantrasana",      b:"hold",          c:"sit"},
-  {n:"Firefly",               s:"Tittibhasana",                    b:"hold",          c:"arm"},
-  {n:"Astavakrasana",         s:"+ Other Side",                    b:"hold",          c:"arm"},
-  {n:"Dog Leg",               s:"+ Variations",                    b:"hold",          c:"pgn"},
+  {n:"Compass",               s:"Parivrtta Surya Yantrasana",     b:"hold",          c:"sit"},
+  {n:"Firefly",               s:"Tittibhasana",                   b:"hold",          c:"arm"},
+  {n:"Astavakrasana",         s:"+ Other Side",                   b:"hold",          c:"arm"},
+  {n:"Dog Leg",               s:"+ Variations",                   b:"hold",          c:"pgn"},
   // Floor
-  {n:"Bridge",                s:"",                                b:"hold",          c:"bck"},
-  {n:"Wheel",                 s:"x3",                              b:"4+ breaths ea", c:"whl"},
-  {n:"Plow",                  s:"",                                b:"hold",          c:"inv"},
-  {n:"Shoulder Stand",        s:"",                                b:"hold",          c:"inv"},
-  {n:"Fish",                  s:"",                                b:"hold",          c:"bck"},
-  {n:"Spine Twist",           s:"Both Sides",                      b:"hold each side",c:"twi"},
-  {n:"Hug Knees",             s:"",                                b:"hold",          c:"sit"},
-  {n:"Yoga Nidrasana",        s:"",                                b:"hold",          c:"sit"},
-  {n:"Savasana",              s:"Final Relaxation",                b:"5+ minutes",    c:"rst"}
+  {n:"Bridge",                s:"",                               b:"hold",          c:"bck"},
+  {n:"Wheel",                 s:"×3",                             b:"4+ breaths ea", c:"whl"},
+  {n:"Plow",                  s:"",                               b:"hold",          c:"inv"},
+  {n:"Shoulder Stand",        s:"",                               b:"hold",          c:"inv"},
+  {n:"Fish",                  s:"",                               b:"hold",          c:"bck"},
+  {n:"Spine Twist",           s:"Both Sides",                     b:"hold each side",c:"twi"},
+  {n:"Hug Knees",             s:"",                               b:"hold",          c:"sit"},
+  {n:"Yoga Nidrasana",        s:"",                               b:"hold",          c:"sit"},
+  {n:"Savasana",              s:"Final Relaxation",               b:"5+ minutes",    c:"rst"},
 ];
 
-// ─── SVG FIGURES ────────────────────────────────────────────────────────────────────
-var G="#c9a84c",P="#7b68ee",T="#4ecdc4",R="#ff6b6b";
+// ─── SVG FIGURES ──────────────────────────────────────────────────────────────
+var G="#c9a84c", P="#7b68ee", T="#4ecdc4", R="#ff6b6b";
 
-function S(col,vb,d){
-  return '<svg viewBox="'+vb+'" fill="none" stroke="'+col+'" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">'+d+'</svg>';
+function S(col, vb, inner) {
+  return '<svg viewBox="' + vb + '" fill="none" stroke="' + col + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">' + inner + '</svg>';
 }
 
-var FIG={
-  med:S(G,"0 0 100 95",'<circle cx="50" cy="13" r="10"/><line x1="50" y1="23" x2="50" y2="55"/><path d="M16 65 Q33 50 50 55 Q67 50 84 65"/><line x1="16" y1="65" x2="6" y2="82"/><line x1="84" y1="65" x2="94" y2="82"/><line x1="28" y1="36" x2="11" y2="50"/><circle cx="11" cy="54" r="4" fill="'+G+'" stroke="none"/><line x1="72" y1="36" x2="89" y2="50"/><circle cx="89" cy="54" r="4" fill="'+G+'" stroke="none"/>'),
-  bnd:S(P,"0 0 100 95",'<circle cx="50" cy="13" r="10"/><line x1="50" y1="23" x2="50" y2="55"/><path d="M16 65 Q33 50 50 55 Q67 50 84 65"/><line x1="16" y1="65" x2="6" y2="82"/><line x1="84" y1="65" x2="94" y2="82"/><line x1="28" y1="36" x2="11" y2="50"/><line x1="72" y1="36" x2="89" y2="50"/><ellipse cx="50" cy="40" rx="15" ry="10" stroke-dasharray="5 3" opacity="0.6"/>'),
-  std:S(G,"0 0 100 110",'<circle cx="50" cy="11" r="10"/><line x1="50" y1="21" x2="50" y2="68"/><line x1="50" y1="38" x2="16" y2="28"/><line x1="50" y1="38" x2="84" y2="28"/><line x1="50" y1="68" x2="36" y2="96"/><line x1="50" y1="68" x2="64" y2="96"/>'),
-  w1: S(G,"0 0 100 108",'<circle cx="50" cy="10" r="10"/><line x1="50" y1="20" x2="50" y2="58"/><line x1="50" y1="30" x2="34" y2="16"/><line x1="50" y1="30" x2="66" y2="16"/><line x1="50" y1="58" x2="28" y2="94"/><line x1="50" y1="58" x2="74" y2="76"/><line x1="74" y1="76" x2="84" y2="94"/>'),
-  w2: S(G,"0 0 108 106",'<circle cx="54" cy="10" r="10"/><line x1="54" y1="20" x2="54" y2="62"/><line x1="54" y1="34" x2="12" y2="34"/><line x1="54" y1="34" x2="96" y2="34"/><line x1="54" y1="62" x2="30" y2="94"/><line x1="54" y1="62" x2="76" y2="78"/><line x1="76" y1="78" x2="92" y2="94"/>'),
-  ddg:S(G,"0 0 112 95", '<circle cx="18" cy="24" r="10"/><line x1="18" y1="34" x2="56" y2="16"/><line x1="56" y1="16" x2="94" y2="52"/><line x1="18" y1="34" x2="10" y2="64"/><line x1="10" y1="64" x2="14" y2="84"/><line x1="94" y1="52" x2="84" y2="82"/><line x1="94" y1="52" x2="104" y2="76"/>'),
-  fld:S(G,"0 0 100 105",'<circle cx="50" cy="16" r="10"/><line x1="50" y1="26" x2="50" y2="52"/><path d="M28 52 Q50 46 72 52"/><line x1="36" y1="90" x2="64" y2="90"/><line x1="36" y1="52" x2="36" y2="90"/><line x1="64" y1="52" x2="64" y2="90"/><line x1="28" y1="52" x2="12" y2="66"/><line x1="72" y1="52" x2="88" y2="66"/>'),
-  bck:S(G,"0 0 100 95", '<line x1="20" y1="84" x2="20" y2="62"/><line x1="80" y1="84" x2="80" y2="62"/><path d="M20 62 Q50 18 80 62"/><line x1="34" y1="36" x2="16" y2="24"/><line x1="66" y1="36" x2="84" y2="24"/><circle cx="50" cy="32" r="10"/>'),
-  whl:S(G,"0 0 100 86", '<line x1="16" y1="78" x2="14" y2="52"/><line x1="84" y1="78" x2="86" y2="52"/><line x1="22" y1="62" x2="6" y2="52"/><line x1="78" y1="62" x2="94" y2="52"/><path d="M14 52 Q50 8 86 52"/><circle cx="50" cy="20" r="10"/>'),
-  inv:S(P,"0 0 100 114",'<line x1="36" y1="108" x2="36" y2="78"/><line x1="64" y1="108" x2="64" y2="78"/><line x1="36" y1="78" x2="64" y2="78"/><line x1="50" y1="78" x2="50" y2="34"/><line x1="50" y1="54" x2="26" y2="40"/><line x1="50" y1="54" x2="74" y2="40"/><circle cx="50" cy="26" r="10"/>'),
-  plk:S(G,"0 0 120 70", '<circle cx="14" cy="26" r="10"/><line x1="23" y1="33" x2="98" y2="44"/><line x1="23" y1="33" x2="12" y2="58"/><line x1="98" y1="44" x2="88" y2="62"/><line x1="98" y1="44" x2="112" y2="40"/>'),
-  tri:S(G,"0 0 110 106",'<circle cx="62" cy="11" r="10"/><line x1="62" y1="21" x2="56" y2="60"/><line x1="56" y1="40" x2="92" y2="26"/><line x1="56" y1="40" x2="18" y2="62"/><line x1="56" y1="60" x2="16" y2="94"/><line x1="56" y1="60" x2="94" y2="94"/><line x1="16" y1="94" x2="94" y2="94"/>'),
-  bal:S(G,"0 0 100 114",'<circle cx="50" cy="10" r="10"/><line x1="50" y1="20" x2="50" y2="66"/><line x1="50" y1="34" x2="15" y2="52"/><line x1="50" y1="34" x2="85" y2="14"/><line x1="50" y1="66" x2="50" y2="100"/><line x1="50" y1="82" x2="68" y2="66"/>'),
-  lng:S(G,"0 0 114 106",'<circle cx="57" cy="12" r="10"/><line x1="57" y1="22" x2="57" y2="58"/><line x1="57" y1="34" x2="40" y2="20"/><line x1="57" y1="34" x2="76" y2="20"/><line x1="57" y1="58" x2="30" y2="86"/><line x1="30" y1="86" x2="14" y2="86"/><line x1="57" y1="58" x2="84" y2="56"/><line x1="84" y1="56" x2="100" y2="86"/><line x1="100" y1="86" x2="100" y2="98"/>'),
-  arm:S(R,"0 0 100 96", '<circle cx="50" cy="27" r="10"/><line x1="50" y1="37" x2="50" y2="60"/><line x1="50" y1="48" x2="24" y2="68"/><line x1="50" y1="48" x2="76" y2="68"/><line x1="24" y1="68" x2="16" y2="86"/><line x1="76" y1="68" x2="84" y2="86"/><line x1="50" y1="60" x2="34" y2="74"/><line x1="50" y1="60" x2="66" y2="74"/><line x1="34" y1="74" x2="66" y2="74"/>'),
-  spl:S(G,"0 0 120 72", '<circle cx="60" cy="16" r="10"/><line x1="60" y1="26" x2="60" y2="48"/><line x1="60" y1="36" x2="42" y2="24"/><line x1="60" y1="36" x2="78" y2="24"/><line x1="60" y1="48" x2="6" y2="64"/><line x1="60" y1="48" x2="114" y2="64"/><line x1="6" y1="64" x2="114" y2="64"/>'),
-  pgn:S(G,"0 0 114 92", '<circle cx="44" cy="17" r="10"/><line x1="44" y1="27" x2="44" y2="56"/><line x1="44" y1="40" x2="22" y2="30"/><line x1="44" y1="40" x2="64" y2="30"/><path d="M44 56 Q30 66 12 70"/><line x1="12" y1="70" x2="6" y2="84"/><line x1="44" y1="56" x2="80" y2="66"/><line x1="80" y1="66" x2="108" y2="50"/>'),
-  twi:S(T,"0 0 100 104",'<circle cx="50" cy="11" r="10"/><path d="M50 21 Q60 34 50 54"/><line x1="52" y1="30" x2="80" y2="20"/><line x1="48" y1="40" x2="18" y2="44"/><path d="M32 54 Q50 60 68 54"/><line x1="32" y1="54" x2="20" y2="78"/><line x1="68" y1="54" x2="84" y2="72"/><line x1="20" y1="78" x2="84" y2="72"/>'),
-  sit:S(G,"0 0 100 92", '<circle cx="50" cy="12" r="10"/><line x1="50" y1="22" x2="50" y2="60"/><line x1="50" y1="36" x2="26" y2="26"/><line x1="50" y1="36" x2="74" y2="26"/><path d="M50 60 Q34 68 16 72"/><path d="M50 60 Q66 68 84 72"/><line x1="16" y1="72" x2="14" y2="84"/><line x1="84" y1="72" x2="86" y2="84"/>'),
-  ply:S(R,"0 0 100 104",'<circle cx="50" cy="11" r="10"/><line x1="50" y1="21" x2="50" y2="60"/><line x1="50" y1="36" x2="24" y2="24"/><line x1="50" y1="36" x2="76" y2="24"/><line x1="50" y1="60" x2="36" y2="86"/><line x1="50" y1="60" x2="64" y2="86"/><path d="M26 50 Q50 34 74 50" stroke-dasharray="4 3"/><circle cx="50" cy="50" r="5" fill="'+R+'" stroke="none" opacity="0.6"/>'),
-  rst:S(G,"0 0 120 54", '<line x1="4" y1="46" x2="116" y2="46"/><line x1="4" y1="40" x2="4" y2="46"/><line x1="68" y1="34" x2="4" y2="40"/><circle cx="74" cy="26" r="10"/><line x1="68" y1="34" x2="116" y2="40"/><line x1="116" y1="40" x2="116" y2="46"/><line x1="74" y1="36" x2="70" y2="46"/><line x1="68" y1="34" x2="54" y2="44"/>')
+var FIG = {
+  med: S(G, "0 0 100 95",
+    '<circle cx="50" cy="13" r="10"/>'+
+    '<line x1="50" y1="23" x2="50" y2="55"/>'+
+    '<path d="M16 65 Q33 50 50 55 Q67 50 84 65"/>'+
+    '<line x1="16" y1="65" x2="6"  y2="82"/>'+
+    '<line x1="84" y1="65" x2="94" y2="82"/>'+
+    '<line x1="28" y1="36" x2="11" y2="50"/>'+
+    '<circle cx="11" cy="54" r="4" fill="'+G+'" stroke="none"/>'+
+    '<line x1="72" y1="36" x2="89" y2="50"/>'+
+    '<circle cx="89" cy="54" r="4" fill="'+G+'" stroke="none"/>'),
+
+  bnd: S(P, "0 0 100 95",
+    '<circle cx="50" cy="13" r="10"/>'+
+    '<line x1="50" y1="23" x2="50" y2="55"/>'+
+    '<path d="M16 65 Q33 50 50 55 Q67 50 84 65"/>'+
+    '<line x1="16" y1="65" x2="6"  y2="82"/>'+
+    '<line x1="84" y1="65" x2="94" y2="82"/>'+
+    '<line x1="28" y1="36" x2="11" y2="50"/>'+
+    '<line x1="72" y1="36" x2="89" y2="50"/>'+
+    '<ellipse cx="50" cy="40" rx="15" ry="10" stroke-dasharray="5 3" opacity="0.7"/>'),
+
+  std: S(G, "0 0 100 110",
+    '<circle cx="50" cy="11" r="10"/>'+
+    '<line x1="50" y1="21" x2="50" y2="68"/>'+
+    '<line x1="50" y1="38" x2="18" y2="28"/>'+
+    '<line x1="50" y1="38" x2="82" y2="28"/>'+
+    '<line x1="50" y1="68" x2="36" y2="96"/>'+
+    '<line x1="50" y1="68" x2="64" y2="96"/>'),
+
+  w1: S(G, "0 0 100 108",
+    '<circle cx="50" cy="10" r="10"/>'+
+    '<line x1="50" y1="20" x2="50" y2="58"/>'+
+    '<line x1="50" y1="30" x2="34" y2="16"/>'+
+    '<line x1="50" y1="30" x2="66" y2="16"/>'+
+    '<line x1="50" y1="58" x2="28" y2="94"/>'+
+    '<line x1="50" y1="58" x2="74" y2="76"/>'+
+    '<line x1="74" y1="76" x2="84" y2="94"/>'),
+
+  w2: S(G, "0 0 108 106",
+    '<circle cx="54" cy="10" r="10"/>'+
+    '<line x1="54" y1="20" x2="54" y2="62"/>'+
+    '<line x1="54" y1="34" x2="12" y2="34"/>'+
+    '<line x1="54" y1="34" x2="96" y2="34"/>'+
+    '<line x1="54" y1="62" x2="30" y2="94"/>'+
+    '<line x1="54" y1="62" x2="76" y2="76"/>'+
+    '<line x1="76" y1="76" x2="92" y2="94"/>'),
+
+  ddg: S(G, "0 0 112 95",
+    '<circle cx="18" cy="24" r="10"/>'+
+    '<line x1="18" y1="34" x2="56" y2="16"/>'+
+    '<line x1="56" y1="16" x2="94" y2="52"/>'+
+    '<line x1="18" y1="34" x2="10" y2="64"/>'+
+    '<line x1="10" y1="64" x2="14" y2="84"/>'+
+    '<line x1="94" y1="52" x2="84" y2="82"/>'+
+    '<line x1="94" y1="52" x2="104" y2="76"/>'),
+
+  fld: S(G, "0 0 100 105",
+    '<circle cx="50" cy="16" r="10"/>'+
+    '<line x1="50" y1="26" x2="50" y2="52"/>'+
+    '<path d="M28 52 Q50 46 72 52"/>'+
+    '<line x1="36" y1="90" x2="64" y2="90"/>'+
+    '<line x1="36" y1="52" x2="36" y2="90"/>'+
+    '<line x1="64" y1="52" x2="64" y2="90"/>'+
+    '<line x1="28" y1="52" x2="12" y2="66"/>'+
+    '<line x1="72" y1="52" x2="88" y2="66"/>'),
+
+  bck: S(G, "0 0 100 95",
+    '<line x1="20" y1="84" x2="20" y2="62"/>'+
+    '<line x1="80" y1="84" x2="80" y2="62"/>'+
+    '<path d="M20 62 Q50 18 80 62"/>'+
+    '<line x1="34" y1="36" x2="16" y2="24"/>'+
+    '<line x1="66" y1="36" x2="84" y2="24"/>'+
+    '<circle cx="50" cy="32" r="10"/>'),
+
+  whl: S(G, "0 0 100 86",
+    '<line x1="16" y1="78" x2="14" y2="52"/>'+
+    '<line x1="84" y1="78" x2="86" y2="52"/>'+
+    '<line x1="22" y1="62" x2="6"  y2="52"/>'+
+    '<line x1="78" y1="62" x2="94" y2="52"/>'+
+    '<path d="M14 52 Q50 8 86 52"/>'+
+    '<circle cx="50" cy="20" r="10"/>'),
+
+  inv: S(P, "0 0 100 114",
+    '<line x1="36" y1="108" x2="36" y2="78"/>'+
+    '<line x1="64" y1="108" x2="64" y2="78"/>'+
+    '<line x1="36" y1="78"  x2="64" y2="78"/>'+
+    '<line x1="50" y1="78"  x2="50" y2="34"/>'+
+    '<line x1="50" y1="54"  x2="26" y2="40"/>'+
+    '<line x1="50" y1="54"  x2="74" y2="40"/>'+
+    '<circle cx="50" cy="26" r="10"/>'),
+
+  plk: S(G, "0 0 120 70",
+    '<circle cx="14" cy="26" r="10"/>'+
+    '<line x1="23" y1="33" x2="98" y2="44"/>'+
+    '<line x1="23" y1="33" x2="12" y2="58"/>'+
+    '<line x1="98" y1="44" x2="88" y2="62"/>'+
+    '<line x1="98" y1="44" x2="112" y2="40"/>'),
+
+  tri: S(G, "0 0 110 106",
+    '<circle cx="62" cy="11" r="10"/>'+
+    '<line x1="62" y1="21" x2="56" y2="60"/>'+
+    '<line x1="56" y1="40" x2="92" y2="26"/>'+
+    '<line x1="56" y1="40" x2="18" y2="62"/>'+
+    '<line x1="56" y1="60" x2="16" y2="94"/>'+
+    '<line x1="56" y1="60" x2="94" y2="94"/>'+
+    '<line x1="16" y1="94" x2="94" y2="94"/>'),
+
+  bal: S(G, "0 0 100 114",
+    '<circle cx="50" cy="10" r="10"/>'+
+    '<line x1="50" y1="20" x2="50" y2="66"/>'+
+    '<line x1="50" y1="34" x2="15" y2="52"/>'+
+    '<line x1="50" y1="34" x2="85" y2="14"/>'+
+    '<line x1="50" y1="66" x2="50" y2="100"/>'+
+    '<line x1="50" y1="82" x2="68" y2="66"/>'),
+
+  lng: S(G, "0 0 114 106",
+    '<circle cx="57" cy="12" r="10"/>'+
+    '<line x1="57" y1="22" x2="57" y2="58"/>'+
+    '<line x1="57" y1="34" x2="40" y2="20"/>'+
+    '<line x1="57" y1="34" x2="76" y2="20"/>'+
+    '<line x1="57" y1="58" x2="30" y2="86"/>'+
+    '<line x1="30" y1="86" x2="14" y2="86"/>'+
+    '<line x1="57" y1="58" x2="84" y2="56"/>'+
+    '<line x1="84" y1="56" x2="100" y2="86"/>'+
+    '<line x1="100" y1="86" x2="100" y2="98"/>'),
+
+  arm: S(R, "0 0 100 96",
+    '<circle cx="50" cy="27" r="10"/>'+
+    '<line x1="50" y1="37" x2="50" y2="60"/>'+
+    '<line x1="50" y1="48" x2="24" y2="68"/>'+
+    '<line x1="50" y1="48" x2="76" y2="68"/>'+
+    '<line x1="24" y1="68" x2="16" y2="86"/>'+
+    '<line x1="76" y1="68" x2="84" y2="86"/>'+
+    '<line x1="50" y1="60" x2="34" y2="74"/>'+
+    '<line x1="50" y1="60" x2="66" y2="74"/>'+
+    '<line x1="34" y1="74" x2="66" y2="74"/>'),
+
+  spl: S(G, "0 0 120 72",
+    '<circle cx="60" cy="16" r="10"/>'+
+    '<line x1="60" y1="26" x2="60" y2="48"/>'+
+    '<line x1="60" y1="36" x2="42" y2="24"/>'+
+    '<line x1="60" y1="36" x2="78" y2="24"/>'+
+    '<line x1="60" y1="48" x2="6"  y2="64"/>'+
+    '<line x1="60" y1="48" x2="114" y2="64"/>'+
+    '<line x1="6"  y1="64" x2="114" y2="64"/>'),
+
+  pgn: S(G, "0 0 114 92",
+    '<circle cx="44" cy="17" r="10"/>'+
+    '<line x1="44" y1="27" x2="44" y2="56"/>'+
+    '<line x1="44" y1="40" x2="22" y2="30"/>'+
+    '<line x1="44" y1="40" x2="64" y2="30"/>'+
+    '<path d="M44 56 Q30 66 12 70"/>'+
+    '<line x1="12" y1="70" x2="6"  y2="84"/>'+
+    '<line x1="44" y1="56" x2="80" y2="66"/>'+
+    '<line x1="80" y1="66" x2="108" y2="50"/>'),
+
+  twi: S(T, "0 0 100 104",
+    '<circle cx="50" cy="11" r="10"/>'+
+    '<path d="M50 21 Q60 34 50 54"/>'+
+    '<line x1="52" y1="30" x2="80" y2="20"/>'+
+    '<line x1="48" y1="40" x2="18" y2="44"/>'+
+    '<path d="M32 54 Q50 60 68 54"/>'+
+    '<line x1="32" y1="54" x2="20" y2="78"/>'+
+    '<line x1="68" y1="54" x2="84" y2="72"/>'+
+    '<line x1="20" y1="78" x2="84" y2="72"/>'),
+
+  sit: S(G, "0 0 100 92",
+    '<circle cx="50" cy="12" r="10"/>'+
+    '<line x1="50" y1="22" x2="50" y2="60"/>'+
+    '<line x1="50" y1="36" x2="26" y2="26"/>'+
+    '<line x1="50" y1="36" x2="74" y2="26"/>'+
+    '<path d="M50 60 Q34 68 16 72"/>'+
+    '<path d="M50 60 Q66 68 84 72"/>'+
+    '<line x1="16" y1="72" x2="14" y2="84"/>'+
+    '<line x1="84" y1="72" x2="86" y2="84"/>'),
+
+  ply: S(R, "0 0 100 104",
+    '<circle cx="50" cy="11" r="10"/>'+
+    '<line x1="50" y1="21" x2="50" y2="60"/>'+
+    '<line x1="50" y1="36" x2="22" y2="22"/>'+
+    '<line x1="50" y1="36" x2="78" y2="22"/>'+
+    '<line x1="50" y1="60" x2="36" y2="86"/>'+
+    '<line x1="50" y1="60" x2="64" y2="86"/>'+
+    '<path d="M26 50 Q50 34 74 50" stroke-dasharray="4 3"/>'+
+    '<circle cx="50" cy="50" r="6" fill="'+R+'" stroke="none" opacity="0.7"/>'),
+
+  rst: S(G, "0 0 120 54",
+    '<line x1="4"   y1="46" x2="116" y2="46"/>'+
+    '<line x1="4"   y1="40" x2="4"   y2="46"/>'+
+    '<line x1="68"  y1="34" x2="4"   y2="40"/>'+
+    '<circle cx="74" cy="26" r="10"/>'+
+    '<line x1="68"  y1="34" x2="116" y2="40"/>'+
+    '<line x1="116" y1="40" x2="116" y2="46"/>'+
+    '<line x1="74"  y1="36" x2="70"  y2="46"/>'+
+    '<line x1="68"  y1="34" x2="54"  y2="44"/>'),
+
+  hlf: S(G, "0 0 100 100",
+    '<circle cx="82" cy="18" r="10"/>'+
+    '<line x1="74" y1="26" x2="18" y2="26"/>'+
+    '<line x1="18" y1="26" x2="10" y2="88"/>'+
+    '<line x1="18" y1="26" x2="30" y2="88"/>'+
+    '<line x1="50" y1="26" x2="48" y2="54"/>'+
+    '<line x1="65" y1="26" x2="63" y2="54"/>'),
 };
 
-var CAT={
-  med:"med",bnd:"bnd",std:"std",w1:"w1",w2:"w2",
-  ddg:"ddg",fld:"fld",bck:"bck",whl:"whl",inv:"inv",
-  plk:"plk",tri:"tri",bal:"bal",lng:"lng",arm:"arm",
-  spl:"spl",pgn:"pgn",twi:"twi",sit:"sit",ply:"ply",rst:"rst"
+var CAT_FIG = {
+  med:"med", bnd:"bnd", std:"std", w1:"w1", w2:"w2",
+  ddg:"ddg", fld:"fld", bck:"bck", whl:"whl", inv:"inv",
+  plk:"plk", tri:"tri", bal:"bal", lng:"lng", arm:"arm",
+  spl:"spl", pgn:"pgn", twi:"twi", sit:"sit", ply:"ply", rst:"rst",
+  hlf:"hlf",
 };
 
-// ─── STATE ────────────────────────────────────────────────────────────────────
-var idx=0, timerS=30, elapsed=0, paused=false, ticker=null;
+// ─── STATE ───────────────────────────────────────────────────────────────────
+var idx     = 0;
+var timerS  = 30;
+var elapsed = 0;
+var paused  = false;
+var ticker  = null;
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
-window.addEventListener('load', function() {
+function init() {
   buildDots();
   render();
   startTicker();
   setupGestures();
-});
+}
 
 // ─── DOTS ────────────────────────────────────────────────────────────────────
 function buildDots() {
   var html = '';
-  for (var i=0; i<SEQ.length; i++) html += '<div class="dot" id="dot'+i+'"></div>';
-  document.getElementById('dotsWrap').innerHTML = html;
+  for (var i = 0; i < SEQ.length; i++) html += '<div class="dot" id="dot' + i + '"></div>';
+  document.getElementById("dotsWrap").innerHTML = html;
 }
 
 function syncDots() {
-  for (var i=0; i<SEQ.length; i++) {
-    var d = document.getElementById('dot'+i);
+  for (var i = 0; i < SEQ.length; i++) {
+    var d = document.getElementById('dot' + i);
     if (!d) continue;
-    d.className = 'dot' + (i<idx?' done':i===idx?' cur':'');
+    d.className = 'dot' + (i < idx ? ' done' : i === idx ? ' cur' : '');
   }
-  var cur = document.getElementById('dot'+idx);
-  if (cur) cur.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  var cur = document.getElementById('dot' + idx);
+  if (cur) cur.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
 }
 
-// ─── RENDER ────────────────────────────────────────────────────────────────────
+// ─── RENDER ──────────────────────────────────────────────────────────────────
+function figHTML(p, size, i) {
+  if (i !== undefined) {
+    var stored;
+    try { stored = localStorage.getItem('pose_img_' + i); } catch(e) {}
+    if (stored) return '<img src="' + stored + '" alt="' + p.n + '" style="max-width:' + size + 'px;max-height:' + size + 'px;object-fit:contain;border-radius:6px;">';
+  }
+  if (p.img) return '<img src="images/' + p.img + '" alt="' + p.n + '" style="max-width:' + size + 'px;max-height:' + size + 'px;object-fit:contain;border-radius:6px;">';
+  return FIG[CAT_FIG[p.c]] || FIG.std;
+}
+
 function render() {
   var p = SEQ[idx];
-  document.getElementById('poseNum').textContent    = (idx+1)+' / '+SEQ.length;
-  document.getElementById('figBox').innerHTML        = FIG[CAT[p.c]] || FIG.std;
-  document.getElementById('poseName').textContent   = p.n;
-  document.getElementById('poseSub').textContent    = p.s;
-  document.getElementById('poseBreath').textContent = p.b;
-  document.getElementById('prevBtn').className = 'nav-btn' + (idx===0?' off':'');
-  document.getElementById('nextBtn').className = 'nav-btn' + (idx===SEQ.length-1?' off':'');
-  renderNext(1, idx+1);
-  renderNext(2, idx+2);
+  document.getElementById("poseNum").textContent    = (idx + 1) + ' / ' + SEQ.length;
+  document.getElementById("figBox").innerHTML        = figHTML(p, 160, idx);
+  document.getElementById("poseName").textContent   = p.n;
+  document.getElementById("poseSub").textContent    = p.s;
+  document.getElementById("poseBreath").textContent = p.b;
+  document.getElementById("prevBtn").classList.toggle("off", idx === 0);
+  document.getElementById("nextBtn").classList.toggle("off", idx === SEQ.length - 1);
+  renderNext(1, idx + 1);
+  renderNext(2, idx + 2);
   syncDots();
   resetBar();
 }
 
 function renderNext(slot, i) {
-  var nc = document.getElementById('nc'+slot);
+  var card = document.getElementById('nc' + slot);
   if (i >= SEQ.length) {
-    nc.style.opacity = '0.15';
-    document.getElementById('nn'+slot).textContent = slot===1?'End of sequence':'--';
-    document.getElementById('nb'+slot).textContent = '';
-    document.getElementById('nf'+slot).innerHTML   = '';
+    card.style.opacity = '0.15';
+    document.getElementById('nn' + slot).textContent = slot === 1 ? 'End of sequence' : '—';
+    document.getElementById('nb' + slot).textContent = '';
+    document.getElementById('nf' + slot).innerHTML   = '';
     return;
   }
-  nc.style.opacity = slot===1?'0.72':'0.40';
+  card.style.opacity = slot === 1 ? '0.72' : '0.40';
   var p = SEQ[i];
-  document.getElementById('nf'+slot).innerHTML   = FIG[CAT[p.c]] || FIG.std;
-  document.getElementById('nn'+slot).textContent = p.s ? p.n+' - '+p.s : p.n;
-  document.getElementById('nb'+slot).textContent = p.b;
+  document.getElementById('nf' + slot).innerHTML   = figHTML(p, 38, i);
+  document.getElementById('nn' + slot).textContent = p.s ? p.n + ' · ' + p.s : p.n;
+  document.getElementById('nb' + slot).textContent = p.b;
 }
 
-// ─── NAVIGATION ────────────────────────────────────────────────────────────────────
+// ─── NAVIGATION ──────────────────────────────────────────────────────────────
 function advance() {
-  if (idx >= SEQ.length-1) { showDone(); return; }
-  animCard('out-l','in-r', function(){ idx++; render(); });
+  if (idx >= SEQ.length - 1) { showDone(); return; }
+  animCard('out-l', 'in-r', function() { idx++; render(); });
 }
 
 function goBack() {
   if (idx <= 0) return;
-  animCard('out-r','in-l', function(){ idx--; render(); });
+  animCard('out-r', 'in-l', function() { idx--; render(); });
 }
 
-function animCard(out, inCls, cb) {
+function animCard(outCls, inCls, cb) {
   var el = document.getElementById('nowCard');
-  el.classList.add(out);
-  setTimeout(function(){
-    el.classList.remove(out);
+  el.classList.add(outCls);
+  setTimeout(function() {
+    el.classList.remove(outCls);
     cb();
     el.classList.add(inCls);
-    setTimeout(function(){ el.classList.remove(inCls); }, 250);
+    setTimeout(function() { el.classList.remove(inCls); }, 250);
   }, 170);
 }
 
-// ─── TIMER ────────────────────────────────────────────────────────────────────
+// ─── TIMER ───────────────────────────────────────────────────────────────────
 function startTicker() {
   clearInterval(ticker);
-  ticker = setInterval(function(){
+  ticker = setInterval(function() {
     if (paused) return;
     elapsed++;
-    document.getElementById('barFill').style.width = ((elapsed/timerS)*100)+'%';
-    if (elapsed >= timerS) { elapsed=0; advance(); }
+    document.getElementById('barFill').style.width = (elapsed / timerS * 100) + '%';
+    if (elapsed >= timerS) { elapsed = 0; advance(); }
   }, 1000);
 }
 
@@ -583,9 +814,9 @@ function resetBar() {
 
 function setTimer(s) {
   timerS = s; elapsed = 0;
-  var btns = document.querySelectorAll('.pill');
-  for (var i=0; i<btns.length; i++)
-    btns[i].classList.toggle('on', parseInt(btns[i].dataset.s)===s);
+  var pills = document.querySelectorAll('.pill');
+  for (var i = 0; i < pills.length; i++)
+    pills[i].classList.toggle('on', parseInt(pills[i].dataset.s) === s);
   document.getElementById('barFill').style.width = '0%';
 }
 
@@ -594,32 +825,65 @@ function togglePause() {
   document.getElementById('pauseBtn').textContent = paused ? '▶' : '⏸';
 }
 
-// ─── GESTURES ────────────────────────────────────────────────────────────────────
+// ─── GESTURES ────────────────────────────────────────────────────────────────
 function setupGestures() {
   var card = document.getElementById('nowCard');
-  var startX=0, startY=0, wasTouched=false, swipeHandled=false;
+  var startX = 0, startY = 0, wasTouched = false, swipeHandled = false;
 
-  card.addEventListener('touchstart', function(e){
-    startX=e.touches[0].clientX;
-    startY=e.touches[0].clientY;
-    wasTouched=true; swipeHandled=false;
-  },{passive:true});
+  card.addEventListener('touchstart', function(e) {
+    startX       = e.touches[0].clientX;
+    startY       = e.touches[0].clientY;
+    wasTouched   = true;
+    swipeHandled = false;
+  }, {passive: true});
 
-  card.addEventListener('touchend', function(e){
-    var dx=e.changedTouches[0].clientX-startX;
-    var dy=e.changedTouches[0].clientY-startY;
-    if (dx < -50 && Math.abs(dy) < 80) { swipeHandled=true; advance(); return; }
-    if (dx >  50 && Math.abs(dy) < 80) { swipeHandled=true; goBack();  return; }
-  },{passive:true});
+  card.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - startX;
+    var dy = e.changedTouches[0].clientY - startY;
+    if (dx < -50 && Math.abs(dy) < 80) { swipeHandled = true; advance(); return; }
+    if (dx >  50 && Math.abs(dy) < 80) { swipeHandled = true; goBack();  return; }
+  }, {passive: true});
 
-  card.addEventListener('click', function(){
+  card.addEventListener('click', function() {
     if (wasTouched) {
-      wasTouched=false;
+      wasTouched = false;
       if (!swipeHandled) advance();
       return;
     }
     advance();
   });
+}
+
+// ─── PHOTO PICKER ────────────────────────────────────────────────────────────
+function pickImage() {
+  var inp = document.getElementById('imgPicker');
+  inp.onchange = function() {
+    if (!inp.files || !inp.files[0]) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      resizeImage(e.target.result, 400, 400, function(dataUrl) {
+        try { localStorage.setItem('pose_img_' + idx, dataUrl); } catch(ex) {}
+        render();
+      });
+    };
+    reader.readAsDataURL(inp.files[0]);
+    inp.value = '';
+  };
+  inp.click();
+}
+
+function resizeImage(dataUrl, maxW, maxH, cb) {
+  var img = new Image();
+  img.onload = function() {
+    var w = img.width, h = img.height;
+    var scale = Math.min(maxW / w, maxH / h, 1);
+    var canvas = document.createElement('canvas');
+    canvas.width  = Math.round(w * scale);
+    canvas.height = Math.round(h * scale);
+    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+    cb(canvas.toDataURL('image/jpeg', 0.78));
+  };
+  img.src = dataUrl;
 }
 
 // ─── DONE ────────────────────────────────────────────────────────────────────
@@ -629,12 +893,15 @@ function showDone() {
 }
 
 function restart() {
-  idx=0; elapsed=0; paused=false;
-  document.getElementById('pauseBtn').textContent='⏸';
+  idx = 0; elapsed = 0; paused = false;
+  document.getElementById('pauseBtn').textContent = '⏸';
   document.getElementById('doneScreen').classList.remove('show');
   render();
   startTicker();
 }
+
+// ─── START ───────────────────────────────────────────────────────────────────
+window.addEventListener('load', init);
 </script>
 </body>
 </html>
