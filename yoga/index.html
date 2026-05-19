@@ -152,17 +152,35 @@ body {
   align-items: center;
   justify-content: center;
 }
-/* On short screens (older iPhones) shrink the figure */
 @media (max-height: 620px) {
   .fig-box { width: 120px; height: 130px; }
 }
-.fig-box svg { width: 100%; height: 100%; display: block; }
-.fig-box img {
+
+/* Your whiteboard photos: drop the white background so only the red drawing shows */
+.pose-photo {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  border-radius: 6px;
+  filter: contrast(6) invert(1) hue-rotate(180deg) brightness(2.5);
+  mix-blend-mode: screen;
 }
+
+/* Placeholder when no photo uploaded yet */
+.no-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--dim);
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+  pointer-events: none;
+}
+.no-photo-icon { font-size: 36px; }
+.no-photo-txt  { font-size: 11px; line-height: 1.5; }
 
 .now-name {
   font-size: clamp(17px, 5vw, 24px);
@@ -290,19 +308,21 @@ body {
 /* ── CAMERA BUTTON ────────────────────── */
 .cam-btn {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.11);
-  border-radius: 18px;
-  color: var(--dim);
-  font-size: 11px;
-  padding: 5px 10px;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 20px;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 14px;
   cursor: pointer;
   z-index: 10;
   -webkit-tap-highlight-color: transparent;
+  letter-spacing: .03em;
 }
-.cam-btn:active { background: rgba(255,255,255,0.15); color: var(--text); }
+.cam-btn:active { background: rgba(201,168,76,0.3); }
 </style>
 </head>
 <body>
@@ -337,7 +357,7 @@ body {
 
 <!-- CURRENT POSE CARD  (tap or swipe to navigate) -->
 <div class="now-card" id="nowCard">
-  <button class="cam-btn" onclick="event.stopPropagation();pickImage()" ontouchend="event.stopPropagation()">📷 Replace</button>
+  <button class="cam-btn" onclick="event.stopPropagation();pickImage()" ontouchend="event.stopPropagation()">📷 Add Photo</button>
   <div class="fig-box" id="figBox"></div>
   <div class="now-name"   id="poseName"></div>
   <div class="now-sub"    id="poseSub"></div>
@@ -766,10 +786,13 @@ function figHTML(p, size, i) {
   if (i !== undefined) {
     var stored;
     try { stored = localStorage.getItem('pose_img_' + i); } catch(e) {}
-    if (stored) return '<img src="' + stored + '" alt="' + p.n + '" style="max-width:' + size + 'px;max-height:' + size + 'px;object-fit:contain;border-radius:6px;">';
+    if (stored) return '<img class="pose-photo" src="' + stored + '" alt="' + p.n + '" style="max-width:' + size + 'px;max-height:' + size + 'px;">';
   }
-  if (p.img) return '<img src="images/' + p.img + '" alt="' + p.n + '" style="max-width:' + size + 'px;max-height:' + size + 'px;object-fit:contain;border-radius:6px;">';
-  return FIG[CAT_FIG[p.c]] || FIG.std;
+  // No photo yet — show placeholder (large for main card, small icon for previews)
+  if (size > 60) {
+    return '<div class="no-photo"><div class="no-photo-icon">📷</div><div class="no-photo-txt">Tap <strong style="color:var(--gold)">Add Photo</strong><br>to use your drawing</div></div>';
+  }
+  return '<div style="width:' + size + 'px;height:' + size + 'px;display:flex;align-items:center;justify-content:center;font-size:18px;opacity:0.25">📷</div>';
 }
 
 function render() {
