@@ -284,6 +284,15 @@ body {
 </head>
 <body>
 
+<!-- Shown only when JavaScript is blocked (e.g. Files app Quick Look preview) -->
+<noscript>
+  <div style="position:fixed;inset:0;background:#0f0f1a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;z-index:999;font-family:-apple-system,sans-serif;color:#e8e8f0;text-align:center;">
+    <div style="font-size:48px">🧘</div>
+    <div style="font-size:22px;font-weight:700">Open in Safari</div>
+    <div style="font-size:15px;color:#55607a;line-height:1.6">This app needs JavaScript to run.<br>Tap the <strong style="color:#c9a84c">share button ↗</strong> below<br>and choose <strong style="color:#c9a84c">Open in Safari</strong>.</div>
+  </div>
+</noscript>
+
 <!-- HEADER -->
 <div class="hdr">
   <span class="pose-num" id="poseNum">1 / 1</span>
