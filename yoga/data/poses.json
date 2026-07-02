@@ -1,0 +1,123 @@
+[
+  {
+    "id": "mountain-pose",
+    "name": "Mountain Pose",
+    "sanskritName": "Tadasana",
+    "cue": "Stand tall, feet grounded, arms relaxed. Breathe.",
+    "image": "images/poses/mountain-pose.svg",
+    "defaultDurationSec": 30,
+    "tags": ["standing"],
+    "createdAt": "2026-07-02T00:00:00Z",
+    "updatedAt": "2026-07-02T00:00:00Z"
+  },
+  {
+    "id": "upward-salute",
+    "name": "Upward Salute",
+    "sanskritName": "Urdhva Hastasana",
+    "cue": "Sweep arms overhead, reach through the fingertips.",
+    "image": "images/poses/upward-salute.svg",
+    "defaultDurationSec": 15,
+    "tags": ["standing"],
+    "createdAt": "2026-07-02T00:00:00Z",
+    "updatedAt": "2026-07-02T00:00:00Z"
+  },
+  {
+    "id": "standing-forward-fold",
+    "name": "Standing Forward Fold",
+    "sanskritName": "Uttanasana",
+    "cue": "Hinge at the hips, let the head hang heavy.",
+    "image": "images/poses/standing-forward-fold.svg",
+    "defaultDurationSec": 20,
+    "tags": ["forward-fold"],
+    "createdAt": "2026-07-02T00:00:00Z",
+    "updatedAt": "2026-07-02T00:00:00Z"
+  },
+  {
+    "id": "half-lift",
+    "name": "Half Lift",
+    "sanskritName": "Ardha Uttanasana",
+    "cue": "Flat back, fingertips to shins, gaze forward.",
+    "image": "images/poses/half-lift.svg",
+    "defaultDurationSec": 15,
+    "tags": ["forward-fold"],
+    "createdAt": "2026-07-02T00:00:00Z",
+    "updatedAt": "2026-07-02T00:00:00Z"
+  },
+  {
+    "id": "plank-pose",
+    "name": "Plank Pose",
+    "sanskritName": "Phalakasana",
+    "cue": "Shoulders over wrists, one straight line head to heels.",
+    "image": "images/poses/plank-pose.svg",
+    "defaultDurationSec": 20,
+    "tags": ["core"],
+    "createdAt": "2026-07-02T00:00:00Z",
+    "updatedAt": "2026-07-02T00:00:00Z"
+  },
+  {
+    "id": "chaturanga",
+    "name": "Chaturanga",
+    "sanskritName": "Chaturanga Dandasana",
+    "cue": "Elbows hug in, hover halfway down.",
+    "image": "images/poses/chaturanga.svg",
+    "defaultDurationSec": 10,
+    "tags": ["core"],
+    "createdAt": "2026-07-02T00:00:00Z",
+    "updatedAt": "2026-07-02T00:00:00Z"
+  },
+  {
+    "id": "upward-dog",
+    "name": "Upward-Facing Dog",
+    "sanskritName": "Urdhva Mukha Svanasana",
+    "cue": "Roll over the toes, lift the chest, press the tops of the feet down.",
+    "image": "images/poses/upward-dog.svg",
+    "defaultDurationSec": 15,
+    "tags": ["backbend"],
+    "createdAt": "2026-07-02T00:00:00Z",
+    "updatedAt": "2026-07-02T00:00:00Z"
+  },
+  {
+    "id": "downward-dog",
+    "name": "Downward-Facing Dog",
+    "sanskritName": "Adho Mukha Svanasana",
+    "cue": "Hips high, spine long, pedal out the feet.",
+    "image": "images/poses/downward-dog.svg",
+    "defaultDurationSec": 30,
+    "tags": ["inversion"],
+    "createdAt": "2026-07-02T00:00:00Z",
+    "updatedAt": "2026-07-02T00:00:00Z"
+  },
+  {
+    "id": "easy-seated-pose",
+    "name": "Easy Seated Pose",
+    "sanskritName": "Sukhasana",
+    "cue": "Cross the shins, lengthen the spine, soften the shoulders.",
+    "image": "images/poses/easy-seated-pose.svg",
+    "defaultDurationSec": 30,
+    "tags": ["seated"],
+    "createdAt": "2026-07-02T00:00:00Z",
+    "updatedAt": "2026-07-02T00:00:00Z"
+  },
+  {
+    "id": "seated-forward-fold",
+    "name": "Seated Forward Fold",
+    "sanskritName": "Paschimottanasana",
+    "cue": "Hinge from the hips, reach for the feet, keep the spine long.",
+    "image": "images/poses/seated-forward-fold.svg",
+    "defaultDurationSec": 30,
+    "tags": ["seated", "forward-fold"],
+    "createdAt": "2026-07-02T00:00:00Z",
+    "updatedAt": "2026-07-02T00:00:00Z"
+  },
+  {
+    "id": "seated-twist",
+    "name": "Seated Twist",
+    "sanskritName": "Ardha Matsyendrasana",
+    "cue": "Lengthen up, twist from the belly, look over the back shoulder.",
+    "image": "images/poses/seated-twist.svg",
+    "defaultDurationSec": 20,
+    "tags": ["seated", "twist"],
+    "createdAt": "2026-07-02T00:00:00Z",
+    "updatedAt": "2026-07-02T00:00:00Z"
+  }
+]

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#6b8f71">
+<title>Flow Cards — Settings</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header id="site-nav"></header>
+
+<main class="page">
+  <h1>Settings</h1>
+
+  <div class="card">
+    <h2>Default pose duration</h2>
+    <p>Used when a sequence and pose don't specify their own timing.</p>
+    <div class="duration-pills" id="durationPills">
+      <button data-sec="15">15s</button>
+      <button data-sec="30">30s</button>
+      <button data-sec="45">45s</button>
+      <button data-sec="60">60s</button>
+    </div>
+    <label for="customDuration">Or a custom number of seconds</label>
+    <input type="number" id="customDuration" min="1" placeholder="e.g. 20">
+  </div>
+
+  <h2 class="section-title">GitHub sync</h2>
+  <div class="card">
+    <p>
+      Saving in the Pose Library or Sequence Builder commits your changes straight
+      to this repository, so the app updates for everyone. That requires a
+      GitHub <strong>personal access token</strong>, stored only on this device.
+    </p>
+
+    <div class="warning-box">
+      Use a <strong>fine-grained</strong> token scoped to only this repository
+      (<code>mklaer86-create/MichellesPlaygroun</code>) with
+      <strong>Contents: Read and write</strong> permission — nothing else. Treat it
+      like a password: never paste it into a shared or public computer, and set an
+      expiration date when you create it.
+    </div>
+
+    <label for="patInput">Personal access token</label>
+    <input type="password" id="patInput" placeholder="github_pat_...">
+    <div class="field-hint">
+      Create one at GitHub → Settings → Developer settings → Personal access
+      tokens → Fine-grained tokens.
+    </div>
+
+    <div class="modal-actions" style="justify-content:flex-start; margin-top:16px;">
+      <button class="btn-primary" id="saveTokenBtn">Save token</button>
+      <button class="btn-danger" id="clearTokenBtn">Clear token</button>
+    </div>
+    <p id="tokenStatus" style="margin-top:10px;"></p>
+  </div>
+</main>
+
+<script type="module">
+  import { renderNav } from "./js/app.js";
+  import * as state from "./js/state.js";
+  import { toast } from "./js/utils.js";
+
+  renderNav("settings");
+
+  const durationPills = document.getElementById("durationPills");
+  const customDuration = document.getElementById("customDuration");
+  const patInput = document.getElementById("patInput");
+  const tokenStatus = document.getElementById("tokenStatus");
+
+  function syncDurationUI() {
+    const current = state.getDefaultDurationSec();
+    let matched = false;
+    durationPills.querySelectorAll("button").forEach((btn) => {
+      const on = parseInt(btn.dataset.sec, 10) === current;
+      btn.classList.toggle("on", on);
+      if (on) matched = true;
+    });
+    customDuration.value = matched ? "" : current;
+  }
+
+  durationPills.addEventListener("click", (e) => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+    state.setDefaultDurationSec(parseInt(btn.dataset.sec, 10));
+    syncDurationUI();
+    toast("Default duration updated.");
+  });
+
+  customDuration.addEventListener("change", () => {
+    const v = parseInt(customDuration.value, 10);
+    if (Number.isFinite(v) && v > 0) {
+      state.setDefaultDurationSec(v);
+      syncDurationUI();
+      toast("Default duration updated.");
+    }
+  });
+
+  function syncTokenUI() {
+    tokenStatus.textContent = state.hasPAT()
+      ? "A token is saved on this device."
+      : "No token saved yet — the editor screens will ask you to add one before saving.";
+  }
+
+  document.getElementById("saveTokenBtn").addEventListener("click", () => {
+    if (!patInput.value.trim()) {
+      toast("Paste a token first.", { tone: "error" });
+      return;
+    }
+    state.setPAT(patInput.value);
+    patInput.value = "";
+    syncTokenUI();
+    toast("Token saved on this device.");
+  });
+
+  document.getElementById("clearTokenBtn").addEventListener("click", () => {
+    state.clearPAT();
+    syncTokenUI();
+    toast("Token cleared.");
+  });
+
+  syncDurationUI();
+  syncTokenUI();
+</script>
+</body>
+</html>

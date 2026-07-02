@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#6b8f71">
+<title>Flow Cards — Pose Library</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header id="site-nav"></header>
+
+<main class="page">
+  <div class="page-header">
+    <div>
+      <h1>Pose Library</h1>
+      <p>Edit a pose here and the change shows up in every sequence that uses it.</p>
+    </div>
+    <button class="btn-primary" id="addPoseBtn">+ New pose</button>
+  </div>
+
+  <input type="text" id="poseSearch" class="search-input" placeholder="Search poses…">
+  <div id="poseGrid" class="grid"></div>
+</main>
+
+<script type="module" src="js/library.js"></script>
+</body>
+</html>

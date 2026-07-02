@@ -1,0 +1,47 @@
+# Yoga App Publisher
+# ===================
+# Runs automatically every time you save changes inside the yoga/ folder.
+# You never need to touch this file.
+#
+# What it does:
+#   1. Takes everything in the yoga/ folder
+#   2. Publishes it as your live website (GitHub Pages)
+#
+# You can also trigger it manually:
+#   GitHub → Actions tab → "Deploy Yoga App" → "Run workflow"
+#
+# One-time setup (can't be done by a commit — only needs doing once):
+#   Repo Settings → Pages → Source → set to "GitHub Actions"
+
+name: Deploy Yoga App
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'yoga/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: yoga
+      - id: deployment
+        uses: actions/deploy-pages@v4

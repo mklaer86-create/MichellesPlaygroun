@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#6b8f71">
+<title>Flow Cards — Practice</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header id="site-nav"></header>
+
+<div class="play-shell">
+  <div class="play-topbar">
+    <span class="progress-badge" id="progressBadge">1 / 1</span>
+    <button class="btn-icon" id="pauseBtn" title="Pause/resume timer">⏸</button>
+  </div>
+
+  <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+
+  <div class="pose-card-main" id="poseCard">
+    <span class="pause-hint" id="pauseHint" style="display:none;">⏸</span>
+    <img id="poseImage" src="" alt="">
+    <div class="pose-name" id="poseName"></div>
+    <div class="pose-sanskrit" id="poseSanskrit"></div>
+    <div class="pose-cue" id="poseCue"></div>
+  </div>
+
+  <div class="nav-row">
+    <button id="prevBtn">← Prev</button>
+    <button id="nextBtn">Next →</button>
+  </div>
+
+  <div class="upnext-strip" id="upNext"></div>
+</div>
+
+<div class="done-screen" id="doneScreen">
+  <div class="emoji">🧘</div>
+  <h2>Namaste</h2>
+  <p>Practice complete.</p>
+  <button class="btn-primary" id="restartBtn">Practice again</button>
+  <a class="btn" href="index.html">Back to sequences</a>
+</div>
+
+<script type="module" src="js/play.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "sun-salutation-a",
+    "name": "Sun Salutation A",
+    "description": "Classic warm-up flow.",
+    "defaultDurationSec": 20,
+    "steps": [
+      { "stepId": "step-1", "poseId": "mountain-pose" },
+      { "stepId": "step-2", "poseId": "upward-salute" },
+      { "stepId": "step-3", "poseId": "standing-forward-fold" },
+      { "stepId": "step-4", "poseId": "half-lift" },
+      { "stepId": "step-5", "poseId": "plank-pose" },
+      { "stepId": "step-6", "poseId": "chaturanga" },
+      { "stepId": "step-7", "poseId": "upward-dog" },
+      { "stepId": "step-8", "poseId": "downward-dog" }
+    ],
+    "createdAt": "2026-07-02T00:00:00Z",
+    "updatedAt": "2026-07-02T00:00:00Z"
+  },
+  {
+    "id": "seated-stretch",
+    "name": "Seated Stretch",
+    "description": "A short seated cool-down.",
+    "defaultDurationSec": 30,
+    "steps": [
+      { "stepId": "step-1", "poseId": "easy-seated-pose" },
+      { "stepId": "step-2", "poseId": "seated-forward-fold" },
+      { "stepId": "step-3", "poseId": "seated-twist" },
+      {
+        "stepId": "step-4",
+        "poseId": "mountain-pose",
+        "overrides": { "cue": "Closing breath — hands at heart center.", "durationSec": 45 }
+      }
+    ],
+    "createdAt": "2026-07-02T00:00:00Z",
+    "updatedAt": "2026-07-02T00:00:00Z"
+  }
+]
