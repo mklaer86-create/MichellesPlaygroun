@@ -163,7 +163,11 @@ function initLibraryPage() {
       .sort((a, b) => a.name.localeCompare(b.name));
 
     if (poses.length === 0) {
-      grid.innerHTML = `<div class="empty-state">No poses match yet.</div>`;
+      if (data.getPoses().length === 0 && data.isDataUnavailable()) {
+        grid.innerHTML = `<div class="empty-state">Can't reach the pose library right now — your data is safe on GitHub.<br>Check your connection or try again in a minute.<br><br><button class="btn-primary" onclick="location.reload()">Try again</button></div>`;
+      } else {
+        grid.innerHTML = `<div class="empty-state">No poses match yet.</div>`;
+      }
       return;
     }
 

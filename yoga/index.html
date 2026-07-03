@@ -26,7 +26,7 @@
 
 <script type="module">
   import { renderNav, registerServiceWorker } from "./js/app.js";
-  import { loadAll, resolveSequenceSteps } from "./js/data.js";
+  import { loadAll, resolveSequenceSteps, isDataUnavailable } from "./js/data.js";
   import { resolveImageSrc } from "./js/state.js";
 
   renderNav("home");
@@ -37,7 +37,11 @@
     const grid = document.getElementById("sequenceGrid");
 
     if (sequences.length === 0) {
-      grid.innerHTML = `<div class="empty-state">No sequences yet. Head to <a href="builder.html">Sequences</a> to build your first one.</div>`;
+      if (isDataUnavailable()) {
+        grid.innerHTML = `<div class="empty-state">Can't reach the sequence library right now — your data is safe on GitHub.<br>Check your connection or try again in a minute.<br><br><button class="btn-primary" onclick="location.reload()">Try again</button></div>`;
+      } else {
+        grid.innerHTML = `<div class="empty-state">No sequences yet. Head to <a href="builder.html">Sequences</a> to build your first one.</div>`;
+      }
       return;
     }
 

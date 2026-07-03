@@ -30,12 +30,23 @@ async function fetchDataArray(url, kind) {
     if (res.ok) {
       const arr = await res.json();
       state.saveLastGoodData(kind, arr);
-      return arr;
+      return { arr, fetched: true };
     }
   } catch {
     // fall through to last-known-good
   }
-  return state.getLastGoodData(kind) || [];
+  const lastGood = state.getLastGoodData(kind);
+  return { arr: lastGood || [], fetched: false, hadFallback: !!lastGood };
+}
+
+// True when the last loadAll() couldn't reach the published data AND had no
+// saved copy to fall back on — meaning empty lists are an outage, not an
+// actually-empty library. Screens use this to show "can't reach the library"
+// instead of "you have no content yet".
+let dataUnavailable = false;
+
+export function isDataUnavailable() {
+  return dataUnavailable;
 }
 
 // Fetches the live, published data (cache-busted) and layers this browser
@@ -46,18 +57,22 @@ export async function loadAll({ force = false } = {}) {
     return { poses: cachedPoses, sequences: cachedSequences };
   }
   const bust = Date.now();
-  const [rawPoses, rawSequences] = await Promise.all([
+  const [posesResult, sequencesResult] = await Promise.all([
     fetchDataArray(`data/poses.json?v=${bust}`, "poses"),
     fetchDataArray(`data/sequences.json?v=${bust}`, "sequences"),
   ]);
 
+  dataUnavailable =
+    (!posesResult.fetched && !posesResult.hadFallback) ||
+    (!sequencesResult.fetched && !sequencesResult.hadFallback);
+
   cachedPoses = applyOverlay(
-    rawPoses,
+    posesResult.arr,
     state.getPoseOverlay(),
     state.getDeletedPoseIds()
   );
   cachedSequences = applyOverlay(
-    rawSequences,
+    sequencesResult.arr,
     state.getSequenceOverlay(),
     state.getDeletedSequenceIds()
   );
