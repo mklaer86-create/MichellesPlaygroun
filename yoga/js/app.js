@@ -26,11 +26,25 @@ export function renderNav(active) {
 }
 
 export function registerServiceWorker() {
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("service-worker.js").catch(() => {
-        // Offline support is a nice-to-have; ignore registration failures.
-      });
+  if (!("serviceWorker" in navigator)) return;
+
+  // When a new app version activates mid-visit, reload once so the user
+  // gets the new version immediately instead of needing a second manual
+  // refresh (the classic cache-first service worker trap). Only do this
+  // when the page was already controlled by a previous worker — on the
+  // first-ever install, controllerchange fires too (clients.claim) and
+  // reloading then would be needless flicker.
+  const wasControlledAtLoad = !!navigator.serviceWorker.controller;
+  let reloadedForUpdate = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!wasControlledAtLoad || reloadedForUpdate) return;
+    reloadedForUpdate = true;
+    location.reload();
+  });
+
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("service-worker.js").catch(() => {
+      // Offline support is a nice-to-have; ignore registration failures.
     });
-  }
+  });
 }

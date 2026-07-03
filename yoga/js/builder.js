@@ -54,7 +54,11 @@ function renderListView() {
 
   const grid = document.getElementById("seqGrid");
   if (sequences.length === 0) {
-    grid.innerHTML = `<div class="empty-state">No sequences yet — create your first one.</div>`;
+    if (data.isDataUnavailable()) {
+      grid.innerHTML = `<div class="empty-state">Can't reach the sequence library right now — your data is safe on GitHub.<br>Check your connection or try again in a minute.<br><br><button class="btn-primary" onclick="location.reload()">Try again</button></div>`;
+    } else {
+      grid.innerHTML = `<div class="empty-state">No sequences yet — create your first one.</div>`;
+    }
   } else {
     grid.innerHTML = sequences
       .map(
