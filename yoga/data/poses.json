@@ -6,7 +6,9 @@
     "cue": "Stand tall, feet grounded, arms relaxed. Breathe.",
     "image": "images/poses/mountain-pose.svg",
     "defaultDurationSec": 30,
-    "tags": ["standing"],
+    "tags": [
+      "standing"
+    ],
     "createdAt": "2026-07-02T00:00:00Z",
     "updatedAt": "2026-07-02T00:00:00Z"
   },
@@ -17,7 +19,9 @@
     "cue": "Sweep arms overhead, reach through the fingertips.",
     "image": "images/poses/upward-salute.svg",
     "defaultDurationSec": 15,
-    "tags": ["standing"],
+    "tags": [
+      "standing"
+    ],
     "createdAt": "2026-07-02T00:00:00Z",
     "updatedAt": "2026-07-02T00:00:00Z"
   },
@@ -28,7 +32,9 @@
     "cue": "Hinge at the hips, let the head hang heavy.",
     "image": "images/poses/standing-forward-fold.svg",
     "defaultDurationSec": 20,
-    "tags": ["forward-fold"],
+    "tags": [
+      "forward-fold"
+    ],
     "createdAt": "2026-07-02T00:00:00Z",
     "updatedAt": "2026-07-02T00:00:00Z"
   },
@@ -39,7 +45,9 @@
     "cue": "Flat back, fingertips to shins, gaze forward.",
     "image": "images/poses/half-lift.svg",
     "defaultDurationSec": 15,
-    "tags": ["forward-fold"],
+    "tags": [
+      "forward-fold"
+    ],
     "createdAt": "2026-07-02T00:00:00Z",
     "updatedAt": "2026-07-02T00:00:00Z"
   },
@@ -50,7 +58,9 @@
     "cue": "Shoulders over wrists, one straight line head to heels.",
     "image": "images/poses/plank-pose.svg",
     "defaultDurationSec": 20,
-    "tags": ["core"],
+    "tags": [
+      "core"
+    ],
     "createdAt": "2026-07-02T00:00:00Z",
     "updatedAt": "2026-07-02T00:00:00Z"
   },
@@ -59,11 +69,13 @@
     "name": "Chaturanga",
     "sanskritName": "Chaturanga Dandasana",
     "cue": "Elbows hug in, hover halfway down.",
-    "image": "images/poses/chaturanga.svg",
     "defaultDurationSec": 10,
-    "tags": ["core"],
-    "createdAt": "2026-07-02T00:00:00Z",
-    "updatedAt": "2026-07-02T00:00:00Z"
+    "tags": [
+      "core"
+    ],
+    "image": "images/poses/chaturanga.jpg",
+    "updatedAt": "2026-07-03T20:03:07.655Z",
+    "createdAt": "2026-07-02T00:00:00Z"
   },
   {
     "id": "upward-dog",
@@ -72,7 +84,9 @@
     "cue": "Roll over the toes, lift the chest, press the tops of the feet down.",
     "image": "images/poses/upward-dog.svg",
     "defaultDurationSec": 15,
-    "tags": ["backbend"],
+    "tags": [
+      "backbend"
+    ],
     "createdAt": "2026-07-02T00:00:00Z",
     "updatedAt": "2026-07-02T00:00:00Z"
   },
@@ -83,7 +97,9 @@
     "cue": "Hips high, spine long, pedal out the feet.",
     "image": "images/poses/downward-dog.svg",
     "defaultDurationSec": 30,
-    "tags": ["inversion"],
+    "tags": [
+      "inversion"
+    ],
     "createdAt": "2026-07-02T00:00:00Z",
     "updatedAt": "2026-07-02T00:00:00Z"
   },
@@ -94,7 +110,9 @@
     "cue": "Cross the shins, lengthen the spine, soften the shoulders.",
     "image": "images/poses/easy-seated-pose.svg",
     "defaultDurationSec": 30,
-    "tags": ["seated"],
+    "tags": [
+      "seated"
+    ],
     "createdAt": "2026-07-02T00:00:00Z",
     "updatedAt": "2026-07-02T00:00:00Z"
   },
@@ -105,7 +123,10 @@
     "cue": "Hinge from the hips, reach for the feet, keep the spine long.",
     "image": "images/poses/seated-forward-fold.svg",
     "defaultDurationSec": 30,
-    "tags": ["seated", "forward-fold"],
+    "tags": [
+      "seated",
+      "forward-fold"
+    ],
     "createdAt": "2026-07-02T00:00:00Z",
     "updatedAt": "2026-07-02T00:00:00Z"
   },
@@ -116,7 +137,10 @@
     "cue": "Lengthen up, twist from the belly, look over the back shoulder.",
     "image": "images/poses/seated-twist.svg",
     "defaultDurationSec": 20,
-    "tags": ["seated", "twist"],
+    "tags": [
+      "seated",
+      "twist"
+    ],
     "createdAt": "2026-07-02T00:00:00Z",
     "updatedAt": "2026-07-02T00:00:00Z"
   }
