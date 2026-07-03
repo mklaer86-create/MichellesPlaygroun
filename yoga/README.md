@@ -75,3 +75,5 @@ js/                     ← app logic (no build step — plain files, load as-is
 
 You won't normally need to touch these files directly — the in-app editor
 does it for you — but they're plain, readable JSON if you ever want to look.
+
+<!-- Deploy note: GitHub Pages had transient failures on 2026-07-03; harmless commits like this one just retrigger the publish workflow. -->
