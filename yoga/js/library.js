@@ -1,6 +1,6 @@
 import { renderNav } from "./app.js";
 import * as data from "./data.js";
-import { hasPAT } from "./state.js";
+import { hasPAT, resolveImageSrc, setLocalImagePreview } from "./state.js";
 import { toast, uniqueSlug } from "./utils.js";
 import { openImageCropper } from "./image-crop.js";
 
@@ -27,7 +27,8 @@ export function openPoseEditor(existingPose = null) {
         </div>
 
         <div style="text-align:center;">
-          <img id="posePreviewImg" src="${existingPose?.image || PLACEHOLDER_IMAGE}" alt=""
+          <img id="posePreviewImg" src="${resolveImageSrc(existingPose?.image) || PLACEHOLDER_IMAGE}" alt=""
+               onerror="this.onerror=null;this.src='${PLACEHOLDER_IMAGE}'"
                style="width:120px;height:120px;object-fit:contain;background:var(--accent-light);border-radius:14px;">
           <div style="margin-top:8px;">
             <button id="poseChangePhotoBtn">${existingPose?.image ? "Change photo" : "Add photo"}</button>
@@ -95,6 +96,10 @@ export function openPoseEditor(existingPose = null) {
         let image = existingPose?.image || PLACEHOLDER_IMAGE;
         if (pendingPhoto) {
           image = await data.savePoseImage(id, pendingPhoto.base64, pendingPhoto.ext);
+          // The committed image won't be on the published site for ~1 min;
+          // remember the photo locally so it displays immediately here.
+          const mime = pendingPhoto.ext === "png" ? "image/png" : "image/jpeg";
+          setLocalImagePreview(image, `data:${mime};base64,${pendingPhoto.base64}`);
         }
 
         const tags = backdrop
@@ -166,7 +171,7 @@ function initLibraryPage() {
       .map(
         (pose) => `
         <div class="pose-card" data-id="${pose.id}">
-          <img src="${pose.image || PLACEHOLDER_IMAGE}" alt="">
+          <img src="${resolveImageSrc(pose.image) || PLACEHOLDER_IMAGE}" alt="" onerror="this.onerror=null;this.src='${PLACEHOLDER_IMAGE}'">
           <h3 style="font-size:15px;">${pose.name}</h3>
           <div class="meta">${pose.sanskritName || ""}</div>
           <div class="meta">${pose.defaultDurationSec}s</div>

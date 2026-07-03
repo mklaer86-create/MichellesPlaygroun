@@ -1,6 +1,6 @@
 // Bump this whenever the precached file list changes so old caches get
 // cleaned up on the next visit.
-const CACHE_VERSION = "flow-cards-v1";
+const CACHE_VERSION = "flow-cards-v2";
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 const IMAGE_CACHE = `${CACHE_VERSION}-images`;
@@ -62,13 +62,17 @@ self.addEventListener("fetch", (event) => {
   }
 });
 
+// Only ever cache successful responses — caching a 404 (e.g. an image whose
+// Pages deploy hasn't finished yet) would make it look broken forever.
 async function cacheFirst(request, cacheName) {
   const cached = await caches.match(request);
   if (cached) return cached;
   try {
     const response = await fetch(request);
-    const cache = await caches.open(cacheName);
-    cache.put(request, response.clone());
+    if (response.ok) {
+      const cache = await caches.open(cacheName);
+      cache.put(request, response.clone());
+    }
     return response;
   } catch (err) {
     if (cached) return cached;
@@ -80,7 +84,9 @@ async function networkFirst(request, cacheName) {
   const cache = await caches.open(cacheName);
   try {
     const response = await fetch(request);
-    cache.put(request, response.clone());
+    if (response.ok) {
+      cache.put(request, response.clone());
+    }
     return response;
   } catch (err) {
     const cached = await cache.match(request);

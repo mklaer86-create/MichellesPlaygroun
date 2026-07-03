@@ -8,6 +8,7 @@ const OVERLAY_POSES_KEY = "yoga_overlay_poses";
 const OVERLAY_SEQUENCES_KEY = "yoga_overlay_sequences";
 const DELETED_POSES_KEY = "yoga_overlay_deleted_poses";
 const DELETED_SEQUENCES_KEY = "yoga_overlay_deleted_sequences";
+const LOCAL_IMAGES_KEY = "yoga_local_image_previews";
 
 export function getPAT() {
   return localStorage.getItem(PAT_KEY) || "";
@@ -97,4 +98,37 @@ export function markSequenceDeleted(id) {
   const deleted = new Set(getDeletedSequenceIds());
   deleted.add(id);
   writeJsonArray(DELETED_SEQUENCES_KEY, [...deleted]);
+}
+
+// ---- Local image previews ----
+// A freshly uploaded photo is committed to the repo immediately, but the
+// published site takes ~1 minute to rebuild, so the image's URL 404s at
+// first. We keep the photo's data URL in this tab's sessionStorage keyed by
+// its repo path, and resolveImageSrc() prefers it — so the pose displays
+// instantly on the device that made the edit.
+
+function readImageMap() {
+  try {
+    const raw = sessionStorage.getItem(LOCAL_IMAGES_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+export function setLocalImagePreview(path, dataUrl) {
+  const map = readImageMap();
+  map[path] = dataUrl;
+  try {
+    sessionStorage.setItem(LOCAL_IMAGES_KEY, JSON.stringify(map));
+  } catch {
+    // sessionStorage full — skip the preview; worst case the image shows
+    // the placeholder until the site rebuild finishes.
+  }
+}
+
+export function resolveImageSrc(path) {
+  if (!path) return path;
+  const map = readImageMap();
+  return map[path] || path;
 }
