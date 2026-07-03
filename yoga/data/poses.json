@@ -1,16 +1,14 @@
 [
   {
     "id": "mountain-pose",
-    "name": "Mountain Pose",
-    "sanskritName": "Tadasana",
-    "cue": "Stand tall, feet grounded, arms relaxed. Breathe.",
-    "image": "images/poses/mountain-pose.svg",
+    "name": "Mountain pose",
+    "sanskritName": "",
+    "cue": "Stand tall, activate your feet, hips, abs, chest, arms, shoulders etc",
     "defaultDurationSec": 30,
-    "tags": [
-      "standing"
-    ],
-    "createdAt": "2026-07-02T00:00:00Z",
-    "updatedAt": "2026-07-02T00:00:00Z"
+    "tags": [],
+    "image": "images/poses/mountain-pose.jpg",
+    "updatedAt": "2026-07-03T20:57:53.386Z",
+    "createdAt": "2026-07-02T00:00:00Z"
   },
   {
     "id": "upward-salute",
