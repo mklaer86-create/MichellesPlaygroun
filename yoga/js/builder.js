@@ -1,6 +1,6 @@
 import { renderNav } from "./app.js";
 import * as data from "./data.js";
-import { hasPAT } from "./state.js";
+import { hasPAT, resolveImageSrc, setLocalImagePreview } from "./state.js";
 import { toast, genId, uniqueSlug } from "./utils.js";
 import { openImageCropper } from "./image-crop.js";
 import { openPoseEditor } from "./library.js";
@@ -179,7 +179,7 @@ function renderStepRow(step, resolved, index, total) {
   return `
     <div class="step-row-wrap" data-step-id="${step.stepId}">
       <div class="step-row" data-step-id="${step.stepId}">
-        <img src="${resolved.image || PLACEHOLDER_IMAGE}" alt="">
+        <img src="${resolveImageSrc(resolved.image) || PLACEHOLDER_IMAGE}" alt="" onerror="this.onerror=null;this.src='${PLACEHOLDER_IMAGE}'">
         <div class="step-info">
           <div class="name">${index + 1}. ${resolved.name} ${resolved.hasOverride ? '<span class="tag">customized</span>' : ""}</div>
           <div class="meta">${resolved.durationSec}s${resolved.cue ? " · " + resolved.cue : ""}</div>
@@ -201,7 +201,7 @@ function renderOverridePanel(step, resolved) {
   const pending = pendingOverrideImages.get(step.stepId);
   const previewImage = pending
     ? `data:image/jpeg;base64,${pending.base64}`
-    : overrides.image || resolved.image || PLACEHOLDER_IMAGE;
+    : resolveImageSrc(overrides.image || resolved.image) || PLACEHOLDER_IMAGE;
 
   return `
     <div class="override-panel">
@@ -230,7 +230,7 @@ function renderOverridePanel(step, resolved) {
         <label for="ovImageChk-${step.stepId}" style="margin:0;">Override image</label>
       </div>
       <div style="display:flex; align-items:center; gap:10px;">
-        <img src="${previewImage}" alt="" style="width:60px;height:60px;object-fit:contain;background:var(--accent-light);border-radius:8px;">
+        <img src="${previewImage}" alt="" style="width:60px;height:60px;object-fit:contain;background:var(--accent-light);border-radius:8px;" onerror="this.onerror=null;this.src='${PLACEHOLDER_IMAGE}'">
         <button id="ovImageBtn-${step.stepId}">Change photo</button>
       </div>
 
@@ -278,6 +278,9 @@ function wireOverridePanel(sequence, stepId) {
         try {
           const path = await data.savePoseImage(`${step.poseId}__${stepId}`, pending.base64, pending.ext);
           overrides.image = path;
+          // Display the photo locally until the site rebuild publishes it.
+          const mime = pending.ext === "png" ? "image/png" : "image/jpeg";
+          setLocalImagePreview(path, `data:${mime};base64,${pending.base64}`);
         } catch (err) {
           toast(err.message, { tone: "error" });
           btn.disabled = false;
@@ -334,7 +337,7 @@ function openPosePicker(sequence, insertAtIndex) {
       .map(
         (p) => `
         <button class="pose-card" data-id="${p.id}" style="text-align:left;">
-          <img src="${p.image || PLACEHOLDER_IMAGE}" alt="" class="pose-thumb">
+          <img src="${resolveImageSrc(p.image) || PLACEHOLDER_IMAGE}" alt="" class="pose-thumb" onerror="this.onerror=null;this.src='${PLACEHOLDER_IMAGE}'">
           <div style="font-size:14px;font-weight:600;">${p.name}</div>
         </button>`
       )

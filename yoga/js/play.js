@@ -1,6 +1,9 @@
 import { renderNav, registerServiceWorker } from "./app.js";
 import { loadAll, getSequenceById, resolveSequenceSteps } from "./data.js";
+import { resolveImageSrc } from "./state.js";
 import { toast } from "./utils.js";
+
+const PLACEHOLDER_IMAGE = "images/poses/_placeholder.svg";
 
 renderNav("home");
 registerServiceWorker();
@@ -21,6 +24,14 @@ const els = {
   doneScreen: document.getElementById("doneScreen"),
   restartBtn: document.getElementById("restartBtn"),
 };
+
+// If a just-uploaded image hasn't finished publishing yet, show the
+// placeholder silhouette instead of a broken-image icon.
+els.poseImage.addEventListener("error", () => {
+  if (!els.poseImage.src.endsWith(PLACEHOLDER_IMAGE)) {
+    els.poseImage.src = PLACEHOLDER_IMAGE;
+  }
+});
 
 let steps = [];
 let idx = 0;
@@ -64,7 +75,7 @@ els.barFill.addEventListener("transitionend", (e) => {
 function renderStep() {
   const step = steps[idx];
   els.progressBadge.textContent = `${idx + 1} / ${steps.length}`;
-  els.poseImage.src = step.image || "";
+  els.poseImage.src = step.image ? resolveImageSrc(step.image) : "";
   els.poseImage.alt = step.name;
   els.poseImage.style.visibility = step.image ? "visible" : "hidden";
   els.poseName.textContent = step.name;
@@ -75,7 +86,7 @@ function renderStep() {
   const next = steps[idx + 1];
   if (next) {
     els.upNext.innerHTML = `
-      ${next.image ? `<img src="${next.image}" alt="">` : ""}
+      ${next.image ? `<img src="${resolveImageSrc(next.image)}" alt="" onerror="this.onerror=null;this.src='${PLACEHOLDER_IMAGE}'">` : ""}
       <span>Up next: <strong>${next.name}</strong></span>
     `;
   } else {

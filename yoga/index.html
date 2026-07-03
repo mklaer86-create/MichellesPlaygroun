@@ -27,6 +27,7 @@
 <script type="module">
   import { renderNav, registerServiceWorker } from "./js/app.js";
   import { loadAll, resolveSequenceSteps } from "./js/data.js";
+  import { resolveImageSrc } from "./js/state.js";
 
   renderNav("home");
   registerServiceWorker();
@@ -46,7 +47,7 @@
         const cover = steps.find((s) => s.image)?.image;
         return `
           <a class="sequence-card" href="play.html?seq=${encodeURIComponent(seq.id)}">
-            ${cover ? `<img src="${cover}" alt="" class="pose-thumb">` : ""}
+            ${cover ? `<img src="${resolveImageSrc(cover)}" alt="" class="pose-thumb" onerror="this.onerror=null;this.src='images/poses/_placeholder.svg'">` : ""}
             <h3>${seq.name}</h3>
             <div class="meta">${steps.length} pose${steps.length === 1 ? "" : "s"}${seq.description ? " · " + seq.description : ""}</div>
           </a>
