@@ -141,5 +141,16 @@
     ],
     "createdAt": "2026-07-02T00:00:00Z",
     "updatedAt": "2026-07-02T00:00:00Z"
+  },
+  {
+    "id": "lift-hands",
+    "name": "Lift Hands",
+    "sanskritName": "",
+    "cue": "Stretch arms to the sky, try a back bend, chest opener here",
+    "defaultDurationSec": 30,
+    "tags": [],
+    "image": "images/poses/lift-hands.jpg",
+    "updatedAt": "2026-07-03T20:59:19.217Z",
+    "createdAt": "2026-07-03T20:59:19.217Z"
   }
 ]
