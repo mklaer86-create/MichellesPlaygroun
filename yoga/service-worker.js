@@ -1,6 +1,6 @@
 // Bump this whenever the precached file list changes so old caches get
 // cleaned up on the next visit.
-const CACHE_VERSION = "flow-cards-v2";
+const CACHE_VERSION = "flow-cards-v3";
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const DATA_CACHE = `${CACHE_VERSION}-data`;
 const IMAGE_CACHE = `${CACHE_VERSION}-images`;
@@ -82,14 +82,17 @@ async function cacheFirst(request, cacheName) {
 
 async function networkFirst(request, cacheName) {
   const cache = await caches.open(cacheName);
+  // Data requests carry a cache-busting query (?v=...) that changes every
+  // load; key the cache by the bare path so the offline fallback still hits.
+  const cacheKey = request.url.split("?")[0];
   try {
     const response = await fetch(request);
     if (response.ok) {
-      cache.put(request, response.clone());
+      cache.put(cacheKey, response.clone());
     }
     return response;
   } catch (err) {
-    const cached = await cache.match(request);
+    const cached = await cache.match(cacheKey);
     if (cached) return cached;
     throw err;
   }

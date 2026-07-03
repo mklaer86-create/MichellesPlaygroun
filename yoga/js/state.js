@@ -132,3 +132,26 @@ export function resolveImageSrc(path) {
   const map = readImageMap();
   return map[path] || path;
 }
+
+// ---- Last-known-good data ----
+// If the published site is briefly unreachable (e.g. a Pages deploy failed
+// or is mid-swap), the app must not look like everything was deleted. Each
+// successful data fetch is mirrored to localStorage, and loadAll() falls
+// back to this copy when a fetch fails.
+
+export function saveLastGoodData(kind, arr) {
+  try {
+    localStorage.setItem(`yoga_last_good_${kind}`, JSON.stringify(arr));
+  } catch {
+    // Storage full — skip; fallback just won't be available.
+  }
+}
+
+export function getLastGoodData(kind) {
+  try {
+    const raw = localStorage.getItem(`yoga_last_good_${kind}`);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
