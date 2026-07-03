@@ -20,6 +20,24 @@ function applyOverlay(items, overlay, deletedIds) {
   return [...byId.values()];
 }
 
+// Fetch one data file. A failed fetch (network error, or the site briefly
+// serving 404s during/after a Pages deploy) falls back to the last copy
+// that loaded successfully — never to an empty library, which would look
+// like all the data had been deleted.
+async function fetchDataArray(url, kind) {
+  try {
+    const res = await fetch(url);
+    if (res.ok) {
+      const arr = await res.json();
+      state.saveLastGoodData(kind, arr);
+      return arr;
+    }
+  } catch {
+    // fall through to last-known-good
+  }
+  return state.getLastGoodData(kind) || [];
+}
+
 // Fetches the live, published data (cache-busted) and layers this browser
 // tab's not-yet-published edits on top, so the UI reflects reality even
 // during the ~1 minute window while GitHub Pages is rebuilding.
@@ -28,12 +46,10 @@ export async function loadAll({ force = false } = {}) {
     return { poses: cachedPoses, sequences: cachedSequences };
   }
   const bust = Date.now();
-  const [posesRes, sequencesRes] = await Promise.all([
-    fetch(`data/poses.json?v=${bust}`),
-    fetch(`data/sequences.json?v=${bust}`),
+  const [rawPoses, rawSequences] = await Promise.all([
+    fetchDataArray(`data/poses.json?v=${bust}`, "poses"),
+    fetchDataArray(`data/sequences.json?v=${bust}`, "sequences"),
   ]);
-  const rawPoses = posesRes.ok ? await posesRes.json() : [];
-  const rawSequences = sequencesRes.ok ? await sequencesRes.json() : [];
 
   cachedPoses = applyOverlay(
     rawPoses,
