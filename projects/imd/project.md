@@ -37,6 +37,16 @@
 
 ---
 
+## Partnerships
+
+Individual files for each partner org live in `projects/imd/partnerships/`.
+Use the `/partnership` command to create a new one or log an update to an
+existing one.
+
+- _No partnership files yet — the first will be listed here once created._
+
+---
+
 ## Open Loops
 
 - [ ] [Add anything you're tracking here]
