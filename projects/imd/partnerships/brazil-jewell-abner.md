@@ -24,7 +24,7 @@ teaching.
 | Name | Role | Organization | Email / Phone |
 |------|------|---------------|----------------|
 | Jewell | Pastor | [Church/org name] | [Contact info] |
-| Abner | Church/leadership developer | [Church/org name] | [Contact info] |
+| Abner | Church/leadership developer | [Church/org name] | +55 92 99507 7878 |
 
 ---
 
@@ -33,6 +33,23 @@ teaching.
 No formal agreement yet. Early-stage conversation about how IMD's leadership
 teaching could support the church-building work Abner is leading in the
 Manaus/Autazes region.
+
+---
+
+## Teaching Plan
+
+**Potential teaching locations:** Manaus and Autazes
+
+**First teaching:** "Building the Inner Man"
+
+**Content needs identified:** Emotional health — likely trauma teaching and
+prayer teaching
+
+**To determine:**
+- [ ] Best date in 2027 (February or March)
+- [ ] Venue(s)
+- [ ] Hotel(s)
+- [ ] Transportation
 
 ---
 
@@ -49,6 +66,11 @@ Manaus/Autazes region.
 
 ## Update Log
 
+- **July 7, 2026** — Got Abner's phone number (+55 92 99507 7878). Discussed
+  the first teaching — "Building the Inner Man" — for Manaus and Autazes,
+  with emotional-health needs pointing toward trauma teaching and prayer
+  teaching. Still need to lock down a 2027 date (Feb or March), venue(s),
+  hotel(s), and transportation.
 - **July 7, 2026** — Partnership file created. Abner is moving from a pastor
   role into building up churches as a leader, and wants to partner with IMD
   to bring IMD's teaching to Brazilian ministry leaders. Jewell (pastor) and
@@ -58,7 +80,9 @@ Manaus/Autazes region.
 
 ## Open Loops / Next Steps
 
-- [ ] Get full contact info (email/phone) for Jewell and Abner
+- [ ] Get email and full contact info for Jewell
 - [ ] Clarify what a formal partnership would look like (training format,
       frequency, funding/logistics)
 - [ ] Confirm their church/organization name
+- [ ] Lock down 2027 teaching date, venue(s), hotel(s), and transportation
+      (see Teaching Plan above)
