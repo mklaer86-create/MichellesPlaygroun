@@ -50,6 +50,8 @@ prayer teaching
 - [ ] Venue(s)
 - [ ] Hotel(s)
 - [ ] Transportation
+- [ ] Translation — text translation of teaching materials into Portuguese,
+      plus printing for distribution
 
 ---
 
@@ -66,6 +68,9 @@ prayer teaching
 
 ## Update Log
 
+- **July 7, 2026** — Added translation as an identified need: teaching
+  materials will need text translation into Portuguese plus printing for
+  distribution.
 - **July 7, 2026** — Got Abner's phone number (+55 92 99507 7878). Discussed
   the first teaching — "Building the Inner Man" — for Manaus and Autazes,
   with emotional-health needs pointing toward trauma teaching and prayer
@@ -84,5 +89,5 @@ prayer teaching
 - [ ] Clarify what a formal partnership would look like (training format,
       frequency, funding/logistics)
 - [ ] Confirm their church/organization name
-- [ ] Lock down 2027 teaching date, venue(s), hotel(s), and transportation
-      (see Teaching Plan above)
+- [ ] Lock down 2027 teaching date, venue(s), hotel(s), transportation, and
+      translation/print plan (see Teaching Plan above)
