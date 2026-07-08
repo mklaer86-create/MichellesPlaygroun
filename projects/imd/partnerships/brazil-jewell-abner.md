@@ -6,6 +6,7 @@
 **Partnering with:** IMD International (imdinternational.org)
 **Started:** July 2026
 **Language(s):** Portuguese — translation likely needed for teaching materials and any newsletter content
+**Google Doc:** https://docs.google.com/document/d/1h-90Oqgg7kxwCFIHZwtzKf9WvIXp57UH8gIC2yUYiMw/edit
 
 ---
 
