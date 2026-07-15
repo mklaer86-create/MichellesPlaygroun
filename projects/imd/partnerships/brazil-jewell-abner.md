@@ -6,7 +6,8 @@
 **Partnering with:** IMD International (imdinternational.org)
 **Started:** July 2026
 **Language(s):** Portuguese — translation likely needed for teaching materials and any newsletter content
-**Google Doc:** https://docs.google.com/document/d/1h-90Oqgg7kxwCFIHZwtzKf9WvIXp57UH8gIC2yUYiMw/edit
+**Google Doc (internal tracker):** https://docs.google.com/document/d/1h-90Oqgg7kxwCFIHZwtzKf9WvIXp57UH8gIC2yUYiMw/edit
+**Google Doc (partner-facing letter, English):** https://docs.google.com/document/d/1-mDIPcKgsAPWBq48ieacE8zJ_z99c-eOv83MhTI_S20/edit
 
 ---
 
@@ -69,6 +70,9 @@ prayer teaching
 
 ## Update Log
 
+- **July 15, 2026** — Drafted an English partner-facing letter to send to
+  Jewell and Abner, summarizing the proposed teaching plan and asking for
+  their input on timing, venue, lodging, transportation, and translation.
 - **July 7, 2026** — Added translation as an identified need: teaching
   materials will need text translation into Portuguese plus printing for
   distribution.
