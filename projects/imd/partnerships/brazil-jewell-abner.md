@@ -8,6 +8,7 @@
 **Language(s):** Portuguese — translation likely needed for teaching materials and any newsletter content
 **Google Doc (internal tracker):** https://docs.google.com/document/d/1h-90Oqgg7kxwCFIHZwtzKf9WvIXp57UH8gIC2yUYiMw/edit
 **Google Doc (partner-facing letter, English):** https://docs.google.com/document/d/1-mDIPcKgsAPWBq48ieacE8zJ_z99c-eOv83MhTI_S20/edit
+**Google Doc (IMD team update, v1, Aug 10 2026):** https://docs.google.com/document/d/1C3CG3bCaJyIM5iAZQrTP6J1LOfDM9KFzu304JUeoR5I/edit
 
 ---
 
