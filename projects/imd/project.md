@@ -43,7 +43,7 @@ Individual files for each partner org live in `projects/imd/partnerships/`.
 Use the `/partnership` command to create a new one or log an update to an
 existing one.
 
-- **[Jewell & Abner — Brazil](partnerships/brazil-jewell-abner.md)** — Prospective leadership training partnership with IMD International, Manaus & Autazes
+- **[Jewell & Abner — Brazil](partnerships/brazil-jewell-abner.md)** — Active leadership training partnership, planning a first teaching trip to Manaus & Autazes for Feb/March 2027
 
 ---
 
