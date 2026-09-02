@@ -9,7 +9,8 @@
 **Google Doc (internal tracker):** https://docs.google.com/document/d/1h-90Oqgg7kxwCFIHZwtzKf9WvIXp57UH8gIC2yUYiMw/edit
 **Google Doc (partner-facing letter, English):** https://docs.google.com/document/d/1-mDIPcKgsAPWBq48ieacE8zJ_z99c-eOv83MhTI_S20/edit
 **Google Doc (IMD team update, v1, Aug 10 2026):** https://docs.google.com/document/d/1C3CG3bCaJyIM5iAZQrTP6J1LOfDM9KFzu304JUeoR5I/edit
-**Google Doc (Trip Plan — draft, Aug 21 2026):** https://docs.google.com/document/d/1kaGawtl5QczWOElI6QRentIxt8xtT1eqwEK-e3kGLns/edit
+**Google Doc (Trip Plan v1, Aug 21 2026):** https://docs.google.com/document/d/1kaGawtl5QczWOElI6QRentIxt8xtT1eqwEK-e3kGLns/edit
+**Google Doc (Trip Plan v2, Aug 28 2026 — current):** https://docs.google.com/document/d/1MSf7aGwu3Q5Ba6tE9x9cE4rTgkF3tQ1A9rPtpptRAaY/edit
 
 ---
 
@@ -58,11 +59,25 @@ leadership, emotional intelligence, and spiritual maturity.
       &amp; Abner will reserve once dates are confirmed)
 - [x] Translation coordination — Jewell &amp; Abner can help coordinate
       locally; IMD offered to help cover the cost
-- [x] Draft itinerary shape (Jewell, Aug 20): arrive Monday → travel to
-      Autazes Tuesday → teach Autazes Tue–Thu → travel back to Manaus
-      Friday morning → teach Manaus Fri–Sun → depart Mon/Tue. An optional
-      extra day (Tuesday) for a river-tour sightseeing day stretches the
-      trip to 8 days total.
+- [x] Draft itinerary, Michelle's working version (supersedes Jewell's Aug
+      20 order — Manaus now comes first, then Autazes). Dates below assume
+      the Feb 24 arrival window; shift the whole block a week earlier if
+      Feb 17 is picked instead:
+      - Feb 23 (Tue) — Leave home, flight ~9:55pm
+      - Feb 24 (Wed) — Travel day
+      - Feb 25 (Thu) — Arrive 2:30am; sleep & prepare (buffer day, no
+        teaching)
+      - Feb 26 (Fri) — Teach — Manaus
+      - Feb 27 (Sat) — Teach — Manaus
+      - Feb 28 (Sun) — Debrief; travel to Autazes
+      - Mar 1 (Mon) — Teach — Autazes
+      - Mar 2 (Tue) — Teach — Autazes
+      - Mar 3 (Wed) — Travel back / debrief
+      - Mar 4 (Thu) — Tour day; depart Brazil ~3:30am (red-eye)
+      - Mar 5 (Fri) — Arrive home
+      - 11 days total, with padding built in at the front (arrival is
+        2:30am, so Feb 25 is a rest/prep day before teaching starts) and a
+        tour day folded in at the back end instead of a separate add-on.
 - [x] Training format — 2–3 days, 5–6 hours of teaching per day; fewer days
       means longer hours per day
 - [x] Transportation is workable — a rental vehicle for 4–6 people is
@@ -79,12 +94,19 @@ leadership, emotional intelligence, and spiritual maturity.
       to the date.
 - [x] Sightseeing — Jewell suggested a river-tour day (Meeting of the
       Waters, an indigenous tribe, a floating market, swimming with
-      dolphins, lunch, monkeys). Michelle is open to it.
+      dolphins, lunch, monkeys). Michelle is open to it; folded into the
+      Mar 4 tour day in the draft itinerary above.
+
+**Idea to explore (internal, not yet raised with Jewell):**
+- [ ] Team chaplain — could Christina's husband serve as chaplain for the
+      trip, leading daily devotions and debriefs for the team?
 
 **Still to determine:**
-- [ ] Exact arrival date — Michelle floated Feb 17 or Feb 24, 2027 (both
-      Tuesdays; Jewell's itinerary needs a Monday arrival, so this needs
-      one more round to land on an actual date)
+- [ ] Jewell hasn't seen or confirmed the reordered itinerary above
+      (Manaus first, then Autazes) — this needs to go back to her as a
+      proposal
+- [ ] Exact arrival date — Feb 17 or Feb 24, 2027 (itinerary above is built
+      around the Feb 24 window; shift a week earlier for Feb 17)
 - [ ] Approximate number of men vs. women expected at each location
       (Manaus & Autazes) — Michelle asked this Aug 21 to plan the
       men's/women's teaching split; **no reply yet, this is the open
@@ -183,6 +205,15 @@ Continued back-and-forth after the Aug 7 reply, working out trip logistics:
 
 ## Update Log
 
+- **August 28, 2026** — Sketched a revised day-by-day itinerary that flips
+  Jewell's Aug 20 order — Manaus first (Feb 26–27), then Autazes (Mar
+  1–2) — with a buffer day after the overnight arrival and the sightseeing
+  tour folded into the final day before departure (Feb 23–Mar 5 window, 11
+  days). Drafted an email to send Jewell this proposal, re-ask the still
+  open items (gender split per location, translator fees, vehicle budget),
+  and suggest a Zoom or WhatsApp call to finalize details together. Also
+  noted an idea to ask Christina's husband to serve as team chaplain
+  (devotions/debriefs) — internal only, not yet raised with Jewell.
 - **August 21, 2026** — Trip logistics are taking real shape. Jewell
   proposed a concrete itinerary (Manaus + Autazes back to back, with an
   optional sightseeing day) and confirmed vehicle rental is workable.
@@ -229,12 +260,15 @@ Continued back-and-forth after the Aug 7 reply, working out trip logistics:
       book once the date is locked
 
 **Decisions on Michelle's/IMD's side:**
-- [ ] Land on an actual arrival date (Feb 17 or Feb 24, 2027 — both need to
-      shift to a Monday arrival per Jewell's itinerary) and confirm flights
+- [ ] Send Jewell the revised itinerary (Manaus first, then Autazes) as a
+      proposal and get her sign-off — draft email prepared, see Gmail
+      drafts
+- [ ] Land on an actual arrival date (Feb 17 or Feb 24, 2027) and confirm
+      flights
 - [ ] Confirm final team roster (currently a placeholder: 3 men, 3 women)
-- [ ] Decide on the extra sightseeing/river-tour day (8-day trip) vs. a
-      tighter trip
 - [ ] Pick a translator option (Kelly/Caroline vs. Bruno & Kembely)
+- [ ] Propose a Zoom or WhatsApp call with Jewell & Abner to finalize
+      remaining details together — draft email prepared, see Gmail drafts
 
 **Still open, not yet addressed:**
 - [ ] Clarify what a formal partnership would look like (training format,
