@@ -11,7 +11,9 @@
 **Google Doc (IMD team update, v1, Aug 10 2026):** https://docs.google.com/document/d/1C3CG3bCaJyIM5iAZQrTP6J1LOfDM9KFzu304JUeoR5I/edit
 **Google Doc (Trip Plan v1, Aug 21 2026):** https://docs.google.com/document/d/1kaGawtl5QczWOElI6QRentIxt8xtT1eqwEK-e3kGLns/edit
 **Google Doc (Trip Plan v2, Aug 28 2026):** https://docs.google.com/document/d/1MSf7aGwu3Q5Ba6tE9x9cE4rTgkF3tQ1A9rPtpptRAaY/edit
-**Google Doc (Trip Plan v3, Sep 2 2026 — current):** https://docs.google.com/document/d/1oIelxrfmXyq5vvHaVHBii9eZjBVPtpRPmgIxLwT1xSA/edit
+**Google Doc (Trip Plan v3, Sep 2 2026):** https://docs.google.com/document/d/1oIelxrfmXyq5vvHaVHBii9eZjBVPtpRPmgIxLwT1xSA/edit
+**Google Doc (Trip Plan v4, Sep 3 2026 — current, dates confirmed):** https://docs.google.com/document/d/1L3-qHu6fHiTjdUYJYMafe-trbe8xvYgpEFEFwUQgc14/edit
+**Google Sheet (Team Cost Tracker — private, not shared):** https://docs.google.com/spreadsheets/d/1TW6NBRlw4cqcz1EEsz6FNYq8V4CRbuCaOWI9QGe52ac/edit
 
 ---
 
@@ -29,7 +31,7 @@ teaching.
 
 | Name | Role | Organization | Email / Phone |
 |------|------|---------------|----------------|
-| Jewell | Pastor's wife / ministry partner | [Church/org name] | jewell.friesen@gmail.com |
+| Jewell | Pastor's wife / ministry partner | [Church/org name] | jewell.friesen@gmail.com, WhatsApp/iMessage +55 (92) 99507-7708 |
 | Abner | Church/leadership developer | [Church/org name] | abnerbrasil.am@gmail.com, +55 92 99507 7878 |
 
 ---
@@ -52,73 +54,66 @@ Manaus/Autazes region.
 teaching; plus (per Jewell's Aug 7 reply) self-leadership, practical
 leadership, emotional intelligence, and spiritual maturity.
 
-**Confirmed:**
-- [x] Season: February or March 2027 works — avoid February 5–10 (Carnival)
+**CONFIRMED — Jewell signed off on dates & schedule Sep 3, 2026:**
+- [x] Dates: Feb 23 – Mar 5, 2027 (11 days)
+      - Feb 23 (Tue) — Leave home
+      - Feb 24 (Wed) — Travel day
+      - Feb 25 (Thu) — Arrive 2:30am; sleep & prepare
+      - Feb 26 (Fri) — Meeting of the Waters + final lesson prep
+      - Feb 27 (Sat) — Teach — Manaus
+      - Feb 28 (Sun) — Teach — Manaus
+      - Mar 1 (Mon) — Debrief; travel to Autazes
+      - Mar 2 (Tue) — Teach — Autazes
+      - Mar 3 (Wed) — Teach — Autazes
+      - Mar 4 (Thu) — Travel back to Manaus; debrief
+      - Mar 5 (Fri) — Depart for home ~3:30am
+      - Note: this is the version actually sent Sep 2 (slightly shifted
+        from the earlier internal draft — sightseeing moved to Feb 26
+        instead of the end, and teaching runs Sat–Sun in Manaus / Tue–Wed
+        in Autazes). Jewell replied "those dates and schedule look great."
+- [x] Expected attendance — Manaus: capped around 30 people, a few more
+      women than men. Autazes: 15–20 people, similar split (a few more
+      women than men). Good enough to plan men's/women's teaching tracks.
+- [x] Translator rate confirmed: 200 Reais per translator, per day (per
+      Jewell, Sep 3)
 - [x] Venue — Manaus: their church building. Autazes: the church there.
 - [x] Hotel option — Manaus: Tropical Executive Hotel
 - [x] Hotel options — Autazes: Ellen Palace Hotel or Tupinambá Hotel (Jewell
-      &amp; Abner will reserve once dates are confirmed)
-- [x] Translation coordination — Jewell &amp; Abner can help coordinate
+      & Abner will reserve once dates are confirmed)
+- [x] Translation coordination — Jewell & Abner can help coordinate
       locally; IMD offered to help cover the cost
-- [x] Draft itinerary, Michelle's working version (supersedes Jewell's Aug
-      20 order — Manaus now comes first, then Autazes). Dates below assume
-      the Feb 24 arrival window; shift the whole block a week earlier if
-      Feb 17 is picked instead:
-      - Feb 23 (Tue) — Leave home, flight ~9:55pm
-      - Feb 24 (Wed) — Travel day
-      - Feb 25 (Thu) — Arrive 2:30am; sleep & prepare (buffer day, no
-        teaching)
-      - Feb 26 (Fri) — Teach — Manaus
-      - Feb 27 (Sat) — Teach — Manaus
-      - Feb 28 (Sun) — Debrief; travel to Autazes
-      - Mar 1 (Mon) — Teach — Autazes
-      - Mar 2 (Tue) — Teach — Autazes
-      - Mar 3 (Wed) — Travel back / debrief
-      - Mar 4 (Thu) — Tour day; depart Brazil ~3:30am (red-eye)
-      - Mar 5 (Fri) — Arrive home
-      - 11 days total, with padding built in at the front (arrival is
-        2:30am, so Feb 25 is a rest/prep day before teaching starts) and a
-        tour day folded in at the back end instead of a separate add-on.
-- [x] Training format — 2–3 days, 5–6 hours of teaching per day; fewer days
-      means longer hours per day
+- [x] Training format — 2–3 days, 5–6 hours of teaching per day
 - [x] Transportation is workable — a rental vehicle for 4–6 people is
-      "absolutely possible" (Jewell); may be 2 cars (a 7-seater + their
-      5-seat car) or one van depending on luggage; a translator could drive
-      if the team isn't comfortable. Jewell will put together a budget once
-      the headcount is confirmed.
-- [x] Team size proposed — Michelle is planning a team of 6 (3 men, 3
-      women), which would let teaching split into men's/women's tracks
+      "absolutely possible" (Jewell); may be 2 cars or one van depending on
+      luggage; a translator could drive if the team isn't comfortable.
+- [x] Team size proposed — 6 (3 men, 3 women), to split teaching into
+      men's/women's tracks
 - [x] Translator options — either (a) Kelly and Caroline, or (b) a
-      boy/girl pair, Bruno & Kembely, suggested by Jewell so there's a male
-      translator for the men's sessions. Abner can also translate but may
-      need to step away for trip logistics. Decision deferred until closer
-      to the date.
-- [x] Sightseeing — Jewell suggested a river-tour day (Meeting of the
-      Waters, an indigenous tribe, a floating market, swimming with
-      dolphins, lunch, monkeys). Michelle is open to it; folded into the
-      Mar 4 tour day in the draft itinerary above.
+      boy/girl pair, Bruno & Kembely. Abner can also translate but may need
+      to step away for trip logistics.
+- [x] Sightseeing — a river tour (Meeting of the Waters, an indigenous
+      tribe, a floating market, swimming with dolphins, lunch, monkeys),
+      now placed on Feb 26 rather than at the end of the trip.
+- [x] Call timing — Jewell is open to a Zoom/WhatsApp call but asked to
+      push it a couple weeks out; she and Abner leave for Canada in about
+      a week. For anything urgent in the meantime, her WhatsApp/iMessage
+      is +55 (92) 99507-7708.
 
 **Idea to explore (internal, not yet raised with Jewell):**
 - [ ] Team chaplain — could Christina's husband serve as chaplain for the
       trip, leading daily devotions and debriefs for the team?
 
 **Still to determine:**
-- [ ] Jewell hasn't seen or confirmed the reordered itinerary above
-      (Manaus first, then Autazes) — this needs to go back to her as a
-      proposal
-- [ ] Exact arrival date — Feb 17 or Feb 24, 2027 (itinerary above is built
-      around the Feb 24 window; shift a week earlier for Feb 17)
-- [ ] Approximate number of men vs. women expected at each location
-      (Manaus & Autazes) — Michelle asked this Aug 21 to plan the
-      men's/women's teaching split; **no reply yet, this is the open
-      question**
-- [ ] Whether to take the extra sightseeing day (8-day trip) or keep it
-      tighter
-- [ ] Final translator pick (Kelly/Caroline vs. Bruno & Kembely)
-- [ ] Translator fees — Jewell to send cost info so Michelle can loop in
-      Norm and budget for it
+- [ ] Final translator pick (Kelly/Caroline vs. Bruno & Kembely) and total
+      number of days to pay them for (rate is confirmed: 200 Reais/day
+      each)
+- [ ] Handout translation & printing cost estimate — still waiting on
+      Jewell
+- [ ] Food budget per day, per location — still waiting on Jewell
 - [ ] Vehicle rental budget — Jewell to send once team headcount is final
 - [ ] Final team roster (currently a placeholder: 3 men, 3 women)
+- [ ] Schedule a Zoom/WhatsApp call for "a couple weeks out," once Jewell &
+      Abner are back from Canada
 
 ---
 
@@ -218,6 +213,23 @@ Continued back-and-forth after the Aug 7 reply, working out trip logistics:
 
 ---
 
+## Abner & Jewell's Responses (Sep 2–3, 2026)
+
+- **Sep 2 (Michelle):** Sent the schedule proposal — Feb 23–Mar 5, 2027,
+  Manaus first (teach Sat–Sun) then Autazes (teach Tue–Wed), with the
+  river tour moved to Feb 26 and a buffer day built in after the overnight
+  arrival. Re-asked the gender-split question, translator fees, and
+  proposed a Zoom/WhatsApp call.
+- **Sep 3 (Jewell):** Confirmed — "those dates and schedule look great."
+  Gave expected attendance: Manaus capped around 30 (a few more women than
+  men), Autazes 15–20 (similar split). Confirmed translator pay is 200
+  Reais per translator per day. Open to a call, but asked to push it a
+  couple weeks out since she and Abner leave for Canada in about a week;
+  gave her WhatsApp/iMessage (+55 92 99507-7708) for anything urgent
+  before then.
+
+---
+
 ## Media & Newsletter
 
 - Possible newsletter feature once the partnership takes shape: a new field
@@ -231,14 +243,24 @@ Continued back-and-forth after the Aug 7 reply, working out trip logistics:
 
 ## Update Log
 
-- **September 2, 2026** — Finalized the Sep email draft to Jewell: proposes
-  the Manaus-first itinerary, asks for firm translator cost numbers, a cost
-  estimate for translating/printing handouts, and a food budget per
-  location — and states plainly that IMD does not cover travel costs for
-  anyone attending the training (only for translators, materials, food,
-  and IMD's own team). Also re-asks the gender-split question and proposes
-  a Zoom/WhatsApp call. Draft is threaded in Gmail under "IMD Details and
-  Teaching Next Steps," ready to send.
+- **September 3, 2026** — Jewell confirmed the dates and schedule sent
+  Sep 2 ("those dates and schedule look great"). She gave: expected
+  attendance (~30 in Manaus, 15–20 in Autazes, slightly more women than
+  men at both), a confirmed translator rate (200 Reais/day), and pushed
+  the Zoom/WhatsApp call out a couple weeks since she and Abner leave for
+  Canada soon — gave her WhatsApp/iMessage for anything urgent in the
+  meantime. The handout translation/printing cost, food budget, and the
+  "IMD doesn't cover attendee travel" clarification were never actually
+  sent (Michelle sent a lighter version of the Sep 2 email than the draft
+  that had been prepared) — those are still open and worth raising in a
+  follow-up. Discarded the now-outdated draft that had been sitting
+  unsent. Trip Plan doc updated to v4 with everything confirmed; started a
+  private team cost-tracking spreadsheet (not shared yet) and a team
+  kickoff email draft.
+- **September 2, 2026** — Sent Jewell the revised schedule proposal
+  (Manaus first, then Autazes, Feb 23–Mar 5 window), re-asking the
+  gender-split question and translator fees, and suggesting a Zoom/
+  WhatsApp call.
 - **August 28, 2026** — Sketched a revised day-by-day itinerary that flips
   Jewell's Aug 20 order — Manaus first (Feb 26–27), then Autazes (Mar
   1–2) — with a buffer day after the overnight arrival and the sightseeing
@@ -284,28 +306,27 @@ Continued back-and-forth after the Aug 7 reply, working out trip logistics:
 
 ## Open Loops / Next Steps
 
-**Waiting on Jewell & Abner:**
-- [ ] Approximate number of men vs. women expected at each location (asked
-      Aug 21 — this is the one currently awaiting a reply)
-- [ ] Translator cost — firm numbers for Kelly/Caroline vs. Bruno & Kembely
+**Waiting on Jewell & Abner (in a future follow-up — not urgent, she's
+about to travel to Canada):**
 - [ ] Cost to translate & print the handouts/teaching materials
 - [ ] Food budget, per day, per location
 - [ ] Vehicle rental budget, once team headcount is confirmed
 - [ ] Autazes hotel reservation (Ellen Palace or Tupinambá) — theirs to
       book once the date is locked
-- [ ] Confirmation that IMD not covering attendee travel costs is
-      understood and workable on their end
+- [ ] Final translator pick (Kelly/Caroline vs. Bruno & Kembely) — rate is
+      confirmed (200 Reais/day each), just need the pick + day count
+- [ ] Clarify that IMD does not cover attendee travel costs — this was
+      drafted before but never actually sent; worth including next time
 
 **Decisions on Michelle's/IMD's side:**
-- [ ] Send Jewell the revised itinerary (Manaus first, then Autazes) as a
-      proposal and get her sign-off — draft email prepared, see Gmail
-      drafts
-- [ ] Land on an actual arrival date (Feb 17 or Feb 24, 2027) and confirm
+- [ ] Confirm final team roster (6: 3 men, 3 women) and start looking at
       flights
-- [ ] Confirm final team roster (currently a placeholder: 3 men, 3 women)
-- [ ] Pick a translator option (Kelly/Caroline vs. Bruno & Kembely)
-- [ ] Propose a Zoom or WhatsApp call with Jewell & Abner to finalize
-      remaining details together — draft email prepared, see Gmail drafts
+- [ ] Build out the team cost tracker (spreadsheet started — see linked
+      doc) as quotes come in
+- [ ] Send the team kickoff email once roster/recipients are set (draft
+      prepared — see Gmail drafts)
+- [ ] Schedule the Zoom/WhatsApp call for a couple weeks out, once Jewell
+      & Abner are back from Canada
 
 **Still open, not yet addressed:**
 - [ ] Clarify what a formal partnership would look like (training format,
@@ -313,4 +334,5 @@ Continued back-and-forth after the Aug 7 reply, working out trip logistics:
 - [ ] Confirm their church/organization name
 
 **See also:** the Trip Plan doc (linked at the top) for the full logistics
-checklist, draft day-by-day itinerary, and budget tracking.
+checklist, confirmed itinerary, and budget tracking; the cost spreadsheet
+(linked at the top) for team cost tracking.
