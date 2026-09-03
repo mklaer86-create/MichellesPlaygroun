@@ -10,7 +10,8 @@
 **Google Doc (partner-facing letter, English):** https://docs.google.com/document/d/1-mDIPcKgsAPWBq48ieacE8zJ_z99c-eOv83MhTI_S20/edit
 **Google Doc (IMD team update, v1, Aug 10 2026):** https://docs.google.com/document/d/1C3CG3bCaJyIM5iAZQrTP6J1LOfDM9KFzu304JUeoR5I/edit
 **Google Doc (Trip Plan v1, Aug 21 2026):** https://docs.google.com/document/d/1kaGawtl5QczWOElI6QRentIxt8xtT1eqwEK-e3kGLns/edit
-**Google Doc (Trip Plan v2, Aug 28 2026 — current):** https://docs.google.com/document/d/1MSf7aGwu3Q5Ba6tE9x9cE4rTgkF3tQ1A9rPtpptRAaY/edit
+**Google Doc (Trip Plan v2, Aug 28 2026):** https://docs.google.com/document/d/1MSf7aGwu3Q5Ba6tE9x9cE4rTgkF3tQ1A9rPtpptRAaY/edit
+**Google Doc (Trip Plan v3, Sep 2 2026 — current):** https://docs.google.com/document/d/1oIelxrfmXyq5vvHaVHBii9eZjBVPtpRPmgIxLwT1xSA/edit
 
 ---
 
