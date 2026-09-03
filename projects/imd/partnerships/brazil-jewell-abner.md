@@ -121,6 +121,31 @@ leadership, emotional intelligence, and spiritual maturity.
 
 ---
 
+## Budget & Cost-Sharing
+
+**What IMD covers:**
+- Translator fees (amount TBD — waiting on Jewell for firm numbers)
+- Translation & printing of teaching handouts/materials into Portuguese
+  (amount TBD)
+- Food during the training days, both locations (amount TBD)
+- IMD team's own travel and lodging
+
+**What IMD does NOT cover:**
+- Travel costs for attendees coming to the training — this is on each
+  attendee or their local church/group. Communicated clearly to Jewell &
+  Abner in the Sep 2026 email so there's no confusion later as word spreads
+  to attendees.
+
+**Still to lock down (asked of Jewell in the Sep 2026 draft):**
+- [ ] Translator cost — firm numbers for Kelly/Caroline vs. Bruno & Kembely
+- [ ] Cost to translate + print handouts
+- [ ] Food budget, per day, per location
+- [ ] Vehicle rental budget (once headcount is final)
+
+Once these come back, loop in Norm to finalize the overall trip budget.
+
+---
+
 ## Abner & Jewell's Responses (Aug 7, 2026)
 
 Jewell replied to Michelle's "IMD Details and Teaching Next Steps" email.
@@ -205,6 +230,14 @@ Continued back-and-forth after the Aug 7 reply, working out trip logistics:
 
 ## Update Log
 
+- **September 2, 2026** — Finalized the Sep email draft to Jewell: proposes
+  the Manaus-first itinerary, asks for firm translator cost numbers, a cost
+  estimate for translating/printing handouts, and a food budget per
+  location — and states plainly that IMD does not cover travel costs for
+  anyone attending the training (only for translators, materials, food,
+  and IMD's own team). Also re-asks the gender-split question and proposes
+  a Zoom/WhatsApp call. Draft is threaded in Gmail under "IMD Details and
+  Teaching Next Steps," ready to send.
 - **August 28, 2026** — Sketched a revised day-by-day itinerary that flips
   Jewell's Aug 20 order — Manaus first (Feb 26–27), then Autazes (Mar
   1–2) — with a buffer day after the overnight arrival and the sightseeing
@@ -253,11 +286,14 @@ Continued back-and-forth after the Aug 7 reply, working out trip logistics:
 **Waiting on Jewell & Abner:**
 - [ ] Approximate number of men vs. women expected at each location (asked
       Aug 21 — this is the one currently awaiting a reply)
-- [ ] Translator fee/cost information, so Michelle can loop in Norm and
-      budget for it
+- [ ] Translator cost — firm numbers for Kelly/Caroline vs. Bruno & Kembely
+- [ ] Cost to translate & print the handouts/teaching materials
+- [ ] Food budget, per day, per location
 - [ ] Vehicle rental budget, once team headcount is confirmed
 - [ ] Autazes hotel reservation (Ellen Palace or Tupinambá) — theirs to
       book once the date is locked
+- [ ] Confirmation that IMD not covering attendee travel costs is
+      understood and workable on their end
 
 **Decisions on Michelle's/IMD's side:**
 - [ ] Send Jewell the revised itinerary (Manaus first, then Autazes) as a
