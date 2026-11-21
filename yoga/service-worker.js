@@ -71,6 +71,7 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return; // never intercept the GitHub API
+  if (url.pathname.includes("/thanksgiving/")) return; // separate app on the same site: always load it fresh
 
   if (url.pathname.includes("/data/")) {
     event.respondWith(networkFirst(event.request, DATA_CACHE));

@@ -1,11 +1,12 @@
-# Yoga App Publisher
+# Yoga App Publisher (also publishes the Thanksgiving Table Talk app)
 # ===================
-# Runs automatically every time you save changes inside the yoga/ folder.
+# Runs automatically every time you save changes inside the yoga/ or thanksgiving/ folder.
 # You never need to touch this file.
 #
 # What it does:
-#   1. Takes everything in the yoga/ folder
-#   2. Publishes it as your live website (GitHub Pages)
+#   1. Takes everything in the yoga/ folder (the main site)
+#   2. Adds the Thanksgiving app at /thanksgiving/
+#   3. Publishes it as your live website (GitHub Pages)
 #
 # You can also trigger it manually:
 #   GitHub → Actions tab → "Deploy Yoga App" → "Run workflow"
@@ -20,6 +21,8 @@ on:
     branches: [main]
     paths:
       - 'yoga/**'
+      - 'thanksgiving/**'
+      - '.github/workflows/deploy-yoga.yml'
   workflow_dispatch:
 
 permissions:
@@ -40,8 +43,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Combine the yoga and Thanksgiving apps
+        run: |
+          mkdir _site
+          cp -r yoga/. _site/
+          mkdir _site/thanksgiving
+          cp thanksgiving/index.html _site/thanksgiving/
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: yoga
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
