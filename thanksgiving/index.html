@@ -54,84 +54,76 @@
 
 <main class="card" aria-live="polite">
   <div class="cat" id="cat">Ready when you are</div>
-  <p class="q" id="q">Tap “Next question” to start the conversation.</p>
+  <p class="q" id="q">Tap “✨ New question” to start the conversation.</p>
 </main>
 
 <div class="actions">
   <button class="ghost" id="back" aria-label="Previous question">← Back</button>
-  <button class="primary" id="next">Next question</button>
+  <button class="primary" id="gen">✨ New question</button>
+  <button class="ghost" id="next" aria-label="Skip to next question">Skip →</button>
   <button class="ghost" id="copy">Copy</button>
 </div>
 <div class="meta" id="meta"></div>
 
-<footer>Tip: press the space bar or tap the card for the next question.</footer>
+<footer>✨ New question makes up a brand-new question every time. Skip pulls from the classic list.<br>Keys: space = new · → = skip · ← = back</footer>
 
 <script>
 const QUESTIONS = {
-  "Family Stories": [
-    "What's a story your family tells every year at holidays?",
-    "Who in your family is the best storyteller, and what's their best story?",
-    "What's the funniest thing that ever happened at a family gathering?",
-    "What did your grandparents do for fun when they were kids?",
-    "Is there a family recipe with a story behind it?",
-    "What's something your parents did growing up that would surprise us?",
-    "How did your parents or grandparents meet?",
-    "What's a family tradition you'd like to start?",
-    "What's the best road trip your family ever took?",
-    "What's one thing your family is known for?",
-    "Who taught you something important, and what was it?",
-    "What's a family nickname and how did it start?"
+  "Silly & Fun": [
+    "If your pet could talk, what's the first thing it would complain about?",
+    "What's the weirdest food combo you secretly love?",
+    "If you were a kitchen appliance, which one would you be?",
+    "What would your wrestling or superhero name be?",
+    "What's a song you know every single word to?",
+    "If you could only eat one color of food forever, which color?",
+    "What's the most useless talent you have?",
+    "If you had a theme song that played when you walked in, what would it be?",
+    "What would you name a pet turkey?",
+    "What's your go-to dance move?",
+    "If you could swap lives with a cartoon character for a day, who?",
+    "What's the funniest word you know?"
   ],
-  "Gratitude": [
-    "What's one small thing that made you smile this year?",
-    "Who is someone at this table you're thankful for, and why?",
-    "What's something you have now that you once wished for?",
-    "What's a kindness someone showed you that you still remember?",
-    "What's a simple everyday thing you're grateful for?",
-    "What's one thing you learned this year that you're glad you know?",
-    "Which friend has made the biggest difference in your life?",
-    "What's a place you're thankful you got to visit?",
-    "What's a challenge this year that turned out to be a good thing?",
-    "If you could thank one person from your past, who would it be?"
-  ],
-  "Food & Traditions": [
+  "Food & Feast": [
     "What's your must-have Thanksgiving dish?",
     "Stuffing or mashed potatoes — you can only pick one!",
-    "What's the most unusual food your family eats on holidays?",
-    "If you could add one new dish to Thanksgiving, what would it be?",
-    "What was your favorite meal growing up?",
     "Pumpkin pie, apple pie, or pecan pie?",
-    "Who is the best cook in your family, and what's their specialty?",
-    "What's a holiday tradition from your family that others might find surprising?",
+    "What's the best leftover sandwich you've ever made?",
+    "If you could add one totally new dish to Thanksgiving, what would it be?",
+    "Gravy on everything — yes or no?",
     "What's your favorite holiday smell?",
-    "What's the best leftover creation you've ever made?",
-    "Which holiday decoration or tradition makes it feel official?"
+    "Who in your family makes the best dessert?",
+    "What's the most unusual food your family eats on holidays?",
+    "Cranberry sauce: can-shaped or homemade?"
   ],
   "Would You Rather": [
-    "Would you rather have Thanksgiving dinner on a beach or in a snowy cabin?",
-    "Would you rather only eat side dishes or only eat dessert at Thanksgiving?",
-    "Would you rather be able to talk to animals or speak every language?",
-    "Would you rather live in the time of your grandparents or 50 years in the future?",
+    "Would you rather have Thanksgiving on a beach or in a snowy cabin?",
+    "Would you rather only eat side dishes or only eat dessert?",
+    "Would you rather talk to animals or speak every language?",
     "Would you rather have a pet dragon or a pet unicorn?",
-    "Would you rather be a famous chef or a famous musician?",
     "Would you rather explore space or the bottom of the ocean?",
-    "Would you rather always be 10 minutes early or 10 minutes late?",
-    "Would you rather have a house in the trees or underground?",
-    "Would you rather give up your phone for a month or dessert for a year?"
+    "Would you rather live in a treehouse or a castle?",
+    "Would you rather be able to fly or be invisible?",
+    "Would you rather always have to sing or always have to dance?",
+    "Would you rather eat pie for breakfast or pancakes for dinner?",
+    "Would you rather have a robot chef or a robot that does dishes?"
   ],
-  "Just for Fun": [
-    "If you could have dinner with anyone, past or present, who would it be?",
-    "What's a talent you have that most people don't know about?",
-    "If your family were a TV show, what would it be called?",
-    "What would you do with a whole day off and no plans?",
-    "What's a song that always gets you dancing?",
-    "If you could instantly master any skill, what would it be?",
-    "What's the best movie you've seen this year?",
-    "If you could live anywhere in the world for a year, where?",
-    "What's your favorite way to spend a Sunday?",
-    "What's a hobby you'd love to try?",
-    "If you won a free vacation tomorrow, where would you go?",
-    "What's the best gift you've ever given someone?"
+  "Family Stories": [
+    "What's a funny story your family always tells at holidays?",
+    "Who's the best storyteller in your family?",
+    "What's the best road trip your family ever took?",
+    "What's a family nickname and how did it start?",
+    "What's one thing your family is known for?",
+    "What did your grandparents do for fun as kids?",
+    "What's a family tradition you love?",
+    "What's the funniest thing that ever happened at a family dinner?"
+  ],
+  "Thankful": [
+    "What's one small thing that made you smile this year?",
+    "Who at this table are you thankful for, and why?",
+    "What's a simple everyday thing you're grateful for?",
+    "What's your favorite memory from this year?",
+    "What's something you learned this year that you're glad you know?",
+    "What's a place you're thankful you got to visit?"
   ],
   "Kids' Corner": [
     "If you were a Thanksgiving food, what would you be?",
@@ -139,26 +131,53 @@ const QUESTIONS = {
     "What's the silliest joke you know?",
     "If you could invent a new holiday, what would it celebrate?",
     "What animal would you be for a day?",
-    "What's your favorite thing to do with your family?",
-    "If you could make one rule for the whole world, what would it be?",
-    "What do you want to be when you grow up?",
     "If a turkey could talk, what would it say?",
-    "What's the best thing about being a kid?",
-    "If your toys came to life, which one would you hang out with?"
-  ],
-  "Getting to Know You": [
-    "Where did you grow up, and what was your neighborhood like?",
-    "What was your very first job?",
-    "What's something on your bucket list?",
-    "What's the best advice you've ever received?",
-    "What's a book or show you'd recommend to everyone here?",
-    "What are you most looking forward to next year?",
-    "What's something that always makes you laugh?",
-    "What's a goal you're working toward right now?",
-    "What three words would your friends use to describe you?",
-    "What's your favorite season and why?"
+    "If your toys came to life, which one would you hang out with?",
+    "If you could make one rule for the whole world, what would it be?"
   ]
 };
+
+// ---- Question generator: mixes fun pieces into brand-new questions ----
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const G = {
+  food: ["pumpkin pie","mashed potatoes","cranberry sauce","stuffing","mac and cheese","sweet potato casserole","dinner rolls","green bean casserole","pecan pie","corn on the cob","gravy","whipped cream"],
+  animal: ["a turkey","a penguin","a golden retriever","a sloth","a raccoon","a llama","a squirrel","a cat","a giraffe","an owl","a dolphin","a hedgehog"],
+  person: ["a pirate","an astronaut","a famous chef","a wizard","a superhero","a cowboy","a mermaid","a detective","a rock star","a game show host"],
+  place: ["the moon","a pirate ship","a castle","a tropical island","a treehouse","the North Pole","a giant cruise ship","a log cabin","a submarine","a hot air balloon"],
+  power: ["fly","turn invisible","talk to animals","freeze time","teleport","read minds","breathe underwater","shrink to the size of an ant","make any food appear","become a giant"],
+  thing: ["your shoes","the fridge","your car","the TV remote","your pillow","the family dog","the oven","your backpack","the couch","your phone"],
+  activity: ["a pie-eating contest","a talent show","a family dance-off","a snowball fight","a pillow fort contest","a cooking competition","a karaoke battle","a trivia night","a backyard football game","a scavenger hunt"],
+  decade: ["the 1920s","the 1950s","the 1970s","the 1980s","the 1990s","the year 3000"],
+  job: ["zookeeper","ice cream taster","astronaut","chef","firefighter","video game designer","park ranger","pastry chef","marine biologist","inventor"],
+};
+const TEMPLATES = [
+  () => `Would you rather eat ${pick(G.food)} every day for a year or never eat it again?`,
+  () => { const a = pick(G.food); let b; do { b = pick(G.food); } while (b === a); return `Would you rather give up ${a} or ${b} at Thanksgiving?`; },
+  () => `If you could have Thanksgiving dinner on ${pick(G.place)}, who would you invite?`,
+  () => `If ${pick(G.animal)} came to Thanksgiving dinner, what would it bring?`,
+  () => `If you were ${pick(G.person)} for a day, what would you do first?`,
+  () => { const [a, b] = shuffle([...G.power]); return `Would you rather be able to ${a} or ${b}?`; },
+  () => `If you could ${pick(G.power)} just for Thanksgiving, how would you use it?`,
+  () => `If ${pick(G.thing)} could talk, what would it say about you?`,
+  () => `Who at this table would win ${pick(G.activity)}?`,
+  () => `If our family had ${pick(G.activity)}, what would your secret strategy be?`,
+  () => `If you lived in ${pick(G.decade)}, what would you miss most about today?`,
+  () => `What would your Thanksgiving look like in ${pick(G.decade)}?`,
+  () => `If you were a ${pick(G.job)}, what would your best day at work look like?`,
+  () => `What's the best topping you could put on ${pick(G.food)}?`,
+  () => `If ${pick(G.food)} were a person, what would its personality be like?`,
+  () => { const [a, b] = shuffle([...G.animal]); return `Would you rather have ${a} or ${b} as a pet?`; },
+  () => `If you were ${pick(G.animal)}, what would you be most thankful for?`,
+  () => `What's one thing you'd bring on a trip to ${pick(G.place)}?`,
+  () => `Who here would make the best ${pick(G.job)}, and why?`,
+  () => `If ${pick(G.person)} cooked Thanksgiving dinner, what would be on the menu?`,
+];
+function generate() {
+  let q, tries = 0;
+  do { q = pick(TEMPLATES)().replace(/\ba ([aeiou])/g, "an $1"); tries++; }
+  while (history.some(h => h.q === q) && tries < 20);
+  return { c: "✨ Freshly made", q };
+}
 
 const cats = Object.keys(QUESTIONS);
 let active = new Set(cats);
@@ -212,6 +231,10 @@ function next() {
   }
   const item = deck.pop(); history.push(item); pos = history.length - 1; show(item);
 }
+function gen() {
+  history = history.slice(0, pos + 1);
+  const item = generate(); history.push(item); pos = history.length - 1; show(item);
+}
 function back() { if (pos > 0) { pos--; show(history[pos]); } }
 
 function updateMeta() {
@@ -219,8 +242,8 @@ function updateMeta() {
   $("meta").textContent = `${deck.length} of ${total} questions left in this round`;
 }
 
-$("next").onclick = next; $("back").onclick = back;
-document.querySelector(".card").onclick = next;
+$("next").onclick = next; $("back").onclick = back; $("gen").onclick = gen;
+document.querySelector(".card").onclick = gen;
 $("copy").onclick = async () => {
   try { await navigator.clipboard.writeText($("q").textContent); $("copy").textContent = "Copied!"; }
   catch { $("copy").textContent = "Can't copy"; }
@@ -228,7 +251,8 @@ $("copy").onclick = async () => {
 };
 document.addEventListener("keydown", e => {
   if (e.target.tagName === "BUTTON") return;
-  if (e.code === "Space" || e.key === "ArrowRight") { e.preventDefault(); next(); }
+  if (e.code === "Space") { e.preventDefault(); gen(); }
+  if (e.key === "ArrowRight") next();
   if (e.key === "ArrowLeft") back();
 });
 
