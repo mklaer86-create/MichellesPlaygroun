@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="ACS General Chemistry study guide (Toolbox + Chapters 1–8) with handwritten notes, gap highlights, learning guides and practice quizzes.">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}.dl{margin:12px 0 0}.dl a{display:inline-block;font:600 14px var(--f-body);color:#fff;background:var(--accent);padding:8px 14px;border-radius:8px;text-decoration:none}@media print{.dl{display:none}}</style>
+<title>Gen Chem 1 Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+/* Layout: one reading column that follows the printed ACS guide (Toolbox → Ch 8); each guide topic card lists its SQ/PQ numbers + page, then the handwritten notes on graph-paper frames. Print: one chapter per page, gaps stay highlighted. */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --ink:#1d2430; --muted:#5d6676; --line:#dde1e7;
+  --grid:#e9edf2; --accent:#0f6e74; --accent-soft:#e2f1f1;
+  --hl:#fff27a; --hl-ink:#4d3f00; --hl-edge:#e6cf2a;
+  --part:#fde3c4; --part-ink:#6e3a00; --part-edge:#e59a3c;
+  --ok:#2f7d4f; --ok-soft:#e3f3e9;
+  --lg:#eceeff; --lg-ink:#262c78; --lg-edge:#5f68e0;
+  --sh:#e3f5f1; --sh-ink:#0d4a44; --sh-edge:#1f8f82;
+  --qz:#fdeaf3; --qz-ink:#6b1840; --qz-edge:#c2427f; --wrong:#b3261e; --wrong-soft:#fbe4e2;
+  --f-display:"Space Grotesk",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12161c; --surface:#1a2029; --ink:#e6eaf0; --muted:#9aa4b3; --line:#2b3340;
+  --grid:#232b36; --accent:#5cc3c9; --accent-soft:#16343a;
+  --hl:#5b5410; --hl-ink:#fff4a8; --hl-edge:#8f8420;
+  --part:#4a3418; --part-ink:#ffd29e; --part-edge:#b8772c;
+  --ok:#6fcf97; --ok-soft:#173527; --lg:#1c2050; --lg-ink:#cfd3ff; --lg-edge:#7c84f2; --sh:#123a36; --sh-ink:#bdeee6; --sh-edge:#3bb3a4; --qz:#3a1528; --qz-ink:#ffd0e5; --qz-edge:#e06aa3; --wrong:#ff8a80; --wrong-soft:#3d1a18; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161c; --surface:#1a2029; --ink:#e6eaf0; --muted:#9aa4b3; --line:#2b3340;
+  --grid:#232b36; --accent:#5cc3c9; --accent-soft:#16343a;
+  --hl:#5b5410; --hl-ink:#fff4a8; --hl-edge:#8f8420;
+  --part:#4a3418; --part-ink:#ffd29e; --part-edge:#b8772c;
+  --ok:#6fcf97; --ok-soft:#173527; --lg:#1c2050; --lg-ink:#cfd3ff; --lg-edge:#7c84f2; --sh:#123a36; --sh-ink:#bdeee6; --sh-edge:#3bb3a4; --qz:#3a1528; --qz-ink:#ffd0e5; --qz-edge:#e06aa3; --wrong:#ff8a80; --wrong-soft:#3d1a18; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{padding-block:28px 10px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--f-display);font-size:clamp(28px,5vw,40px);line-height:1.1;margin:6px 0 10px;text-wrap:balance}
+.lede{color:var(--muted);max-width:65ch;margin:0 0 14px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:14px;color:var(--muted);margin:0}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:16px 0 0}
+.summary a{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 10px;font-size:13.5px;min-width:0}
+.summary a:hover{border-color:var(--accent)}
+.summary .s-ch{font-family:var(--f-mono);font-size:11.5px;color:var(--accent);letter-spacing:.04em}
+.summary .s-t{display:block;font-weight:600;line-height:1.25;margin:1px 0 4px}
+.summary .s-n{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding-block:10px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;max-width:100%}
+.seg button{font:500 14px var(--f-body);background:transparent;color:var(--ink);border:0;padding:7px 12px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
+.seg button:focus-visible,select:focus-visible,.summary a:focus-visible,.chk input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+select{font:14px var(--f-body);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 10px;max-width:100%}
+.overall{margin-left:auto;font-family:var(--f-mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+main{padding-block:8px 64px}
+section.ch{margin-top:36px;scroll-margin-top:70px}
+.ch-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.ch-num{font-family:var(--f-mono);font-size:13px;color:var(--accent)}
+.ch-head h2{font-family:var(--f-display);font-size:24px;margin:0;line-height:1.2;text-wrap:balance}
+.ch-meta{margin-left:auto;font-family:var(--f-mono);font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.meter{display:flex;height:6px;border-radius:3px;overflow:hidden;background:var(--grid);margin:10px 0 2px}
+.meter i{display:block}
+.meter .m-ok{background:var(--ok)} .meter .m-part{background:var(--part-edge)} .meter .m-gap{background:var(--hl-edge)}
+.ch-from{font-size:13.5px;color:var(--muted);margin:6px 0 0}
+.topic{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:10px;scroll-margin-top:70px}
+.topic.gap{background:var(--hl);border-color:var(--hl-edge);color:var(--hl-ink)}
+.topic.part{border-color:var(--part-edge)}
+.topic.extra{border-style:dashed}
+.t-head{display:flex;align-items:flex-start;gap:10px;padding:14px 16px 0}
+.t-head h3{font-family:var(--f-display);font-size:18px;line-height:1.3;margin:0;flex:1;min-width:0;text-wrap:balance}
+.pill{flex:none;font:500 12px var(--f-mono);letter-spacing:.03em;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.part{background:var(--part);color:var(--part-ink)}
+.pill.gap{background:var(--hl-ink);color:var(--hl)}
+.pill.extra{background:var(--grid);color:var(--muted)}
+.t-body{padding:8px 16px 16px;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.refs{display:flex;flex-wrap:wrap;gap:6px}
+.ref{font:500 12.5px var(--f-mono);border:1px solid var(--line);border-radius:6px;padding:2px 7px;background:var(--bg);color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums}
+.ref.pq{color:var(--muted)}
+.topic.gap .ref{background:rgba(255,255,255,.5);border-color:var(--hl-edge);color:var(--hl-ink)}
+.ask{font-size:14.5px;margin:0}
+.learn{border-radius:8px;padding:10px 12px;font-size:14.5px}
+.learn ul{margin:0;padding-left:20px}
+.topic.gap .learn{background:rgba(255,255,255,.45)}
+.topic.part .learn{background:var(--part);color:var(--part-ink)}
+.learn b{font-family:var(--f-mono);font-weight:500;font-size:12px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:4px}
+.notes{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.notes-label{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+figure.n{margin:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff;cursor:zoom-in;justify-self:start;max-width:100%}
+figure.n img{display:block;width:100%;height:auto}
+figure.n figcaption{font:12px var(--f-mono);color:#5d6676;background:#f3f5f8;padding:4px 8px;border-top:1px solid #e3e7ed}
+.plan{margin:18px 0 0;background:var(--lg);color:var(--lg-ink);border:1px solid var(--lg-edge);border-radius:10px;padding:14px 16px}
+.plan h2{font-family:var(--f-display);font-size:19px;margin:0 0 4px}
+.plan p{margin:0 0 10px;font-size:14.5px}
+.plan ol{margin:0;padding-left:22px;display:grid;gap:6px;font-size:14.5px}
+.plan a{color:inherit;font-weight:600}
+.plan .where{font-family:var(--f-mono);font-size:12px;opacity:.8}
+.pill.lg{background:var(--lg-edge);color:#fff}
+.lguide{background:var(--lg);color:var(--lg-ink);border:1px solid var(--lg-edge);border-left-width:5px;border-radius:8px;padding:12px 14px;display:grid;gap:12px;font-size:14.5px}
+.lguide>*{min-width:0}
+.lg-title{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-family:var(--f-display);font-weight:600;font-size:16px}
+.lguide h4{font-family:var(--f-mono);font-weight:500;font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 4px}
+.lguide ol,.lguide ul{margin:0;padding-left:20px;display:grid;gap:4px}
+.lguide p{margin:0}
+.lg-ex{background:var(--surface);color:var(--ink);border:1px solid var(--lg-edge);border-radius:6px;padding:10px 12px}
+.lg-ex .q{font-weight:600;margin-bottom:4px}
+.lguide details{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:6px 10px}
+.lguide details+details{margin-top:6px}
+.lguide summary{cursor:pointer;font-weight:500}
+.lguide details p{margin:6px 0 2px;color:var(--ok)}
+.lg-res a{color:var(--lg-ink);font-weight:600}
+.lg-res .kind{font-family:var(--f-mono);font-size:11.5px;opacity:.75}
+.lg-prac{font-family:var(--f-mono);font-size:13px}
+.pill.sh{background:var(--sh-edge);color:#fff}
+.pill.qz{background:var(--qz-edge);color:#fff}
+.shelp{background:var(--sh);color:var(--sh-ink);border:1px solid var(--sh-edge);border-left-width:5px;border-radius:8px;padding:12px 14px;display:grid;gap:12px;font-size:14.5px}
+.shelp>*{min-width:0}.shelp p{margin:0}
+.sh-title{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-family:var(--f-display);font-weight:600;font-size:16px}
+.sh-box{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.sh-box ul{margin:4px 0 0;padding-left:20px;display:grid;gap:4px}
+.tbl{overflow-x:auto;max-width:100%}
+.shelp table{border-collapse:collapse;width:100%;background:var(--surface);color:var(--ink);font-size:14px}
+.shelp th,.shelp td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+.shelp th{font-family:var(--f-mono);font-weight:500;font-size:12px;letter-spacing:.04em;text-transform:uppercase;background:var(--grid)}
+.drill-btn,.qz-reset{font:500 13px var(--f-body);background:var(--surface);color:var(--sh-ink);border:1px solid var(--sh-edge);border-radius:6px;padding:6px 10px;cursor:pointer;justify-self:start}
+.drill-btn[aria-pressed="true"]{background:var(--sh-edge);color:#fff}
+.drill-wrap{display:grid;gap:8px}
+.drill-tip{font-size:12.5px;opacity:.8;display:none}
+.drill.hide td.ans{filter:blur(6px);cursor:pointer;user-select:none}
+.drill.hide td.ans.show{filter:none}
+.drill.hide~.drill-tip,.drill-wrap:has(.drill.hide) .drill-tip{display:block}
+.flow{display:grid;gap:10px}
+.fq{font-weight:600}
+.fcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.fcol{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:10px 12px;min-width:0}
+.fcol ol{margin:6px 0 0;padding-left:18px;display:grid;gap:6px}
+.fh{font-family:var(--f-display);font-weight:600;font-size:15px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px;border-bottom:2px solid var(--sh-edge);padding-bottom:4px}
+.fh span{font-family:var(--f-mono);font-size:12px;color:var(--sh-edge)}
+.fx{margin:8px 0 0!important;font-size:13.5px;color:var(--muted)}
+details.orig summary{cursor:pointer;font-weight:500}
+details.orig figure{margin-top:8px}
+.quiz{background:var(--qz);color:var(--qz-ink);border:1px solid var(--qz-edge);border-left-width:5px;border-radius:8px;padding:12px 14px;display:grid;gap:12px;font-size:14.5px}
+.quiz>*{min-width:0}
+.qz-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-family:var(--f-display);font-weight:600;font-size:16px}
+.qz-score{margin-left:auto;font-family:var(--f-mono);font-size:13px;font-weight:500}
+.qz-q{display:grid;gap:6px}
+.qz-text{font-weight:500}
+.qz-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:6px}
+.opt{font:14px var(--f-body);text-align:left;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:8px 10px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--qz-edge)}
+.opt:focus-visible,.drill-btn:focus-visible,.qz-reset:focus-visible{outline:2px solid var(--qz-edge);outline-offset:2px}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--ok-soft);border-color:var(--ok);color:var(--ok);font-weight:600}
+.opt.wrong{background:var(--wrong-soft);border-color:var(--wrong);color:var(--wrong)}
+.qz-ex{margin:0;font-size:13.5px;padding:6px 10px;border-radius:6px;background:var(--surface);color:var(--ink)}
+.qz-ex.ok{border-left:3px solid var(--ok)}.qz-ex.no{border-left:3px solid var(--wrong)}
+.qz-print{margin:0;padding-left:20px;display:grid;gap:6px}
+.qz-opts-p{display:flex;flex-wrap:wrap;gap:2px 14px;font-size:13px}
+.qz-key{background:var(--surface);color:var(--ink);border-radius:6px;padding:8px 10px;font-size:12.5px}
+.qz-key ol{margin:4px 0 0;padding-left:20px}
+.chk{display:inline-flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;user-select:none;justify-self:start}
+.chk input{width:18px;height:18px;accent-color:var(--accent)}
+.topic.done .t-head h3{opacity:.65}
+.empty{color:var(--muted);font-size:15px;padding:24px 0}
+.lb{position:fixed;inset:0;z-index:20;background:rgba(10,14,20,.88);display:flex;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 52px) max(12px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 24px) max(12px,env(safe-area-inset-left,0px));overflow:auto}
+.lb[hidden]{display:none}
+.lb img{max-width:100%;max-height:100%;background:#fff;border-radius:4px}
+.lb button{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:max(12px,env(safe-area-inset-right,0px));font:600 14px var(--f-body);background:#fff;color:#1d2430;border:0;border-radius:8px;padding:8px 14px;cursor:pointer}
+@media (max-width:560px){
+  body{font-size:15px}
+  .overall,.ch-meta{margin-left:0;width:100%}
+  .seg{width:100%}.seg button{flex:1;padding:8px 6px;font-size:13px}
+  #jump{width:100%}
+  .t-head{padding:12px 12px 0}.t-body{padding:8px 12px 14px}
+  .summary{grid-template-columns:1fr 1fr}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+@media print{
+  :root{--bg:#fff;--surface:#fff;--ink:#111;--muted:#444;--line:#bbb;--grid:#e5e5e5;--accent:#0f6e74;
+    --hl:#fff27a;--hl-ink:#3d3200;--hl-edge:#c9b21a;--part:#fde3c4;--part-ink:#5a2f00;--part-edge:#d98a2b;--ok:#22603c;--ok-soft:#e3f3e9;--lg:#eceeff;--lg-ink:#1f2470;--lg-edge:#5f68e0;--sh:#e3f5f1;--sh-ink:#0d4a44;--sh-edge:#1f8f82;--qz:#fdeaf3;--qz-ink:#6b1840;--qz-edge:#c2427f;--wrong:#b3261e;--wrong-soft:#fbe4e2;color-scheme:light}
+  .drill-btn,.drill-tip,.qz-reset{display:none!important}
+  .drill.hide td.ans{filter:none}
+  .fcol,.sh-box,.qz-q,.qz-print li,.qz-key{break-inside:avoid}
+  .lguide,.lg-ex,.lguide details{break-inside:avoid}
+  .plan{break-inside:avoid}
+  @page{size:letter;margin:0.5in}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  html{scroll-behavior:auto}
+  body{font-size:11pt;background:#fff}
+  body::before,.bar,.chk,.lb{display:none!important}
+  .summary{grid-template-columns:repeat(3,1fr);gap:6pt}
+  .summary a{border-color:#bbb;padding:6pt 8pt}
+  .wrap{max-width:none;padding:0}
+  header.top{padding:0 0 6pt}
+  h1{font-size:22pt}
+  section.ch{margin-top:0;break-before:page}
+  .ch-head{break-after:avoid}
+  .topic{margin-top:10pt;border-radius:4pt;break-inside:auto}
+  .t-head{break-after:avoid;padding:8pt 10pt 0}
+  .t-body{padding:6pt 10pt 10pt;gap:8pt}
+  .learn,.refs,.ask{break-inside:avoid}
+  figure.n{break-inside:avoid;cursor:default;border-color:#ccc}
+  figure.n img{max-height:8.6in;width:auto;max-width:100%}
+  .topic.done .t-head h3{opacity:1}
+}
+</style>
+
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="eyebrow">ACS Exams · Preparing for Your ACS Examination in General Chemistry (2nd ed.) · Toolbox + Ch. 1–8</div>
+  <h1>Gen Chem 1 Study Guide</h1>
+  <p class="lede">This follows the printed ACS guide in order. Each card is one topic from the guide and lists its Study Questions (SQ), the guide page, and the matching Practice Questions (PQ), so you can open your printed copy right beside it. Under each card are your notes, cut straight from your module pages and kept exactly as you wrote them. Yellow cards mean you have no notes yet: review and learn those.</p>
+  <div class="legend">
+    <span><span class="pill ok">✓ notes</span> you have notes</span>
+    <span><span class="pill part">◐ partial</span> notes started, pieces missing</span>
+    <span><span class="pill gap">! review</span> no notes yet</span>
+    <span><span class="pill extra">+ extra</span> your notes the guide doesn't cover</span>
+    <span><span class="pill lg">Learning guide</span> step-by-step help for a gap</span>
+    <span><span class="pill qz">Practice quiz</span> tap an answer to check it</span>
+    <span><span class="pill sh">Study help</span> tables and charts to memorize</span>
+  </div>
+  <section class="plan" id="plan"></section>
+  <p class="dl"><a href="gen-chem-1-study-guide.pdf">Open the printable PDF (130 pages)</a></p>
+  <nav class="summary" id="summary" aria-label="Chapters"></nav>
+</div></header>
+
+<div class="bar"><div class="wrap">
+  <div class="seg" role="group" aria-label="Show">
+    <button type="button" id="f-all" data-f="all" aria-pressed="true">All topics</button>
+    <button type="button" id="f-gap" data-f="gap" aria-pressed="false">Review only</button>
+    <button type="button" id="f-todo" data-f="todo" aria-pressed="false">Not checked off</button>
+  </div>
+  <select id="jump" aria-label="Jump to chapter"></select>
+  <div class="overall" id="overall"></div>
+</div></div>
+
+<main class="wrap" id="main"></main>
+<div class="lb" id="lb" hidden><button type="button" id="lb-close">Close</button><img id="lb-img" alt=""></div>
+
+<script>
+const CROPS = [["m1-2-1",["F.sci"],1000,375],["m1-2-2",["F.class"],1000,414],["m1-2-3",["F.states"],1000,128],["m1-2-4",["F.props"],1000,232],["m1-2-5",["F.units"],1000,168],["m1-3-1",["F.density"],1000,452],["m1-3-2",["F.temp"],1000,193],["m1-3-3",["F.scinot"],1000,388],["m1-3-4",["F.sigfig"],1000,272],["m1-4-1",["F.sigfig"],1000,620],["m1-4-2",["F.error"],1000,362],["m1-4-3",["F.dimen"],1000,337],["m1-5-1",["F.dimen"],1000,284],["m1-5-2",["F.error"],1000,258],["m1-5-3",["F.practice"],1000,310],["m1-5-4",["F.practice"],1000,478],["m1-6-1",["F.sigfig"],1000,245],["m1-6-2",["F.props"],1000,193],["m1-6-3",["F.sci"],1000,207],["m1-6-4",["F.scinot"],1000,517],["m1-7-1",["F.props"],1000,206],["m1-7-2",["F.units"],1000,193],["m1-7-3",["F.error"],1000,427],["m1-7-4",["F.density"],1000,207],["m1-7-5",["F.scinot"],1000,258],["m2-2-1",["1.laws"],1000,646],["m2-2-2",["1.sub"],1000,659],["m2-3-1",["1.iso"],1000,581],["m2-3-2",["1.periodic"],1000,568],["m2-3-3",["3.formulas"],1000,181],["m2-4-1",["1.ions"],1000,361],["m2-4-2",["7.bondtypes"],1000,556],["m2-4-3",["3.formulas"],1000,401],["m2-5-1",["3.formulas"],1000,322],["m2-5-2",["3.nomen"],1000,983],["m2-6-1",["3.nomen"],1000,1034],["m2-6-2",["3.nomen","5.acidbase"],1000,272],["m2-7-1",["3.nomen"],1000,477],["m2-7-2",["1.iso"],380,194],["m2-7-3",["3.nomen","3.formulas"],620,685],["m2-7-4",["3.formulas","3.nomen"],380,517],["m2-8-1",["1.iso"],500,245],["m2-8-2",["1.ions"],500,232],["m2-8-3",["3.formulas"],500,712],["m2-8-4",["3.nomen"],500,477],["m2-8-5",["1.laws"],500,427],["m2-8-6",["3.nomen"],500,284],["m3-1-1",["1.avg"],1000,607],["m3-1-2",["3.mole"],1000,931],["m3-2-1",["3.mole"],1000,646],["m3-2-2",["3.percent"],1000,193],["m3-2-3",["3.empirical"],1000,336],["m3-2-4",["4.balance"],1000,142],["m3-3-1",["4.balance"],1000,568],["m3-3-2",["4.stoich"],1000,504],["m3-3-3",["4.stoich"],580,233],["m3-3-4",["4.limiting"],430,233],["m3-4-1",["4.limiting","4.yield"],1000,413],["m3-4-2",["3.empirical"],1000,879],["m3-5-1",["3.empirical"],1000,375],["m3-5-2",["1.avg"],400,426],["m3-5-3",["1.avg"],600,206],["m3-5-4",["1.avg"],630,400],["m3-5-5",["4.balance"],400,284],["m3-5-6",["3.mole"],630,232],["m3-5-7",["3.mole"],400,246],["m3-6-1",["1.avg"],550,375],["m3-6-2",["3.empirical"],480,374],["m3-6-3",["3.percent"],1000,233],["m3-6-4",["4.stoich"],1000,272],["m3-6-5",["4.yield"],1000,246],["m3-6-6",["4.limiting"],1000,219],["m4-1-1",["5.solutions"],1000,465],["m4-1-2",["5.electrolytes"],1000,426],["m4-1-3",["5.precip"],1000,427],["m4-2-1",["5.precip"],1000,232],["m4-2-2",["5.acidbase"],1000,1074],["m4-3-1",["5.acidbase"],1000,322],["m4-3-2",["5.gasevo"],520,492],["m4-3-3",["5.acidbase"],500,388],["m4-3-4",["5.redox"],1000,530],["m4-4-1",["5.redox"],1000,1086],["m4-5-1",["5.redox"],1000,1008],["m4-5-2",["5.molarity"],1000,284],["m4-6-1",["5.molarity"],1000,607],["m4-6-2",["5.molarity"],760,478],["m4-6-3",["5.titration"],260,464],["m4-6-4",["5.titration"],1000,128],["m4-7-1",["5.titration"],1000,776],["m5-1-1",["8.pressure"],1000,892],["m5-1-2",["8.gaslaws"],1000,414],["m5-2-1",["8.gaslaws"],1000,128],["m5-2-2",["8.idealgas"],1000,1177],["m5-3-1",["8.idealgas"],1000,711],["m5-3-2",["8.gasstoich"],420,440],["m5-3-3",["8.idealgas"],600,233],["m5-3-4",["8.gasstoich"],600,388],["m5-3-5",["8.dalton"],420,181],["m5-4-1",["8.dalton"],380,672],["m5-4-2",["8.dalton"],390,853],["m5-4-3",["8.dalton"],270,516],["m5-4-4",["8.realgas"],270,800],["m5-4-5",["8.realgas"],750,621],["m5-5-1",["8.kmt"],1000,1034],["m5-5-2",["8.kmt"],1000,272],["m5-6-1",["8.kmt"],1000,141],["m5-6-2",["8.gaslaws"],700,660],["m6-01-1",["6.energy"],1000,1293],["m6-02-1",["6.energy"],1000,905],["m6-02-2",["6.firstlaw"],1000,401],["m6-03-1",["6.firstlaw"],1000,1293],["m6-04-1",["6.enthalpy"],1000,361],["m6-04-2",["6.calorimetry"],1000,970],["m6-05-1",["6.calorimetry"],1000,284],["m6-05-2",["6.firstlaw"],1000,492],["m6-05-3",["6.calorimetry"],1000,530],["m6-06-1",["6.enthalpy"],1000,387],["m6-06-2",["6.calorimetry"],430,323],["m6-06-3",["6.enthalpy"],430,492],["m6-06-4",["6.calorimetry"],580,801],["m6-07-1",["6.calorimetry"],1000,322],["m6-07-2",["6.firstlaw"],1000,181],["m6-07-3",["6.thermoeq"],1000,815],["m6-08-1",["6.thermoeq"],1000,128],["m6-08-2",["6.hess"],1000,530],["m6-08-3",["6.formation"],1000,543],["m6-09-1",["6.formation"],1000,1163],["m6-10-1",["6.formation","6.hess"],1000,1293],["m7-1-1",["2.light"],1000,1293],["m7-2-1",["2.light"],1000,646],["m7-2-2",["2.bohr"],1000,647],["m7-3-1",["2.bohr"],600,645],["m7-3-2",["2.bohr"],420,362],["m7-3-3",["2.wave"],420,310],["m7-3-4",["2.wave"],1000,673],["m7-4-1",["2.wave"],1000,387],["m7-4-2",["2.qnumbers"],1000,918],["m7-5-1",["2.qnumbers"],1000,1034],["m7-5-2",["2.qnumbers","2.config"],1000,272],["m7-6-1",["2.qnumbers"],520,258],["m7-6-2",["2.config"],500,1293],["m7-6-3",["2.config","2.magnet"],520,776],["m7-6-4",["2.qnumbers"],520,284],["m7-7-1",["2.config","2.magnet"],1000,322],["m8-01-1",["7.bondtypes"],1000,180],["m8-01-2",["7.lewisdots"],1000,789],["m8-01-3",["7.ionic"],1000,337],["m8-02-1",["7.ionic"],1000,750],["m8-02-2",["7.lattice"],1000,556],["m8-03-1",["7.lattice"],1000,1293],["m8-04-1",["7.lattice"],1000,1293],["m8-05-1",["7.covalent"],1000,1034],["m8-05-2",["8.imf"],1000,129],["m8-05-3",["7.en"],1000,168],["m8-06-1",["7.en"],1000,1293],["m8-07-1",["7.lewis"],1000,1293],["m8-08-1",["7.resonance"],1000,697],["m8-08-2",["7.formal"],1000,608],["m8-09-1",["7.formal","7.resonance"],1000,982],["m8-09-2",["7.exceptions"],1000,323],["m8-10-1",["7.exceptions"],1000,840],["m8-10-2",["7.bondenergy","6.bondenergy"],1000,465],["m8-11-1",["7.bondenergy","6.bondenergy"],1000,1293],["m9-1-1",["7.vsepr"],1000,1293],["m9-2-1",["7.vsepr"],1000,905],["m9-2-2",["7.molpolarity"],1000,401],["m9-3-1",["7.molpolarity"],1000,116],["m9-3-2",["7.en"],1000,362],["m9-3-3",["7.molpolarity"],1000,711],["m9-4-1",["7.vb"],1000,1293],["m9-5-1",["7.vb"],1000,1293],["m9-6-1",["7.vb"],1000,801],["m9-6-2",["7.vb"],1000,426],["m9-7-1",["7.mo"],1000,1293],["m9-8-1",["7.mo"],1000,1241],["m8-01-4",["2.trends"],1000,181],["m8-04-2",["2.trends"],1000,336],["m6-04-3",["8.phase"],400,310]];
+const MOD = {m1:"Module 1",m2:"Module 2",m3:"Module 3",m4:"Module 4",m5:"Module 5",m6:"Module 6",m7:"Module 7",m8:"Module 8",m9:"Module 9"};
+const CH = [
+ {id:"tb",num:"Toolbox",title:"Foundational Concepts",pages:"1–8",from:"Module 1 and the naming part of Module 2",topics:[
+  {t:"Unit conversions",sq:[["1",1]],pq:"PQ-1, 2",tags:["F.units","F.dimen","F.temp"],ask:"SI prefixes, dimensional analysis, compound units, temperature scales."},
+  {t:"Significant figures",sq:[["2",2]],pq:"PQ-3, 4",tags:["F.sigfig","F.error"],ask:"Reading instruments, counting sig figs, rounding in calculations; accuracy vs precision."},
+  {t:"Scientific notation",sq:[],pq:"",tags:["F.scinot"],ask:"Writing and comparing numbers in scientific notation."},
+  {t:"Nomenclature & chemical formulas",sq:[["3",2],["4",3],["5",4]],pq:"PQ-5 to 11",tags:["3.nomen","3.formulas"],ask:"Naming ionic, molecular, acid and oxoacid compounds; writing formulas from names."},
+  {t:"Density",sq:[["6",4]],pq:"PQ-12, 13",tags:["F.density"],ask:"d = m/V, including volume by displacement."},
+  {t:"Classification of matter",sq:[["7",5]],pq:"PQ-14, 15",tags:["F.class","F.states"],ask:"Elements, compounds and mixtures from particle pictures; states of matter."},
+  {t:"Properties and representations of matter",sq:[],pq:"",tags:["F.props"],ask:"Physical vs chemical properties and changes; intensive vs extensive."},
+  {t:"Scientific method; Module 1 practice",sq:[],pq:"",tags:["F.sci","F.practice"],st:"extra",ask:"In your notes but not a Toolbox topic."}]},
+ {id:"1",num:"Chapter 1",title:"Atomic Structure",pages:"15–24",from:"Modules 2–3",topics:[
+  {t:"Subatomic particles & isotopes",sq:[["1",16],["2",16]],pq:"PQ-1 to 7",tags:["1.sub","1.iso"],ask:"Protons, neutrons, electrons; reading a nuclide symbol; what makes atoms isotopes."},
+  {t:"Ions",sq:[["3",17],["4",17]],pq:"PQ-8 to 13",tags:["1.ions"],ask:"Counting protons and electrons in cations and anions."},
+  {t:"Average atomic mass",sq:[["5",17],["6",18]],pq:"PQ-14 to 17",tags:["1.avg"],ask:"Weighted average from isotope masses and abundances; mass spectra."},
+  {t:"Metals, nonmetals, metalloids; groups and periods",sq:[["7",19],["8",19],["9",19]],pq:"PQ-18 to 30",tags:["1.periodic"],ask:"Reading the periodic table; families; predicting ion charges and ionic formulas from the group."},
+  {t:"Dalton's atomic theory & laws of combination",sq:[],pq:"",tags:["1.laws"],st:"extra",ask:"In your notes but not a Chapter 1 topic in the guide."}]},
+ {id:"2",num:"Chapter 2",title:"Electronic Structure",pages:"25–36",from:"Module 7 (plus a little of Module 8)",topics:[
+  {t:"Light and the electromagnetic spectrum",sq:[],pq:"",tags:["2.light","2.wave"],ask:"c = λν, E = hν, photons, the photoelectric effect, wave–particle duality."},
+  {t:"Quantum numbers and atomic orbitals",sq:[["3",27],["4",28]],pq:"PQ-6, 7",tags:["2.qnumbers"],ask:"Allowed n, l, mₗ, mₛ; naming orbitals from quantum numbers."},
+  {t:"Orbital diagrams and electron configurations",sq:[["5",28],["6",28]],pq:"PQ-8 to 13",tags:["2.config"],ask:"Ground-state configurations for atoms and ions (transition-metal ions lose s electrons first)."},
+  {t:"Paramagnetic and diamagnetic species",sq:[["7",29]],pq:"PQ-14 to 16",tags:["2.magnet"],ask:"Unpaired electrons from the orbital diagram."},
+  {t:"Energies of electron transitions in atoms",sq:[["1",26],["2",26]],pq:"PQ-1 to 5",tags:["2.bohr"],ask:"Rydberg/Bohr energy levels; absorption vs emission; wavelength of a transition."},
+  {t:"Periodic properties (Z_eff, radius, ionization energy)",sq:[["8",30],["9",30],["10",31],["11",31]],pq:"PQ-17 to 30",tags:["2.trends"],st:"part",ask:"Effective nuclear charge, atomic and ionic radius, ionization energy, electron affinity.",
+   learn:["Z_eff goes up across a period, because more protons are added but the shielding barely changes.","Atomic radius gets smaller across a period and larger down a group (more shells).","Ionization energy follows the opposite trend. Successive IEs jump sharply once you start removing core electrons.","Electron affinity: generally more negative (more energy released) toward the upper right, with exceptions for groups 2, 15 and 18.","Ions: cations are smaller than their atoms and anions are larger. In an isoelectronic series, more protons means a smaller ion (Li⁺ > Be²⁺)."]}]},
+ {id:"3",num:"Chapter 3",title:"Formula Calculations and the Mole",pages:"37–46",from:"Module 3",topics:[
+  {t:"Mole, Avogadro's number & molar mass",sq:[["1",37],["2",38],["3",38],["4",39],["5",40]],pq:"PQ-1 to 17",tags:["3.mole"],ask:"Grams ↔ moles ↔ particles; molar mass from a formula; atoms of one element inside a compound."},
+  {t:"Percent composition (mass percent)",sq:[["6",40]],pq:"PQ-18 to 26",tags:["3.percent"],ask:"Mass percent of an element in a compound."},
+  {t:"Empirical and molecular formulas",sq:[["7",41],["8",41]],pq:"PQ-27 to 30",tags:["3.empirical"],ask:"Empirical formula from masses or percents; molecular formula from molar mass; combustion analysis."}]},
+ {id:"4",num:"Chapter 4",title:"Stoichiometry",pages:"47–56",from:"Module 3",topics:[
+  {t:"Balancing chemical reactions",sq:[["1",48],["2",48]],pq:"PQ-1 to 6",tags:["4.balance"],ask:"Smallest whole-number coefficients."},
+  {t:"Converting moles of starting material to moles of product",sq:[["3",49],["4",49]],pq:"PQ-7 to 19",tags:["4.stoich"],ask:"Mole ratios; mass A → mol A → mol B → mass B."},
+  {t:"Limiting reactant, theoretical, experimental & percent yield",sq:[["5",50],["6",50],["7",51]],pq:"PQ-20 to 30",tags:["4.limiting","4.yield"],ask:"Finding the limiting reactant (including from particle pictures), theoretical yield and percent yield."}]},
+ {id:"5",num:"Chapter 5",title:"Solutions and Aqueous Reactions, Part 1",pages:"57–68",from:"Module 4 (and acids from Module 2)",topics:[
+  {t:"Electrolytes",sq:[["1",58]],pq:"PQ-1",tags:["5.solutions","5.electrolytes"],ask:"Strong, weak and nonelectrolytes."},
+  {t:"Molar concentration & dilution",sq:[["2",58],["3",59],["4",59]],pq:"PQ-2 to 10",tags:["5.molarity"],ask:"M = n/V, ion concentrations, M₁V₁ = M₂V₂."},
+  {t:"Precipitation reactions & net ionic equations",sq:[["5",60],["6",60],["7",61]],pq:"PQ-11 to 19",tags:["5.precip"],ask:"Solubility rules, predicting precipitates, spectator ions, net ionic equations, excess reactant in particle pictures."},
+  {t:"Acids, bases & gas-evolution reactions",sq:[["8",61]],pq:"PQ-20, 21",tags:["5.acidbase","5.gasevo"],ask:"Strong vs weak acids in water, Brønsted–Lowry pairs, neutralization."},
+  {t:"Oxidation–reduction",sq:[["9",62],["10",62],["11",63]],pq:"PQ-22 to 30",tags:["5.redox"],ask:"Oxidation numbers; what is oxidized and reduced; oxidizing and reducing agents."},
+  {t:"Solution stoichiometry & titration",sq:[],pq:"",tags:["5.titration"],ask:"Using molarity × volume for moles in reactions; equivalence point."}]},
+ {id:"6",num:"Chapter 6",title:"Heat and Enthalpy",pages:"69–80",from:"Module 6",topics:[
+  {t:"First law of thermodynamics",sq:[["1",69]],pq:"PQ-1, 2",tags:["6.energy","6.firstlaw"],ask:"ΔE = q + w and the sign of each term; system vs surroundings."},
+  {t:"Calorimetry and specific heat",sq:[["2",70],["3",71],["5",72]],pq:"PQ-3 to 8, 11, 12",tags:["6.calorimetry"],ask:"q = mcΔT, final temperature at thermal equilibrium, bomb calorimetry."},
+  {t:"Enthalpy and heat",sq:[["4",71]],pq:"PQ-9, 10",tags:["6.thermoeq"],ask:"Using ΔH of a reaction with stoichiometry (kJ per mole as written)."},
+  {t:"Hess's law & enthalpies of formation",sq:[["6",72],["7",73],["8",74],["9",74]],pq:"PQ-13 to 30",tags:["6.hess","6.formation"],ask:"Reverse, scale and add reactions; ΔH°rxn from ΔH°f values."},
+  {t:"Exothermic and endothermic processes",sq:[],pq:"",tags:["6.enthalpy"],ask:"Sign of ΔH for physical and chemical changes."}]},
+ {id:"7",num:"Chapter 7",title:"Structure and Bonding",pages:"81–96",from:"Modules 2, 8 and 9",topics:[
+  {t:"Lattice energy",sq:[["1",82]],pq:"PQ-1, 2",tags:["7.ionic","7.lattice"],ask:"Ranking lattice energies by ion charge and size; Born–Haber cycle."},
+  {t:"Electronegativity and ionic vs covalent bonding",sq:[["2",82]],pq:"PQ-3, 4",tags:["7.bondtypes","7.en"],ask:"Using ΔEN to call a bond nonpolar covalent, polar covalent or ionic."},
+  {t:"Formal charge",sq:[["3",83]],pq:"PQ-5, 6",tags:["7.formal"],ask:"Calculating formal charge and using it to choose a structure."},
+  {t:"Lewis structures",sq:[["4",83]],pq:"PQ-7 to 10",tags:["7.lewisdots","7.lewis","7.exceptions"],ask:"Valence electrons, lone pairs on the central atom, octet exceptions."},
+  {t:"Resonance",sq:[["5",84]],pq:"PQ-11, 12",tags:["7.resonance"],ask:"Valid resonance structures (same atoms, electrons moved)."},
+  {t:"Bond enthalpy, bond length and bond strength",sq:[["6",85],["7",86]],pq:"PQ-13 to 16",tags:["7.covalent","7.bondenergy"],ask:"ΔH from bonds broken minus bonds formed; single vs double vs triple."},
+  {t:"Molecular shape and geometry",sq:[["8",86],["9",87]],pq:"PQ-17 to 20",tags:["7.vsepr"],ask:"VSEPR electron-pair and molecular geometry; bond angles."},
+  {t:"Polarity",sq:[["10",88]],pq:"PQ-21 to 23",tags:["7.molpolarity"],ask:"Polar bonds + shape → polar or nonpolar molecule."},
+  {t:"Valence bond theory",sq:[["11",89],["12",90]],pq:"PQ-24 to 28",tags:["7.vb"],ask:"Hybridization of each atom; counting σ and π bonds."},
+  {t:"Molecular orbital theory",sq:[["13",90]],pq:"PQ-29, 30",tags:["7.mo"],ask:"Filling MO diagrams; bond order; magnetism."}]},
+ {id:"8",num:"Chapter 8",title:"States of Matter",pages:"97–112",from:"Module 5 (gases). Intermolecular forces, liquids and solids are mostly missing.",topics:[
+  {t:"Properties of ideal gases",sq:[["1",98]],pq:"PQ-1, 2",tags:["8.pressure","8.realgas"],ask:"When gases behave ideally (low P, high T); pressure units; van der Waals."},
+  {t:"Single ideal gas in one condition (ideal gas law)",sq:[["2",98]],pq:"PQ-3 to 6",tags:["8.idealgas"],ask:"PV = nRT, gas density and molar mass."},
+  {t:"Single ideal gas in two conditions (combined gas law)",sq:[["3",99]],pq:"PQ-7, 8",tags:["8.gaslaws"],ask:"Boyle, Charles, Gay-Lussac, Avogadro, combined gas law (temperatures in K)."},
+  {t:"Gases in reactions (gas stoichiometry)",sq:[["4",99]],pq:"PQ-9 to 11",tags:["8.gasstoich"],ask:"PV = nRT joined with mole ratios."},
+  {t:"Gas mixtures",sq:[["5",100]],pq:"PQ-12, 13",tags:["8.dalton"],ask:"Dalton's law, mole fractions, partial pressures."},
+  {t:"Kinetic molecular theory",sq:[["6",100]],pq:"PQ-14 to 17",tags:["8.kmt"],ask:"Speed distributions, u_rms, Graham's law of effusion."},
+  {t:"Intermolecular forces of pure substances",sq:[["7",101],["8",101]],pq:"PQ-18 to 23",tags:["8.imf"],st:"part",ask:"Identifying the IMFs in a substance and ranking boiling points.",
+   learn:["London dispersion forces act in every molecule and grow with molar mass and polarizability.","Dipole–dipole forces act between polar molecules.","Hydrogen bonding needs H bonded to N, O or F, plus a lone pair on a nearby N, O or F. Draw it between the H and the lone pair, not along a covalent bond.","Boiling point order: ionic solids (NaCl) far above molecular ones; among molecules, compare the IMF types, then molar mass."]},
+  {t:"Vapor pressure",sq:[["9",102]],pq:"PQ-24, 25",tags:["8.liquids"],st:"gap",ask:"Reading vapor-pressure curves; linking vapor pressure to IMFs.",
+   learn:["Stronger IMFs mean lower vapor pressure and a higher boiling point.","Vapor pressure rises with temperature. A liquid boils when its vapor pressure equals the outside pressure; the normal boiling point is at 1 atm (760 torr).","Clausius–Clapeyron: ln(P₂/P₁) = −(ΔH_vap/R)(1/T₂ − 1/T₁)."]},
+  {t:"Properties of solids",sq:[["10",103]],pq:"PQ-26, 27",tags:["8.solids"],st:"gap",ask:"Unit cells and density of a metal from its lattice.",
+   learn:["Atoms per unit cell: simple cubic 1, body-centered cubic 2, face-centered cubic 4 (corner = 1/8, face = 1/2, body = 1).","Density = (atoms per cell × molar mass ÷ Nₐ) ÷ (edge length)³. Convert pm to cm (1 pm = 10⁻¹⁰ cm).","Types of solids: ionic, molecular, covalent-network and metallic, each with typical properties."]},
+  {t:"Phase diagrams",sq:[["11",104]],pq:"PQ-28 to 30",tags:["8.phase"],st:"part",ask:"Reading a phase diagram: which phase change happens when P or T changes.",
+   learn:["Axes: pressure (y) against temperature (x). Lines are where two phases coexist.","Triple point: all three phases coexist. Past the critical point there is a supercritical fluid.","Move straight up (raise P at constant T) or across (raise T at constant P) and name the line you cross: melting/freezing, boiling/condensing, sublimation/deposition.","Heating curve: use q = mcΔT on the slopes and q = nΔH on the flat parts."]}]}
+];
+
+const GUIDES = {
+ "8.imf": {order:1, why:"Start here. Intermolecular forces explain vapor pressure, boiling points and the types of solids, so the next three gaps build on this one.",
+  steps:["Is it ionic (a metal + nonmetal, like NaCl)? Ionic attractions are far stronger than any intermolecular force, so it has the highest boiling point.",
+   "For a molecule, draw the Lewis structure and get the shape (Chapter 7). Polar bonds plus a lopsided shape means a polar molecule, which has dipole–dipole forces.",
+   "Look for H bonded directly to N, O or F. If it's there, the molecule can hydrogen bond, the strongest intermolecular force.",
+   "Every molecule has London dispersion forces. More electrons (higher molar mass, bigger and longer molecules) means stronger dispersion.",
+   "To rank boiling points, compare the strongest force each one has, then break ties with molar mass."],
+  example:{q:"Rank by increasing boiling point: CH₄, HCl, HF, NaF.",
+   a:["CH₄: nonpolar, dispersion only → lowest.","HCl: polar → dipole–dipole + dispersion.","HF: H on F → hydrogen bonding.","NaF: ionic → highest.","Answer: CH₄ < HCl < HF < NaF"]},
+  traps:["A hydrogen bond is drawn between molecules: from the H (on O, N or F) of one molecule to a lone pair on O, N or F of another. It is never the O–H bond itself.","C–H bonds don't hydrogen bond. CH₃OCH₃ has an O but no O–H, so it can't hydrogen bond with itself.","A big nonpolar molecule can beat a small polar one: I₂ is a solid at room temperature but HCl is a gas."],
+  check:[["What intermolecular forces are in CH₃OH?","Dispersion, dipole–dipole and hydrogen bonding (it has an O–H)."],["Which has the higher boiling point, Cl₂ or Br₂? Why?","Br₂. Both are nonpolar, but Br₂ has more electrons, so its dispersion forces are stronger."],["Which of these can hydrogen bond with itself: CH₃F, CH₃OH, CH₃CH₃?","Only CH₃OH. In CH₃F the H atoms are on C, not on F."]],
+  practice:"Guide PQ-18 to 23 (pp. 105–106) · answers p. 109",
+  res:["os-imf","phet-states","cc-imf","kh-som"]},
+ "8.liquids": {order:2, why:"Vapor pressure is intermolecular forces in action: the weaker the forces, the more easily molecules escape into the gas.",
+  steps:["Vapor pressure is the pressure of the gas above a liquid when evaporation and condensation are happening at the same rate (dynamic equilibrium).",
+   "It depends only on the substance (its intermolecular forces) and the temperature. The amount of liquid and the size of the container don't change it.",
+   "On a vapor-pressure graph (P against T), the curve that sits higher at a given temperature belongs to the liquid with the weaker intermolecular forces.",
+   "A liquid boils when its vapor pressure equals the outside pressure. Read the normal boiling point where the curve crosses 760 torr (1 atm).",
+   "To find the vapor pressure at a new temperature, use Clausius–Clapeyron: ln(P₂/P₁) = −(ΔH_vap/R)(1/T₂ − 1/T₁)."],
+  example:{q:"Water boils at 100 °C (760 torr), and ΔH_vap = 40.7 kJ/mol. Estimate its vapor pressure at 80 °C.",
+   a:["Convert: T₁ = 373 K, T₂ = 353 K, ΔH_vap = 40,700 J/mol, R = 8.314 J/(mol·K).","ln(P₂/760) = −(40,700 / 8.314)(1/353 − 1/373) = −0.744","P₂ = 760 × e^(−0.744) ≈ 361 torr (the measured value is about 355 torr)"]},
+  traps:["Temperatures must be in kelvin.","Match the units: ΔH_vap in J/mol with R = 8.314 J/(mol·K).","Higher vapor pressure means a lower boiling point, not a higher one."],
+  check:[["At 25 °C, liquid A has a vapor pressure of 100 torr and liquid B 400 torr. Which has the higher normal boiling point?","A. Its lower vapor pressure means stronger intermolecular forces, so it has to get hotter to reach 760 torr."],["If you double the amount of liquid in a closed flask, what happens to the vapor pressure?","Nothing. Vapor pressure depends only on the substance and the temperature."],["Why does water boil below 100 °C on a mountain?","The air pressure is lower, so water's vapor pressure reaches the outside pressure at a lower temperature."]],
+  practice:"Guide PQ-24, 25 (p. 107) · answers p. 109",
+  res:["os-liquids","os-transitions","phet-states"]},
+ "8.phase": {order:3, why:"A phase diagram is a map: find your starting point, follow the change, and name the line you cross.",
+  steps:["The axes are pressure (y) against temperature (x). The three regions are solid (top left), liquid (top middle) and gas (bottom right).",
+   "Each line is where two phases coexist. Crossing solid–liquid is melting or freezing, liquid–gas is boiling or condensing, and solid–gas is sublimation or deposition.",
+   "The triple point is where all three phases coexist. Past the critical point there is no separate liquid and gas, only a supercritical fluid.",
+   "Raising pressure at a constant temperature means moving straight up. Raising temperature at a constant pressure means moving straight across to the right.",
+   "Read the normal melting and boiling points where the lines cross 1 atm."],
+  example:{q:"Heating curve: how much heat turns 10.0 g of ice at −10 °C into liquid water at 25 °C? (c_ice = 2.09 J/g·°C, c_water = 4.184 J/g·°C, ΔH_fus = 6.01 kJ/mol)",
+   a:["Warm the ice: q = mcΔT = 10.0 × 2.09 × 10 = 209 J","Melt it (temperature stays the same): q = nΔH_fus = (10.0 / 18.02) × 6010 = 3,335 J","Warm the water: q = 10.0 × 4.184 × 25 = 1,046 J","Total ≈ 4.59 kJ. Melting takes the most energy."]},
+  traps:["Water's solid–liquid line slopes left, because ice is less dense than liquid water. Most substances, such as CO₂, slope right.","CO₂'s triple point is above 1 atm, so at normal pressure dry ice sublimes instead of melting.","On the flat parts of a heating curve the temperature doesn't change, so use q = nΔH, not mcΔT."],
+  check:[["The pressure is below the triple-point pressure and you heat the solid. What happens?","It sublimes (solid → gas). There's no liquid region below the triple point."],["Above the critical temperature, can you liquefy a gas just by raising the pressure?","No. Above the critical temperature it becomes a supercritical fluid, not a liquid."],["On a heating curve, why is the line flat while the substance boils?","The energy goes into overcoming intermolecular forces, not into speeding up the molecules, so the temperature doesn't change."]],
+  practice:"Guide PQ-28 to 30 (p. 108) · answers p. 109",
+  res:["os-phase","os-transitions","phet-states"]},
+ "8.solids": {order:4, why:"Two skills: name the type of solid from its particles, and do unit-cell math (atoms per cell → density).",
+  steps:["Name the type of solid from its particles. Ionic: ions (NaCl), hard, brittle, high melting point. Molecular: molecules held by intermolecular forces (ice, dry ice), soft, low melting point. Covalent network: atoms in one giant covalent web (diamond, SiO₂), very hard, very high melting point. Metallic: metal atoms in a sea of electrons (Fe, Cu), conduct electricity, malleable.",
+   "Count atoms per unit cell: a corner counts ⅛, a face ½, an edge ¼, and the center 1. Simple cubic = 1, body-centered cubic (BCC) = 2, face-centered cubic (FCC) = 4.",
+   "Edge length a vs atomic radius r: simple cubic a = 2r, BCC a = 4r/√3, FCC a = 2√2·r.",
+   "Density = mass of the cell ÷ volume of the cell = (atoms per cell × molar mass ÷ 6.022×10²³) ÷ a³."],
+  example:{q:"Copper is face-centered cubic with a = 361 pm. What is its density? (M = 63.55 g/mol)",
+   a:["FCC → 4 atoms per cell. Mass = 4 × 63.55 ÷ 6.022×10²³ = 4.221×10⁻²² g","a = 361 pm = 3.61×10⁻⁸ cm, so a³ = 4.70×10⁻²³ cm³","d = 4.221×10⁻²² ÷ 4.70×10⁻²³ ≈ 8.97 g/cm³ (the real value is 8.96)"]},
+  traps:["1 pm = 10⁻¹⁰ cm. Convert to cm before you cube.","Cube the whole edge length: (3.61×10⁻⁸)³, including the power of ten.","Don't count every atom you can see in the picture. Use the ⅛ and ½ shares."],
+  check:[["How many atoms are in a body-centered cubic unit cell?","2: 8 corners × ⅛ = 1, plus 1 in the center."],["Classify: diamond, dry ice (CO₂), NaCl, iron.","Covalent network, molecular, ionic, metallic."],["Which conducts electricity as a solid: NaCl or Cu?","Cu. Its electrons can move. NaCl only conducts when it's melted or dissolved."]],
+  practice:"Guide PQ-26, 27 (p. 107) · answers p. 109",
+  res:["os-solids","os-lattice"]},
+ "2.trends": {order:5, why:"Two ideas explain every trend: how many shells there are (n) and how strongly the nucleus pulls on the outer electrons (Z_eff).",
+  steps:["Down a group, each element adds a shell, so atoms get bigger and their electrons are easier to remove.",
+   "Across a period, the shell stays the same but protons are added. Z_eff rises, so atoms shrink and electrons are harder to remove.",
+   "Ionization energy (IE) follows the opposite trend to radius: small atoms hold their electrons tightly.",
+   "Ions: a cation is smaller than its atom and an anion is bigger. For isoelectronic ions (same number of electrons), more protons means a smaller ion.",
+   "Successive IEs: watch for a big jump. It happens once all the valence electrons are gone, so the number of IEs before the jump equals the group's valence electrons."],
+  example:{q:"Rank O²⁻, F⁻, Na⁺, Mg²⁺ from largest to smallest. Then rank K, Na, Mg by first ionization energy.",
+   a:["All four ions have 10 electrons. The protons are O 8, F 9, Na 11, Mg 12, so more protons pull harder.","Size: O²⁻ > F⁻ > Na⁺ > Mg²⁺","IE: K < Na (K is lower in the group) < Mg (Mg is further across the period)"]},
+  traps:["Radius and IE run in opposite directions. Draw both arrows on a periodic table before answering.","IE exceptions: B is lower than Be (a new 2p subshell starts) and O is lower than N (pairing repulsion in 2p).","Transition-metal ions lose their 4s electrons before 3d (from Chapter 2)."],
+  check:[["Which is larger, S or S²⁻?","S²⁻. It has the same protons but two more electrons, so there is more repulsion."],["Which has the higher first ionization energy, N or O?","N. Removing O's first electron relieves pairing repulsion in a 2p orbital, which makes it easier."],["An element's ionization energies jump between IE₂ and IE₃. Which group is it in?","Group 2. It has 2 valence electrons."]],
+  practice:"Guide PQ-17 to 30 (pp. 33–34) · answers p. 35",
+  res:["os-periodic","kh-periodic","cc-periodic"]}
+};
+const RES = {
+ "os-imf":["OpenStax Chemistry 2e §10.1: Intermolecular Forces","https://openstax.org/books/chemistry-2e/pages/10-1-intermolecular-forces","Free textbook"],
+ "os-liquids":["OpenStax Chemistry 2e §10.2: Properties of Liquids","https://openstax.org/books/chemistry-2e/pages/10-2-properties-of-liquids","Free textbook"],
+ "os-transitions":["OpenStax Chemistry 2e §10.3: Phase Transitions (vapor pressure, heating curves)","https://openstax.org/books/chemistry-2e/pages/10-3-phase-transitions","Free textbook"],
+ "os-phase":["OpenStax Chemistry 2e §10.4: Phase Diagrams","https://openstax.org/books/chemistry-2e/pages/10-4-phase-diagrams","Free textbook"],
+ "os-solids":["OpenStax Chemistry 2e §10.5: The Solid State of Matter","https://openstax.org/books/chemistry-2e/pages/10-5-the-solid-state-of-matter","Free textbook"],
+ "os-lattice":["OpenStax Chemistry 2e §10.6: Lattice Structures in Crystalline Solids","https://openstax.org/books/chemistry-2e/pages/10-6-lattice-structures-in-crystalline-solids","Free textbook"],
+ "os-periodic":["OpenStax Chemistry 2e §6.5: Periodic Variations in Element Properties","https://openstax.org/books/chemistry-2e/pages/6-5-periodic-variations-in-element-properties","Free textbook"],
+ "phet-states":["PhET simulation: States of Matter","https://phet.colorado.edu/en/simulations/states-of-matter","Interactive"],
+ "kh-periodic":["Khan Academy: Periodic table and periodic trends","https://www.khanacademy.org/search?page_search_query=periodic%20trends","Videos + practice (search)"],
+ "kh-som":["Khan Academy: States of matter and intermolecular forces","https://www.khanacademy.org/search?page_search_query=intermolecular%20forces","Videos + practice (search)"],
+ "cc-imf":["Crash Course Chemistry: intermolecular forces","https://www.youtube.com/results?search_query=crash+course+chemistry+intermolecular+forces","Video (search)"],
+ "cc-periodic":["Crash Course Chemistry: the periodic table","https://www.youtube.com/results?search_query=crash+course+chemistry+periodic+table","Video (search)"]
+};
+
+const QUIZZES = {
+ "8.imf": {title:"Intermolecular forces", qs:[
+  ["Which substance has hydrogen bonding between its molecules?",["CH₄","CH₃OCH₃","NH₃","HCl"],2,"NH₃ has H bonded directly to N, plus a lone pair on N. CH₃OCH₃ has O but no O–H, and HCl's H is on Cl, which is not N, O or F."],
+  ["What is the strongest intermolecular force in liquid SO₂?",["London dispersion","Dipole–dipole","Hydrogen bonding","Ionic attraction"],1,"SO₂ is bent, so it is polar and has dipole–dipole forces. It has no H, so it can't hydrogen bond."],
+  ["Which halogen has the highest boiling point?",["F₂","Cl₂","Br₂","I₂"],3,"All four are nonpolar, so only dispersion forces act. I₂ has the most electrons, which gives it the strongest dispersion forces."],
+  ["Which order is increasing boiling point?",["CH₄ < H₂S < H₂O","H₂S < CH₄ < H₂O","H₂O < H₂S < CH₄","CH₄ < H₂O < H₂S"],0,"CH₄ has dispersion only, H₂S adds dipole–dipole, and H₂O has hydrogen bonding."],
+  ["Which forces act between CH₂Cl₂ molecules?",["Dispersion only","Dispersion and dipole–dipole","Dispersion and hydrogen bonding","Ionic attraction"],1,"CH₂Cl₂ is a polar tetrahedral molecule (it's in your Module 9 notes). Its H atoms are on C, so there is no hydrogen bonding."],
+  ["Why does KCl melt at a much higher temperature than HCl?",["KCl has hydrogen bonds","Ionic attractions are much stronger than intermolecular forces","HCl is nonpolar","Only because KCl is heavier"],1,"KCl is an ionic solid. Melting it means breaking ion–ion attractions, which are far stronger than the dipole forces between HCl molecules."]]},
+ "8.liquids": {title:"Vapor pressure", qs:[
+  ["Which change raises a liquid's vapor pressure?",["Adding more liquid","Using a bigger container","Raising the temperature","Lowering the temperature"],2,"Vapor pressure depends only on the substance and the temperature. A hotter liquid has more molecules with enough energy to escape."],
+  ["The liquid with the strongest intermolecular forces has the…",["highest vapor pressure","lowest vapor pressure","lowest boiling point","fastest evaporation"],1,"Strong forces hold molecules in the liquid, so fewer escape: low vapor pressure and a high boiling point."],
+  ["A liquid's normal boiling point is the temperature where its vapor pressure equals…",["0 atm","1 atm (760 torr)","1 torr","its critical pressure"],1,"\"Normal\" means at 1 atm of outside pressure."],
+  ["At 20 °C, the vapor pressures are diethyl ether 442 torr, ethanol 44 torr and water 17.5 torr. Which has the lowest normal boiling point?",["Diethyl ether","Ethanol","Water","They're all equal"],0,"The highest vapor pressure means the weakest forces, so it reaches 760 torr at the lowest temperature."],
+  ["Why does water boil below 100 °C in Denver?",["The air pressure is lower","There is less oxygen","Water's intermolecular forces are weaker there","Water's ΔH_vap is smaller there"],0,"Water boils when its vapor pressure equals the outside pressure. At altitude that pressure is lower, so it's reached at a lower temperature."],
+  ["Ethanol boils at 78.4 °C (760 torr), and ΔH_vap = 38.6 kJ/mol. Using Clausius–Clapeyron, its vapor pressure at 50.0 °C is about…",["54 torr","238 torr","760 torr","2,420 torr"],1,"ln(P₂/760) = −(38,600 / 8.314)(1/323.15 − 1/351.55) = −1.16, so P₂ = 760 × 0.313 ≈ 238 torr. The temperatures must be in kelvin."]]},
+ "8.phase": {title:"Phase diagrams & heating curves", qs:[
+  ["What happens at the triple point?",["Only gas exists","Solid and liquid coexist","Solid, liquid and gas all coexist","It becomes a supercritical fluid"],2,"The triple point is the one temperature and pressure where all three phases are in equilibrium."],
+  ["On a phase diagram, raising the pressure at constant temperature moves you…",["right","left","straight up","straight down"],2,"Pressure is on the y-axis, so you move straight up."],
+  ["Beyond the critical point, a substance is a…",["solid","supercritical fluid","liquid and gas with a clear boundary","glass"],1,"Above the critical temperature and pressure, liquid and gas can no longer be told apart."],
+  ["Why does dry ice (CO₂) sublime instead of melting at 1 atm?",["CO₂'s triple-point pressure (5.1 atm) is above 1 atm","CO₂ has hydrogen bonds","CO₂ is ionic","Its solid–liquid line slopes left"],0,"Below the triple-point pressure there is no liquid region, so the solid turns straight into a gas."],
+  ["Water's solid–liquid line slopes to the left. That means…",["pressing on ice can melt it","ice is denser than water","ice can never melt","water can't freeze"],0,"Ice is less dense than liquid water, so squeezing it favors the liquid."],
+  ["How much heat melts 36.0 g of ice at 0 °C? (ΔH_fus = 6.01 kJ/mol)",["6.01 kJ","12.0 kJ","216 kJ","0.333 kJ"],1,"n = 36.0 / 18.02 = 2.00 mol, and q = nΔH_fus = 2.00 × 6.01 = 12.0 kJ. Use q = nΔH on a flat part of the heating curve, not mcΔT."]]},
+ "8.solids": {title:"Solids & unit cells", qs:[
+  ["How many atoms are in a face-centered cubic unit cell?",["1","2","4","8"],2,"8 corners × ⅛ = 1, plus 6 faces × ½ = 3, for a total of 4."],
+  ["A solid is very hard, has a very high melting point, doesn't conduct electricity, and is made of atoms joined in one big covalent web. What is it?",["NaCl","SiO₂ (quartz)","Cu","Ice"],1,"That describes a covalent-network solid. NaCl is ionic, Cu is metallic and ice is molecular."],
+  ["What type of solid is sucrose (table sugar)?",["Ionic","Molecular","Covalent network","Metallic"],1,"Sucrose is made of separate C₁₂H₂₂O₁₁ molecules held together by intermolecular forces."],
+  ["Which one conducts electricity as a solid?",["NaCl","Diamond","Fe","I₂"],2,"In metals the electrons are free to move. NaCl's ions are locked in place until it melts or dissolves."],
+  ["How much of an atom on a corner of a unit cell belongs to that cell?",["1","½","¼","⅛"],3,"A corner is shared by 8 cells."],
+  ["Polonium is simple cubic with a = 335 pm (M = 209 g/mol). What is its density?",["0.923 g/cm³","2.31 g/cm³","9.23 g/cm³","18.5 g/cm³"],2,"There is 1 atom per cell: mass = 209 / 6.022×10²³ = 3.47×10⁻²² g. a = 3.35×10⁻⁸ cm, so a³ = 3.76×10⁻²³ cm³, and d = 9.23 g/cm³."]]},
+ "2.trends": {title:"Periodic properties", qs:[
+  ["Which atom has the largest radius?",["Na","Mg","K","Ca"],2,"K is lower in the group than Na (more shells) and further left in its period than Ca."],
+  ["Which atom has the highest first ionization energy?",["Li","C","N","Ne"],3,"Ionization energy rises across a period, and noble gases hold their electrons most tightly."],
+  ["Which ion is the smallest? (They all have 18 electrons.)",["S²⁻","Cl⁻","K⁺","Ca²⁺"],3,"With the same number of electrons, more protons pull harder. Ca has 20 protons, the most of the four."],
+  ["For which atom do the valence electrons feel the greatest effective nuclear charge?",["Li","C","O","F"],3,"Z_eff rises across a period, and F has the most protons with the same core shielding."],
+  ["An element's ionization energies are 578, 1817, 2745 and 11,577 kJ/mol. What group is it in?",["Group 1","Group 2","Group 13","Group 14"],2,"The big jump comes after the 3rd electron, so it has 3 valence electrons: group 13 (this is aluminum)."],
+  ["Why is O's first ionization energy lower than N's?",["O has fewer protons","Removing O's electron relieves repulsion between paired 2p electrons","O is larger","N has a full shell"],1,"O has one doubly occupied 2p orbital, and that electron is pushed out more easily. N's 2p electrons are all unpaired."]]},
+ "3.nomen": {title:"Naming compounds", qs:[
+  ["Name FeCl₃.",["Iron chloride","Iron(III) chloride","Iron trichloride","Iron(II) chloride"],1,"Fe can have more than one charge, so it needs a Roman numeral. 3 Cl⁻ = −3, so Fe is +3."],
+  ["Name N₂O₄.",["Nitrogen oxide","Dinitrogen tetroxide","Nitrogen(IV) oxide","Dinitrogen tetraoxide"],1,"Two nonmetals take number prefixes. The 'a' in tetra- drops before 'oxide'."],
+  ["Name Na₂O.",["Disodium monoxide","Sodium(I) oxide","Sodium oxide","Sodium dioxide"],2,"It's ionic, so no number prefixes. Na only ever forms +1, so no Roman numeral either."],
+  ["Name Ca(NO₃)₂.",["Calcium nitrite","Calcium dinitrate","Calcium nitrate","Calcium(II) nitrate"],2,"Metal + polyatomic ion: just name both ions. NO₃⁻ is nitrate."],
+  ["Name HBr(aq).",["Hydrogen bromide","Hydrobromic acid","Bromic acid","Hydrobromous acid"],1,"It's in water and has no oxygen, so: hydro + brom + ic + acid."],
+  ["Name H₂SO₃(aq).",["Sulfuric acid","Sulfurous acid","Hydrosulfuric acid","Hydrogen sulfite"],1,"SO₃²⁻ is sulfite. An -ite ion gives an -ous acid."],
+  ["Name CuSO₄·5H₂O.",["Copper sulfate hydrate","Copper(II) sulfate pentahydrate","Copper pentahydrate sulfate","Copper(I) sulfate pentahydrate"],1,"SO₄²⁻ means Cu is +2. A hydrate is the ionic name + prefix + hydrate."],
+  ["What is the formula of ammonium phosphate?",["NH₄PO₄","(NH₄)₂PO₄","(NH₄)₃PO₄","NH₄(PO₄)₃"],2,"NH₄⁺ and PO₄³⁻: three +1 ions balance one −3."],
+  ["Name HClO₄(aq).",["Chloric acid","Hypochlorous acid","Perchloric acid","Hydrochloric acid"],2,"ClO₄⁻ is perchlorate, and per…ate becomes per…ic acid."]]}
+};
+
+const PREFIXES = [["tera","T","10¹²","1,000,000,000,000"],["giga","G","10⁹","1,000,000,000"],["mega","M","10⁶","1,000,000"],["kilo","k","10³","1,000"],["hecto","h","10²","100"],["deka","da","10¹","10"],["(base unit: m, g, L, s)","","10⁰","1"],["deci","d","10⁻¹","0.1"],["centi","c","10⁻²","0.01"],["milli","m","10⁻³","0.001"],["micro","μ","10⁻⁶","0.000 001"],["nano","n","10⁻⁹","0.000 000 001"],["pico","p","10⁻¹²","0.000 000 000 001"],["femto","f","10⁻¹⁵","0.000 000 000 000 001"]];
+const NUMPRE = [["mono-","1","CO, carbon monoxide"],["di-","2","CO₂, carbon dioxide"],["tri-","3","SO₃, sulfur trioxide"],["tetra-","4","CCl₄, carbon tetrachloride"],["penta-","5","PCl₅, phosphorus pentachloride"],["hexa-","6","SF₆, sulfur hexafluoride"],["hepta-","7","IF₇, iodine heptafluoride"],["octa-","8","S₈, octasulfur"],["nona-","9","(rare in Gen Chem 1)"],["deca-","10","P₄O₁₀, tetraphosphorus decoxide"],["hemi-","½","CaSO₄·½H₂O, calcium sulfate hemihydrate"]];
+const POLY = [
+ ["Cations","ammonium","NH₄⁺"],["Cations","hydronium","H₃O⁺"],["Cations","mercury(I)","Hg₂²⁺"],
+ ["−1 anions","hydroxide","OH⁻"],["−1 anions","nitrate","NO₃⁻"],["−1 anions","nitrite","NO₂⁻"],["−1 anions","acetate","C₂H₃O₂⁻ (CH₃COO⁻)"],["−1 anions","cyanide","CN⁻"],["−1 anions","thiocyanate","SCN⁻"],["−1 anions","permanganate","MnO₄⁻"],["−1 anions","hydrogen carbonate (bicarbonate)","HCO₃⁻"],["−1 anions","hydrogen sulfate (bisulfate)","HSO₄⁻"],["−1 anions","hydrogen sulfite (bisulfite)","HSO₃⁻"],["−1 anions","dihydrogen phosphate","H₂PO₄⁻"],
+ ["−1 anions","perchlorate","ClO₄⁻"],["−1 anions","chlorate","ClO₃⁻"],["−1 anions","chlorite","ClO₂⁻"],["−1 anions","hypochlorite","ClO⁻"],
+ ["−2 anions","carbonate","CO₃²⁻"],["−2 anions","sulfate","SO₄²⁻"],["−2 anions","sulfite","SO₃²⁻"],["−2 anions","chromate","CrO₄²⁻"],["−2 anions","dichromate","Cr₂O₇²⁻"],["−2 anions","oxalate","C₂O₄²⁻"],["−2 anions","peroxide","O₂²⁻"],["−2 anions","thiosulfate","S₂O₃²⁻"],["−2 anions","hydrogen phosphate","HPO₄²⁻"],
+ ["−3 anions","phosphate","PO₄³⁻"],["−3 anions","phosphite","PO₃³⁻"]];
+
+function drillTable(id, head, rows, ansCols){
+  return `<div class="drill-wrap"><button type="button" class="drill-btn" data-drill="${id}" aria-pressed="false">Quiz me: hide answers</button><div class="tbl"><table class="drill" id="drill-${id}"><thead><tr>${head.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td class="${ansCols.includes(i)?"ans":""}">${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div><p class="drill-tip">In quiz mode, tap a blurred cell to check yourself.</p></div>`;
+}
+
+const HELPS = {
+ "F.units": () => `<div class="shelp"><div class="sh-title"><span class="pill sh">Study help</span><span>Metric prefixes to memorize</span></div>
+   <p>On the exam you'll mostly need <b>k, c, m, μ, n and p</b>. Learn those six first. Every step down the list from kilo to pico is a factor of 1,000, except for centi.</p>
+   ${drillTable("prefix",["Prefix","Symbol","Power of 10","As a number"],PREFIXES.map(r=>r),[1,2,3])}
+   <div class="sh-box"><b>How to use them</b><ul><li>The prefix just replaces the power of ten: 1 nm = 10⁻⁹ m, so 1 m = 10⁹ nm.</li><li>Between two prefixes, subtract the exponents: 1 nm = 10⁻⁹ m and 1 pm = 10⁻¹² m, so 1 nm = 10³ pm (your Module 1 RAT question 4).</li><li>Area and volume: cube the factor too. 1 cm³ = (10⁻² m)³ = 10⁻⁶ m³, and 1 mL = 1 cm³.</li></ul></div>
+   <div class="lg-res"><h4>Resource</h4><ul><li><a href="https://openstax.org/books/chemistry-2e/pages/1-4-measurements" target="_blank" rel="noopener">OpenStax Chemistry 2e §1.4: Measurements</a> <span class="kind">Free textbook</span></li></ul></div></div>`,
+ "3.nomen": () => `<div class="shelp"><div class="sh-title"><span class="pill sh">Study help</span><span>Your naming chart, reworked</span></div>
+   <p>Your chart has all the right rules. It's just easier to use as a decision path: answer one question about the formula, and that tells you which rule to apply.</p>
+   <details class="orig"${printing?" open":""}><summary>Show your original chart</summary><figure class="n"><img src="n/naming-chart.jpg" alt="Handwritten naming chart" loading="eager" width="1000" height="472"><figcaption>Your naming chart</figcaption></figure></details>
+   <div class="flow">
+    <div class="fq">Step 1: Look at the formula. What does it start with?</div>
+    <div class="fcols">
+     <div class="fcol"><div class="fh">A metal (or NH₄⁺)<span>→ IONIC</span></div>
+      <ol><li><b>Name the cation.</b> If the metal has only one possible charge (Group 1, Group 2, Al³⁺, Zn²⁺, Ag⁺), use just its name. If not (most transition metals, Sn, Pb), add its charge in Roman numerals. <i>FeCl₃ → iron(III)</i></li>
+      <li><b>Name the anion.</b> A single element takes base + <b>-ide</b> (chloride, oxide, nitride). A polyatomic ion keeps its own name (nitrate, sulfate) — see the table below.</li>
+      <li><b>No number prefixes, ever.</b> <i>Na₂O → sodium oxide</i></li>
+      <li><b>Hydrate (·nH₂O)?</b> Ionic name + prefix + <b>hydrate</b>. <i>CuSO₄·5H₂O → copper(II) sulfate pentahydrate</i></li></ol>
+      <p class="fx">Find the Roman numeral from the anion. In FeCl₃, 3 Cl⁻ = −3, so Fe must be +3.</p></div>
+     <div class="fcol"><div class="fh">Two nonmetals<span>→ MOLECULAR</span></div>
+      <ol><li>Prefix + <b>first element</b>. Skip "mono" on the first element.</li>
+      <li>Prefix + <b>base of the second element + -ide</b>.</li>
+      <li>Drop the doubled vowel: monoxide, tetroxide, pentoxide.</li></ol>
+      <p class="fx"><i>N₂O₄ → dinitrogen tetroxide · CO → carbon monoxide · PBr₅ → phosphorus pentabromide</i></p></div>
+     <div class="fcol"><div class="fh">H, written as (aq)<span>→ ACID</span></div>
+      <ol><li><b>No oxygen</b> (binary acid): <b>hydro-</b> + base + <b>-ic acid</b>. <i>HCl(aq) → hydrochloric acid</i></li>
+      <li><b>Has oxygen</b> (oxoacid, made from a polyatomic ion):<br>-<b>ate</b> ion → -<b>ic</b> acid <i>(NO₃⁻ nitrate → HNO₃ nitric acid)</i><br>-<b>ite</b> ion → -<b>ous</b> acid <i>(NO₂⁻ nitrite → HNO₂ nitrous acid)</i></li>
+      <li><b>Not in water, (g)?</b> Then it isn't named as an acid. Name it as a molecular compound, usually without prefixes for hydrogen. <i>HCl(g) → hydrogen chloride</i></li></ol>
+      <p class="fx">Memory trick: "I <b>ate</b> something <b>ic</b>ky" and "-<b>ite</b> is -<b>ous</b>."</p></div>
+    </div></div>
+   <div class="sh-box"><b>The oxyanion family (chlorine example)</b><div class="tbl"><table class="plain"><thead><tr><th>Oxygens</th><th>Ion</th><th>Name</th><th>Acid</th></tr></thead><tbody>
+    <tr><td>most</td><td>ClO₄⁻</td><td><b>per</b>chlor<b>ate</b></td><td>HClO₄ <b>per</b>chlor<b>ic</b> acid</td></tr>
+    <tr><td>more</td><td>ClO₃⁻</td><td>chlor<b>ate</b></td><td>HClO₃ chlor<b>ic</b> acid</td></tr>
+    <tr><td>fewer</td><td>ClO₂⁻</td><td>chlor<b>ite</b></td><td>HClO₂ chlor<b>ous</b> acid</td></tr>
+    <tr><td>fewest</td><td>ClO⁻</td><td><b>hypo</b>chlor<b>ite</b></td><td>HClO <b>hypo</b>chlor<b>ous</b> acid</td></tr></tbody></table></div></div>
+   <div class="sh-title"><span class="pill sh">Study help</span><span>Number prefixes for molecular compounds</span></div>
+   ${drillTable("num",["Prefix","Number","Example"],NUMPRE,[1])}
+   <div class="sh-title"><span class="pill sh">Study help</span><span>Polyatomic ions: names and formulas</span></div>
+   <p>Start with the starred core set: nitrate, sulfate, carbonate, phosphate, hydroxide, ammonium, acetate. The "-ite" ions are just the "-ate" ion with one fewer O and the same charge.</p>
+   ${drillTable("poly",["Charge","Name","Formula"],POLY.map(r=>[r[0],(["nitrate","sulfate","carbonate","phosphate","hydroxide","ammonium","acetate"].includes(r[1])?"★ ":"")+r[1],r[2]]),[2])}
+   <div class="lg-res"><h4>Resource</h4><ul><li><a href="https://openstax.org/books/chemistry-2e/pages/2-7-chemical-nomenclature" target="_blank" rel="noopener">OpenStax Chemistry 2e §2.7: Chemical Nomenclature</a> <span class="kind">Free textbook</span></li></ul></div></div>`
+};
+
+const quizState = {};
+function quizHTML(key){
+  const Q = QUIZZES[key]; if(!Q) return "";
+  const st = quizState[key] || {};
+  const answered = Object.keys(st).length, right = Object.entries(st).filter(([i,a])=>Q.qs[i][2]===a).length;
+  const L = "ABCD";
+  if(printing){
+    return `<div class="quiz"><div class="qz-head"><span class="pill qz">Practice quiz</span><span>${esc(Q.title)} · ${Q.qs.length} questions</span></div>
+     <ol class="qz-print">${Q.qs.map(([q,opts])=>`<li><div>${esc(q)}</div><div class="qz-opts-p">${opts.map((o,j)=>`<span>(${L[j]}) ${esc(o)}</span>`).join("")}</div></li>`).join("")}</ol>
+     <div class="qz-key"><b>Answer key</b><ol>${Q.qs.map(([, opts, c, ex])=>`<li><b>${L[c]}</b>: ${esc(ex)}</li>`).join("")}</ol></div></div>`;
+  }
+  return `<div class="quiz" data-quiz="${key}"><div class="qz-head"><span class="pill qz">Practice quiz</span><span>${esc(Q.title)}</span><span class="qz-score">${answered ? `${right}/${answered} correct` : `${Q.qs.length} questions`}</span>${answered?`<button type="button" class="qz-reset" data-reset="${key}">Start over</button>`:""}</div>
+   ${Q.qs.map(([q,opts,c,ex],i)=>{ const a = st[i]; const done = a!==undefined;
+     return `<div class="qz-q"><div class="qz-text">${i+1}. ${esc(q)}</div><div class="qz-opts">${opts.map((o,j)=>{
+       let cls="opt"; if(done){ if(j===c) cls+=" right"; else if(j===a) cls+=" wrong"; }
+       return `<button type="button" class="${cls}" data-q="${key}" data-i="${i}" data-j="${j}" ${done?"disabled":""}>${L[j]}. ${esc(o)}</button>`; }).join("")}</div>
+       ${done?`<p class="qz-ex ${a===c?"ok":"no"}">${a===c?"Correct.":"Not quite. The answer is "+L[c]+"."} ${esc(ex)}</p>`:""}</div>`; }).join("")}</div>`;
+}
+
+const byTag = {};
+CROPS.forEach(([src,tags,w,h])=>tags.forEach(t=>(byTag[t]=byTag[t]||[]).push({src,w,h})));
+const store = {get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const done = store.get("gc1-done2") || {};
+let filter = store.get("gc1-filter") || "all";
+let printing = false;
+
+const notesFor = tp => { const seen = new Set(), out = []; tp.tags.forEach(t=>(byTag[t]||[]).forEach(n=>{ if(!seen.has(n.src)){ seen.add(n.src); out.push(n); } })); return out; };
+const status = tp => tp.st || (notesFor(tp).length ? "ok" : "gap");
+const label = src => { const [m,p] = src.split("-"); return `${MOD[m]} · page ${parseInt(p,10)}`; };
+const esc = s => s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const tid = (ch,i) => `t-${ch.id}-${i}`;
+function guideHTML(G,tp){
+  const op = printing ? " open" : "";
+  return `<div class="lguide" id="lg-${tp.tags[0].replace('.','-')}">
+   <div class="lg-title"><span class="pill lg">Learning guide · step ${G.order} of 5</span><span>How to learn this</span></div>
+   <p>${esc(G.why)}</p>
+   <div><h4>Step by step</h4><ol>${G.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol></div>
+   <div class="lg-ex"><div class="q">Worked example: ${esc(G.example.q)}</div><ol>${G.example.a.map(s=>`<li>${esc(s)}</li>`).join("")}</ol></div>
+   <div><h4>Common mistakes</h4><ul>${G.traps.map(s=>`<li>${esc(s)}</li>`).join("")}</ul></div>
+   <div><h4>Check yourself (tap to see the answer)</h4>${G.check.map(([q,a])=>`<details${op}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("")}</div>
+   <div class="lg-prac"><h4>Then practice in your printed guide</h4>${esc(G.practice)}</div>
+   <div class="lg-res"><h4>Free resources</h4><ul>${G.res.map(k=>{const [n,u,kind]=RES[k];return `<li><a href="${u}" target="_blank" rel="noopener">${esc(n)}</a> <span class="kind">${esc(kind)}</span></li>`;}).join("")}</ul></div>
+  </div>`;
+}
+function planHTML(){
+  const items=[];
+  CH.forEach(ch=>ch.topics.forEach((tp,i)=>{const G=GUIDES[tp.tags[0]]; if(G) items.push([G.order,tp,`t-${ch.id}-${i}`,ch]);}));
+  items.sort((a,b)=>a[0]-b[0]);
+  return `<h2>Your learning plan for the gaps</h2><p>Work through these in order. Each one has a purple learning guide on its card (steps, a worked example, self-check questions, the guide's practice questions and free resources) and a pink practice quiz.</p><ol>${items.map(([o,tp,id,ch])=>`<li><a href="#${id}">${esc(tp.t)}</a> <span class="where">${ch.num} · ${tp.sq.map(s=>"SQ-"+s[0]+" p. "+s[1]).join(", ")}</span></li>`).join("")}</ol><p style="margin-top:10px"><b>Also memorize (green study helps in the Toolbox):</b> <a href="#t-tb-0">metric prefixes</a> · <a href="#t-tb-3">naming flowchart, number prefixes and polyatomic ions</a> (with a naming quiz).</p>`;
+}
+function counts(ch){ const c = {ok:0,part:0,gap:0,extra:0}; ch.topics.forEach(tp=>c[status(tp)]++); return c; }
+
+function render(){
+  const main = document.getElementById("main");
+  const f = printing ? "all" : filter;
+  let html = "", tot = {ok:0,part:0,gap:0};
+  CH.forEach(ch=>{
+    const c = counts(ch); ["ok","part","gap"].forEach(k=>tot[k]+=c[k]);
+    const n = c.ok+c.part+c.gap;
+    let cards = "";
+    ch.topics.forEach((tp,i)=>{
+      const id = tid(ch,i), st = status(tp), isDone = !!done[id];
+      if(f==="gap" && (st==="ok"||st==="extra")) return;
+      if(f==="todo" && isDone) return;
+      const notes = notesFor(tp);
+      const pill = {ok:'<span class="pill ok">✓ notes</span>',part:'<span class="pill part">◐ partial</span>',gap:'<span class="pill gap">! review</span>',extra:'<span class="pill extra">+ extra</span>'}[st];
+      let refs = tp.sq.map(([q,p])=>`<span class="ref">SQ-${q} · p. ${p}</span>`).join("");
+      if(tp.pq) refs += `<span class="ref pq">${esc(tp.pq)}</span>`;
+      if(!tp.sq.length && st!=="extra") refs += `<span class="ref pq">No study question for this topic</span>`;
+      let body = `<div class="refs">${refs}</div><p class="ask">${esc(tp.ask)}</p>`;
+      if(tp.learn) body += `<div class="learn"><b>${st==="gap"?"Review & learn: no notes yet":"Still missing from your notes"}</b><ul>${tp.learn.map(a=>`<li>${esc(a)}</li>`).join("")}</ul></div>`;
+      if(HELPS[tp.tags[0]]) body += HELPS[tp.tags[0]]();
+      const G = GUIDES[tp.tags[0]]; if(G) body += guideHTML(G, tp);
+      if(QUIZZES[tp.tags[0]]) body += quizHTML(tp.tags[0]);
+      if(notes.length){
+        body += `<div class="notes"><div class="notes-label">Your notes (${notes.length})</div>` + notes.map(nt=>{
+          const full = nt.w>=900;
+          return `<figure class="n" style="${full?"":`width:${Math.round(nt.w*0.76)}px`}"><img src="n/${nt.src}.jpg" width="${nt.w}" height="${nt.h}" loading="${printing?"eager":"lazy"}" alt="Handwritten note, ${label(nt.src)}"><figcaption>${label(nt.src)}</figcaption></figure>`;
+        }).join("") + `</div>`;
+      }
+      body += `<label class="chk"><input type="checkbox" id="chk-${id}" data-id="${id}" ${isDone?"checked":""}><span>I've reviewed this</span></label>`;
+      cards += `<article class="topic ${st}${isDone?" done":""}" id="${id}"><div class="t-head"><h3>${esc(tp.t)}</h3>${pill}</div><div class="t-body">${body}</div></article>`;
+    });
+    if(!cards) return;
+    const pct = k => (c[k]/n*100).toFixed(1)+"%";
+    html += `<section class="ch" id="ch-${ch.id}"><div class="ch-head"><span class="ch-num">${ch.num} · guide p. ${ch.pages}</span><h2>${esc(ch.title)}</h2><span class="ch-meta">${c.ok} covered · ${c.part} partial · ${c.gap} to learn</span></div>
+      <div class="meter" aria-hidden="true"><i class="m-ok" style="width:${pct("ok")}"></i><i class="m-part" style="width:${pct("part")}"></i><i class="m-gap" style="width:${pct("gap")}"></i></div>
+      <p class="ch-from">Your notes come from ${esc(ch.from)}</p>${cards}</section>`;
+  });
+  main.innerHTML = html || `<p class="empty">Nothing left in this view. Switch to "All topics" to see everything.</p>`;
+  const all = tot.ok+tot.part+tot.gap, checked = Object.values(done).filter(Boolean).length;
+  document.getElementById("overall").textContent = `${tot.ok}/${all} covered · ${tot.part+tot.gap} to review · ${checked} checked off`;
+  document.querySelectorAll(".seg button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.f===filter));
+}
+
+document.getElementById("plan").innerHTML = planHTML();
+document.getElementById("summary").innerHTML = CH.map(ch=>{ const c = counts(ch); const todo = c.part+c.gap;
+  return `<a href="#ch-${ch.id}"><span class="s-ch">${ch.num}</span><span class="s-t">${esc(ch.title)}</span><span class="s-n">${c.ok} covered${todo?` · ${todo} to review`:""}</span></a>`; }).join("");
+const jump = document.getElementById("jump");
+jump.innerHTML = `<option value="">Jump to chapter…</option>` + CH.map(c=>`<option value="ch-${c.id}">${c.num}: ${c.title}</option>`).join("");
+jump.addEventListener("change",()=>{ const el=document.getElementById(jump.value); if(el) el.scrollIntoView(); jump.value=""; });
+document.querySelectorAll(".seg button").forEach(b=>b.addEventListener("click",()=>{ filter=b.dataset.f; store.set("gc1-filter",filter); render(); }));
+document.getElementById("main").addEventListener("change",e=>{
+  const id = e.target.dataset && e.target.dataset.id; if(!id) return;
+  done[id] = e.target.checked; store.set("gc1-done2",done); render();
+});
+document.getElementById("main").addEventListener("click",e=>{
+  const o = e.target.closest(".opt");
+  if(o){ const k=o.dataset.q, i=+o.dataset.i, j=+o.dataset.j; (quizState[k]=quizState[k]||{})[i]=j; const box=o.closest(".quiz"); box.outerHTML=quizHTML(k); return; }
+  const r = e.target.closest(".qz-reset");
+  if(r){ const k=r.dataset.reset; quizState[k]={}; r.closest(".quiz").outerHTML=quizHTML(k); return; }
+  const d = e.target.closest(".drill-btn");
+  if(d){ const tb=document.getElementById("drill-"+d.dataset.drill); const on=tb.classList.toggle("hide"); d.setAttribute("aria-pressed",on); d.textContent=on?"Show all answers":"Quiz me: hide answers"; tb.querySelectorAll("td.ans").forEach(c=>c.classList.remove("show")); return; }
+  const c = e.target.closest(".drill.hide td.ans"); if(c){ c.classList.toggle("show"); }
+});
+const lb = document.getElementById("lb"), lbImg = document.getElementById("lb-img");
+document.getElementById("main").addEventListener("click",e=>{
+  const fg = e.target.closest("figure.n"); if(!fg) return;
+  const img = fg.querySelector("img"); lbImg.src = img.src; lbImg.alt = img.alt; lb.hidden = false; document.getElementById("lb-close").focus();
+});
+function closeLb(){ lb.hidden = true; lbImg.src = ""; }
+lb.addEventListener("click",e=>{ if(e.target!==lbImg) closeLb(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && !lb.hidden) closeLb(); });
+window.addEventListener("beforeprint",()=>{ printing = true; render(); });
+window.addEventListener("afterprint",()=>{ printing = false; render(); });
+render();
+</script>
+
+</body>
+</html>
